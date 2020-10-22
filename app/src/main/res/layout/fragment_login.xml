@@ -8,6 +8,14 @@
         android:padding="10dp"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"></ProgressBar>
+
         <EditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
@@ -38,15 +46,15 @@
             android:background="@drawable/login_button_background"
             android:text="@string/login_do" />
 
-        <ProgressBar
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"
-            android:id="@+id/progressBar"
-            android:layout_centerHorizontal="true"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></ProgressBar>
-
-
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:fontFamily="@font/hind_semibold"
+            android:textColor="@color/login_orange"
+            android:layout_margin="10dp"
+            android:text="@string/register" />
 
 
     </LinearLayout>

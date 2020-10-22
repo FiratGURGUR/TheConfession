@@ -32,7 +32,7 @@ import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
 public class ConfessionListFragment extends BaseFragment {
 
     ViewDataBinding binding;
-
+    public static final String FRAGMENT_TAG = "ConfessionListFragment";
 
     public ConfessionListFragment() {
         // Required empty public constructor

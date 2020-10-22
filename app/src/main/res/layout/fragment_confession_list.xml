@@ -7,6 +7,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:text="Selammmmmm"
+            android:layout_height="match_parent">
+
+        </TextView>
         <ProgressBar
             android:layout_gravity="center_horizontal"
             android:visibility="gone"

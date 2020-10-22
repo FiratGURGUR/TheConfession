@@ -32,6 +32,7 @@ public class LoginViewModel extends BaseViewModel {
         return user;
     }
 
+
     public void loadData(RequestUser requestUser) {
 
         disposable.add(userRepo.loginUser(requestUser)
@@ -47,7 +48,6 @@ public class LoginViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        t.printStackTrace();
                         onError.setValue(ErrorUtils.showError(t).getMessage());
                     }
                 }));
