@@ -7,5 +7,15 @@ public class Constants {
 
     public static final String GET_USER = "user/getUser.php";
     public static final String LOGIN = "user/login.php";
+    public static final String REGISTER = "user/createUser.php";
+    public static final String GENERATED_PHOTO_URL = "https://ui-avatars.com/api/size=256?name=";
+    public static final String DEFAULT_COVERPHOTO_URL = "https://timelinecovers.pro/facebook-cover/download/photography-city-lights-facebook-cover.jpg";
+
+    public static String generateUserPhoto(String fullName){
+        int idx = fullName.lastIndexOf(' ');
+        String firstName = fullName.substring(0, idx);
+        String lastName  = fullName.substring(idx + 1);
+        return GENERATED_PHOTO_URL + firstName + "+" + lastName;
+    }
 
 }

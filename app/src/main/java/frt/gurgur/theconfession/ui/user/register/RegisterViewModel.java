@@ -1,58 +1,57 @@
-package frt.gurgur.theconfession.ui.user;
+package frt.gurgur.theconfession.ui.user.register;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import javax.inject.Inject;
+
+import frt.gurgur.theconfession.data.remote.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
+import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.util.ErrorUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-import retrofit2.adapter.rxjava2.HttpException;
 
-public class UserViewModel extends BaseViewModel {
+public class RegisterViewModel extends BaseViewModel {
 
-    private static final String TAG = "BookListViewModel";
+    private static final String TAG = "RegisterViewModel";
     private final UserRepo userRepo;
     private CompositeDisposable disposable;
-    private MutableLiveData<UserResponse> user = new MutableLiveData<>();
+    private MutableLiveData<APIResponseModel> user = new MutableLiveData<>();
 
     @Inject
-    public UserViewModel(UserRepo userRepo) {
+    public RegisterViewModel(UserRepo userRepo) {
         this.userRepo = userRepo;
         disposable = new CompositeDisposable();
     }
 
-    public LiveData<UserResponse> getUser() {
+    public LiveData<APIResponseModel> getUser() {
         return user;
     }
 
-    public void loadData(RequestUser requestUser) {
 
-       disposable.add(userRepo.fetchUser(requestUser)
+    public void registerUser(RequestUser requestUser) {
+
+        disposable.add(userRepo.registerUser(requestUser)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(s -> loadingStatus.setValue(true))
                 .doAfterTerminate(() -> loadingStatus.setValue(false))
-                .subscribeWith(new DisposableSingleObserver<UserResponse>() {
+                .subscribeWith(new DisposableSingleObserver<APIResponseModel>() {
                     @Override
-                    public void onSuccess(UserResponse resultsResponse) {
+                    public void onSuccess(APIResponseModel resultsResponse) {
                         user.setValue(resultsResponse);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        if (e instanceof HttpException) {
-                            ResponseBody body = ((HttpException) e).response().errorBody();
-                            onError.setValue(body.toString());
-                        }
+                    public void onError(Throwable t) {
+                        onError.setValue(ErrorUtils.showError(t).getMessage());
                     }
                 }));
-
     }
 
     @Override

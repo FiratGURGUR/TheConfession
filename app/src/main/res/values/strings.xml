@@ -9,4 +9,10 @@
     <string name="login_do">Giriş Yap</string>
 
     <string name="register">Hesabın yok mu? Kayıt Ol</string>
+    <string name="register_do">Kayıt Ol</string>
+
+    <string name="register_username_hint">Kullanıcı Adı</string>
+    <string name="register_fullname_hint">Ad Soyad</string>
+    <string name="register_email_hint">Email adresiniz</string>
+    <string name="register_password_hint">Şifreniz</string>
 </resources>

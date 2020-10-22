@@ -17,4 +17,8 @@ public interface APIService {
     Single<UserResponse> login(@Body RequestUser requestUser);
 
 
+    @POST(Constants.REGISTER)
+    Single<APIResponseModel> register(@Body RequestUser requestUser);
+
+
 }

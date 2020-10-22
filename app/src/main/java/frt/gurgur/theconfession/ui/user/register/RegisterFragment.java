@@ -1,4 +1,4 @@
-package frt.gurgur.theconfession.ui.user.login;
+package frt.gurgur.theconfession.ui.user.register;
 
 import android.os.Bundle;
 
@@ -17,58 +17,56 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import frt.gurgur.theconfession.MainActivity;
 import frt.gurgur.theconfession.R;
-import frt.gurgur.theconfession.model.user.UserResponse;
+import frt.gurgur.theconfession.data.remote.APIResponseModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.ui.confession.ConfessionListFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
-import frt.gurgur.theconfession.ui.user.register.RegisterFragment;
-import frt.gurgur.theconfession.ui.user.register.RegisterViewModel;
-import retrofit2.adapter.rxjava2.HttpException;
+import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
+import frt.gurgur.theconfession.util.Constants;
 
-
-public class LoginFragment extends BaseFragment implements View.OnClickListener {
-
+public class RegisterFragment extends BaseFragment implements View.OnClickListener {
     ViewDataBinding binding;
-    public static final String FRAGMENT_TAG = "LoginFragment";
+    public static final String FRAGMENT_TAG = "RegisterFragment";
     @Inject
     ViewModelFactory vmFactory;
-    LoginViewModel vm;
-
+    RegisterViewModel vm;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    @BindView(R.id.edtEmail)
-    EditText email;
-    @BindView(R.id.edtPassword)
-    EditText password;
-    @BindView(R.id.loginButton)
-    Button loginButton;
-    @BindView(R.id.goRegister)
-    TextView goRegister;
 
-    public LoginFragment() {
+    @BindView(R.id.edtUserName)
+    EditText edtUserName;
+    @BindView(R.id.edtFullName)
+    EditText edtFullName;
+    @BindView(R.id.edtEmail)
+    EditText edtEmail;
+    @BindView(R.id.edtPassword)
+    EditText edtPassword;
+    @BindView(R.id.registerButton)
+    Button registerButton;
+
+    public RegisterFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false);
         View view = binding.getRoot();
         ButterKnife.bind(this, view);
         return view;
@@ -78,26 +76,23 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        vm = ViewModelProviders.of(this, vmFactory).get(LoginViewModel.class);
+        vm = ViewModelProviders.of(this, vmFactory).get(RegisterViewModel.class);
 
-        observeLogin();
+        observeRegister();
         this.observeLoadStatus();
         this.observerErrorStatus();
 
     }
 
     public void initView(){
-        goRegister.setOnClickListener(this);
-        loginButton.setOnClickListener(this);
+        registerButton.setOnClickListener(this);
     }
 
-    public void observeLogin() {
-        vm.getUser().observe(this, new Observer<UserResponse>() {
+    public void observeRegister(){
+        vm.getUser().observe(this, new Observer<APIResponseModel>() {
             @Override
-            public void onChanged(UserResponse notes) {
-                if (notes != null) {
-                  mainActivity.pushFragment(new ConfessionListFragment(), ConfessionListFragment.FRAGMENT_TAG);
-                }
+            public void onChanged(APIResponseModel apiResponseModel) {
+                Toast.makeText(getContext(), "Kayıt Başarılı : " + apiResponseModel.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -133,22 +128,20 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         }
     }
 
-
-    public void doLogin() {
-        String mEmail = email.getText().toString();
-        String mPassword = password.getText().toString();
-        RequestUser user = new RequestUser(mEmail, mPassword);
-        vm.loadData(user);
+    public void doRegister(){
+        String username= edtUserName.getText().toString();
+        String fullname= edtFullName.getText().toString();
+        String email= edtEmail.getText().toString();
+        String password= edtPassword.getText().toString();
+        RequestUser user = new RequestUser(username,fullname,Constants.generateUserPhoto(fullname),password,email, Constants.DEFAULT_COVERPHOTO_URL);
+        vm.registerUser(user);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.loginButton:
-                doLogin();
-                break;
-            case R.id.goRegister:
-                mainActivity.pushFragment(new RegisterFragment(), RegisterFragment.FRAGMENT_TAG);
+        switch (v.getId()){
+            case R.id.registerButton:
+                doRegister();
                 break;
         }
     }
