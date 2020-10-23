@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
-    </RelativeLayout>
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
     </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/toolbar_lay"
+            layout="@layout/toolbar" />
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_below="@+id/toolbar_lay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
+    </RelativeLayout>
+
+
 
 </layout>

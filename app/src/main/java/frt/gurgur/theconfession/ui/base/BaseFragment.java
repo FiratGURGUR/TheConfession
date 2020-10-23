@@ -25,4 +25,10 @@ public abstract class BaseFragment extends DaggerFragment {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
+    public boolean onBackPressed() {
+        return false;
+    }
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
 }

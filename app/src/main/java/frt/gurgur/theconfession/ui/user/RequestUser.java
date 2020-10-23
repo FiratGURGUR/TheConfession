@@ -7,11 +7,13 @@ public class RequestUser{
 		this.id = id;
 	}
 
+	//login icin
 	public RequestUser(String email,String password) {
 		this.email = email;
 		this.password = password;
 	}
 
+	//register icin
 	public RequestUser(String username,String fullname,String photo,String password,String email,String coverphoto) {
 		this.username = username;
 		this.fullname = fullname;
