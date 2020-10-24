@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -18,22 +17,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import frt.gurgur.theconfession.MainActivity;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.ui.confession.ConfessionListFragment;
+import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.ui.user.register.RegisterFragment;
-import frt.gurgur.theconfession.ui.user.register.RegisterViewModel;
-import retrofit2.adapter.rxjava2.HttpException;
 
 
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
@@ -96,7 +91,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onChanged(UserResponse notes) {
                 if (notes != null) {
-                  mainActivity.pushFragment(new ConfessionListFragment(), ConfessionListFragment.FRAGMENT_TAG);
+                  //shared a kaydet
+                 mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
                 }
             }
         });

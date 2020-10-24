@@ -8,15 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -26,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.ui.confession.ConfessionListFragment;
+import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.login.LoginFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -242,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar.setContentInsetsAbsolute(0, 0);
         btnBack.setOnClickListener(this);
         btnBack.setVisibility(View.GONE);
-        pushFragment(new LoginFragment(), LoginFragment.FRAGMENT_TAG);
+        pushFragment(new MainFragment(), MainFragment.FRAGMENT_TAG);
     }
 
     @Override

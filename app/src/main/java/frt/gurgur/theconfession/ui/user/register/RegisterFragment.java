@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -27,8 +25,8 @@ import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.data.remote.APIResponseModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
+import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
-import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
 import frt.gurgur.theconfession.util.Constants;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener {
@@ -92,7 +90,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         vm.getUser().observe(this, new Observer<APIResponseModel>() {
             @Override
             public void onChanged(APIResponseModel apiResponseModel) {
-                Toast.makeText(getContext(), "Kayıt Başarılı : " + apiResponseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                //shared preferences kaydetme yapma
+                mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
             }
         });
     }
