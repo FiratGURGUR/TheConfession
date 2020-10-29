@@ -23,9 +23,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 
 import frt.gurgur.theconfession.ui.base.BaseFragment;
+import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.login.LoginFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -44,11 +46,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.btnBack)
     ImageButton btnBack;
 
-
+    @Inject
+    SharedPreferences prefs;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
 
 
@@ -249,7 +253,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBack.setOnClickListener(this);
         btnBack.setVisibility(View.GONE);
 
-       pushFragment(new LoginFragment(), LoginFragment.FRAGMENT_TAG);
+
+        int ss = prefs.getInt("idd",0);
+        if (ss != 0){
+            pushFragment(new MainFragment(), MainFragment.FRAGMENT_TAG);
+        }else{
+            pushFragment(new LoginFragment(), LoginFragment.FRAGMENT_TAG);
+        }
+
+
+
 
     }
 

@@ -1,5 +1,6 @@
 package frt.gurgur.theconfession.ui.user.register;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.data.remote.APIResponseModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
@@ -53,7 +55,11 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         // Required empty public constructor
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

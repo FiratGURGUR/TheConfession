@@ -1,5 +1,6 @@
 package frt.gurgur.theconfession.ui.user.login;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
@@ -51,6 +53,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @BindView(R.id.goRegister)
     TextView goRegister;
 
+    @Inject
+    SharedPreferences prefs;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -61,6 +65,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,7 +103,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             public void onChanged(UserResponse user) {
                 if (user != null) {
                   //shared a kaydet
-                 mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("idd", user.getUser().getId());
+                    editor.commit();
+                    mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
                 }
             }
         });

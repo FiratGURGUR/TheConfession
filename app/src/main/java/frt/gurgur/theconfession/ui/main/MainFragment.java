@@ -1,6 +1,7 @@
 package frt.gurgur.theconfession.ui.main;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -26,6 +27,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
@@ -49,7 +51,8 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-
+    @Inject
+    SharedPreferences prefs;
 
     private List<DataItem> postList = new ArrayList<>();
 
@@ -59,10 +62,15 @@ public class MainFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
 
     }
@@ -81,9 +89,9 @@ public class MainFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
 
+        int id = prefs.getInt("idd",-11);
 
-
-        vm.loadPostList(1,18);
+        vm.loadPostList(1,id);
         observePostList();
         observeLoadStatus();
         observerErrorStatus();
