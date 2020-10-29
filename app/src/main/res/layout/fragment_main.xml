@@ -5,10 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="5dp"
+        android:background="@color/blue_grey_bg_light"
         android:orientation="vertical">
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcyclePostList"

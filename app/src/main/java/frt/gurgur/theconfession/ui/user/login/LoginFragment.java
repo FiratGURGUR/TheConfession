@@ -104,7 +104,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 if (user != null) {
                   //shared a kaydet
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("idd", user.getUser().getId());
+                    editor.putInt("userId", user.getUser().getId());
                     editor.commit();
                     mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
                 }

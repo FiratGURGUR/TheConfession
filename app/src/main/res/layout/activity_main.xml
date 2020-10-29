@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
     </data>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -13,12 +15,90 @@
 
         <LinearLayout
             android:id="@+id/container"
-            android:layout_below="@+id/toolbar_lay"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"></LinearLayout>
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
 
+        <View
+            android:id="@+id/viewLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/login_orange" />
+
+        <com.gauravk.bubblenavigation.BubbleNavigationLinearView
+            android:id="@+id/top_navigation_constraint"
+            android:layout_width="match_parent"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
+            android:background="@color/white_20"
+            android:layout_height="wrap_content"
+            app:bnc_mode="inside">
+
+            <com.gauravk.bubblenavigation.BubbleToggleView
+                android:id="@+id/menu_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:bt_active="true"
+                app:bt_colorActive="@color/login_orange"
+                app:bt_colorInactive="@color/toolbar_title"
+                app:bt_icon="@drawable/hmpg"
+                app:bt_shape="@drawable/transition_background_drawable_restaurant"
+                app:bt_shapeColor="@color/toolbar_title"
+                app:bt_badgeBackgroundColor="@color/toolbar_title"
+                app:bt_title="Ana Sayfa" />
+            <com.gauravk.bubblenavigation.BubbleToggleView
+                android:id="@+id/menu_explore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:bt_active="false"
+                app:bt_colorActive="@color/login_orange"
+                app:bt_colorInactive="@color/toolbar_title"
+                app:bt_icon="@drawable/ic_explore"
+                app:bt_shape="@drawable/transition_background_drawable_restaurant"
+                app:bt_shapeColor="@color/toolbar_title"
+                app:bt_badgeBackgroundColor="@color/toolbar_title"
+                app:bt_title="Keşfet" />
+            <com.gauravk.bubblenavigation.BubbleToggleView
+                android:id="@+id/menu_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:bt_active="false"
+                app:bt_colorActive="@color/login_orange"
+                app:bt_colorInactive="@color/toolbar_title"
+                app:bt_icon="@drawable/ic_profile"
+                app:bt_shape="@drawable/transition_background_drawable_restaurant"
+                app:bt_shapeColor="@color/toolbar_title"
+                app:bt_badgeBackgroundColor="@color/toolbar_title"
+                app:bt_title="Profil" />
+
+            <com.gauravk.bubblenavigation.BubbleToggleView
+                android:id="@+id/menu_favs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:bt_active="false"
+                app:bt_colorActive="@color/login_orange"
+                app:bt_colorInactive="@color/toolbar_title"
+                app:bt_icon="@drawable/ic_favori"
+                app:bt_shape="@drawable/transition_background_drawable_restaurant"
+                app:bt_shapeColor="@color/toolbar_title"
+                app:bt_badgeBackgroundColor="@color/toolbar_title"
+                app:bt_title="Beğeniler"/>
+            <com.gauravk.bubblenavigation.BubbleToggleView
+                android:id="@+id/menu_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:bt_active="false"
+                app:bt_colorActive="@color/login_orange"
+                app:bt_colorInactive="@color/toolbar_title"
+                app:bt_icon="@drawable/settings_icon"
+                app:bt_shape="@drawable/transition_background_drawable_restaurant"
+                app:bt_shapeColor="@color/toolbar_title"
+                app:bt_badgeBackgroundColor="@color/toolbar_title"
+                app:bt_title="Ayarlar"/>
+        </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
+
+    </LinearLayout>
 
 
 </layout>

@@ -55,9 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
 
-
-
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         ButterKnife.bind(this);
         wrActivity = new WeakReference<>(this);
@@ -254,8 +251,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBack.setVisibility(View.GONE);
 
 
-        int ss = prefs.getInt("idd",0);
-        if (ss != 0){
+        int userId = prefs.getInt("userId",0);
+        if (userId != 0){
             pushFragment(new MainFragment(), MainFragment.FRAGMENT_TAG);
         }else{
             pushFragment(new LoginFragment(), LoginFragment.FRAGMENT_TAG);

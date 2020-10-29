@@ -143,6 +143,6 @@ public class MainFragment extends BaseFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        //recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
     }
 }
