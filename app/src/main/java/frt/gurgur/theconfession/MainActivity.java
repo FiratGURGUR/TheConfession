@@ -9,19 +9,23 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Stack;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import frt.gurgur.theconfession.databinding.ActivityMainBinding;
+
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.login.LoginFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -40,9 +44,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.btnBack)
     ImageButton btnBack;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         ButterKnife.bind(this);
         wrActivity = new WeakReference<>(this);
@@ -237,7 +248,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar.setContentInsetsAbsolute(0, 0);
         btnBack.setOnClickListener(this);
         btnBack.setVisibility(View.GONE);
-        pushFragment(new MainFragment(), MainFragment.FRAGMENT_TAG);
+
+       pushFragment(new LoginFragment(), LoginFragment.FRAGMENT_TAG);
+
     }
 
     @Override
@@ -248,4 +261,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
 }

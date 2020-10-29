@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import frt.gurgur.theconfession.data.remote.APIService;
+import frt.gurgur.theconfession.data.remote.repo.MainRepo;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
 
 @Module
@@ -16,6 +17,10 @@ public class PostModule {
         return new UserRepo(api);
     }
 
-
+    @Singleton
+    @Provides
+    static MainRepo provideMainRepo(APIService api){
+        return new MainRepo(api);
+    }
 
 }

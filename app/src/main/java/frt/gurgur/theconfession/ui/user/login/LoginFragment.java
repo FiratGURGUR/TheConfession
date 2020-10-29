@@ -1,5 +1,6 @@
 package frt.gurgur.theconfession.ui.user.login;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -50,6 +51,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @BindView(R.id.goRegister)
     TextView goRegister;
 
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -89,8 +91,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     public void observeLogin() {
         vm.getUser().observe(this, new Observer<UserResponse>() {
             @Override
-            public void onChanged(UserResponse notes) {
-                if (notes != null) {
+            public void onChanged(UserResponse user) {
+                if (user != null) {
                   //shared a kaydet
                  mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
                 }

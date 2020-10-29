@@ -7,20 +7,23 @@ public class DataItem{
 	@SerializedName("isWithImage")
 	private int isWithImage;
 
-	@SerializedName("fav_count")
-	private int favCount;
-
-	@SerializedName("updated_at")
-	private String updatedAt;
+	@SerializedName("selfLikes")
+	private String selfLikes;
 
 	@SerializedName("user_id")
 	private int userId;
 
-	@SerializedName("created_at")
-	private String createdAt;
+	@SerializedName("selfPost")
+	private String selfPost;
 
 	@SerializedName("photo")
 	private String photo;
+
+	@SerializedName("created_at")
+	private String createdAt;
+
+	@SerializedName("likeCount")
+	private int likeCount;
 
 	@SerializedName("id")
 	private int id;
@@ -29,7 +32,7 @@ public class DataItem{
 	private String fullname;
 
 	@SerializedName("content_image")
-	private String contentImage;
+	private Object contentImage;
 
 	@SerializedName("content")
 	private String content;
@@ -41,24 +44,28 @@ public class DataItem{
 		return isWithImage;
 	}
 
-	public int getFavCount(){
-		return favCount;
-	}
-
-	public String getUpdatedAt(){
-		return updatedAt;
+	public String getSelfLikes(){
+		return selfLikes;
 	}
 
 	public int getUserId(){
 		return userId;
 	}
 
-	public String getCreatedAt(){
-		return createdAt;
+	public String getSelfPost(){
+		return selfPost;
 	}
 
 	public String getPhoto(){
 		return photo;
+	}
+
+	public String getCreatedAt(){
+		return createdAt;
+	}
+
+	public int getLikeCount(){
+		return likeCount;
 	}
 
 	public int getId(){
@@ -69,7 +76,7 @@ public class DataItem{
 		return fullname;
 	}
 
-	public String getContentImage(){
+	public Object getContentImage(){
 		return contentImage;
 	}
 

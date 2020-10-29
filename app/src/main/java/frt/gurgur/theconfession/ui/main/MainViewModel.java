@@ -8,10 +8,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import frt.gurgur.theconfession.data.remote.repo.MainRepo;
-import frt.gurgur.theconfession.data.remote.repo.UserRepo;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.model.main.PostResponse;
-import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
 import frt.gurgur.theconfession.util.ErrorUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
