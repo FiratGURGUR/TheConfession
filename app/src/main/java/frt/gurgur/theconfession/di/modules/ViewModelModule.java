@@ -14,7 +14,6 @@ import frt.gurgur.theconfession.ui.user.register.RegisterViewModel;
 public abstract class ViewModelModule {
 
 
-
     @Binds
     @IntoMap
     @ViewModelKey(LoginViewModel.class)

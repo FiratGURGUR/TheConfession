@@ -12,6 +12,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
+import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
+import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -24,6 +29,8 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 
+import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
+import frt.gurgur.theconfession.ui.user.register.RegisterFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
@@ -47,10 +54,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.btnBack)
     ImageButton btnBack;
 
+    @BindView(R.id.txAppName)
+    TextView txAppName;
+
     @Inject
     PreferencesHelper preferencesHelper;
 
-
+    @BindView(R.id.bottom_navigation_menu)
+    BubbleNavigationLinearView bottomNavMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +81,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setTitleScreen(Fragment fragment) {
         currentFragment = fragment;
+        if (fragment instanceof LoginFragment){
+            bottomNavMenu.setVisibility(View.GONE);
+            btnBack.setVisibility(View.GONE);
+        }else if (fragment instanceof RegisterFragment){
+            bottomNavMenu.setVisibility(View.GONE);
+            btnBack.setVisibility(View.GONE);
+        }else if(fragment instanceof MainFragment){
+            bottomNavMenu.setVisibility(View.VISIBLE);
+            btnBack.setVisibility(View.GONE);
+        }else if (fragment instanceof ProfileFragment){
+            bottomNavMenu.setVisibility(View.VISIBLE);
+            btnBack.setVisibility(View.GONE);
+            txAppName.setText(preferencesHelper.getUserUsername());
+        }
     }
 
     private Fragment getCurrentFragment() {
@@ -252,12 +277,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBack.setVisibility(View.GONE);
 
 
+
         int userId = preferencesHelper.getUserId();
         if (userId != EMPTY_USER_ID){
             pushFragment(new MainFragment(), MainFragment.FRAGMENT_TAG);
         }else{
             pushFragment(new LoginFragment(), LoginFragment.FRAGMENT_TAG);
         }
+
+
+        bottomNavMenu.setNavigationChangeListener(new BubbleNavigationChangeListener() {
+            @Override
+            public void onNavigationChanged(View view, int position) {
+                switch (position){
+                    case 0:
+                        pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        pushFragment(new ProfileFragment(),ProfileFragment.FRAGMENT_TAG);
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+        });
 
 
     }

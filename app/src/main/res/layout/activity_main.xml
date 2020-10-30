@@ -27,7 +27,7 @@
             android:background="@color/login_orange" />
 
         <com.gauravk.bubblenavigation.BubbleNavigationLinearView
-            android:id="@+id/top_navigation_constraint"
+            android:id="@+id/bottom_navigation_menu"
             android:layout_width="match_parent"
             android:paddingTop="5dp"
             android:paddingBottom="10dp"

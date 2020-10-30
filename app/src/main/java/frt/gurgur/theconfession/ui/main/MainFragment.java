@@ -82,8 +82,6 @@ public class MainFragment extends BaseFragment {
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
 
         int id = preferencesHelper.getUserId();
-        String photo = preferencesHelper.getPhoto();
-        Toast.makeText(getContext(), photo, Toast.LENGTH_SHORT).show();
 
         vm.loadPostList(1,id);
         observePostList();
