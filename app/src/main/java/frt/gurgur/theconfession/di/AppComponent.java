@@ -13,6 +13,7 @@ import frt.gurgur.theconfession.di.modules.ActivityBuilder;
 import frt.gurgur.theconfession.di.modules.AppModule;
 import frt.gurgur.theconfession.di.modules.FragmentBuildersModule;
 import frt.gurgur.theconfession.di.modules.NetworkModule;
+import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.di.modules.ViewModelFactoryModule;
 
 @Singleton
@@ -28,5 +29,6 @@ public interface AppComponent extends AndroidInjector<App> {
     }
     void inject(App app);
     SharedPreferences sharedPreferences();
+    PreferencesHelper preferencesHelper();
 }
 

@@ -9,11 +9,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -26,9 +24,12 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 
+import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.login.LoginFragment;
+
+import static frt.gurgur.theconfession.util.PreferencesHelper.EMPTY_USER_ID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton btnBack;
 
     @Inject
-    SharedPreferences prefs;
+    PreferencesHelper preferencesHelper;
+
 
 
     @Override
@@ -241,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     public void initView(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -251,14 +252,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBack.setVisibility(View.GONE);
 
 
-        int userId = prefs.getInt("userId",0);
-        if (userId != 0){
+        int userId = preferencesHelper.getUserId();
+        if (userId != EMPTY_USER_ID){
             pushFragment(new MainFragment(), MainFragment.FRAGMENT_TAG);
         }else{
             pushFragment(new LoginFragment(), LoginFragment.FRAGMENT_TAG);
         }
-
-
 
 
     }

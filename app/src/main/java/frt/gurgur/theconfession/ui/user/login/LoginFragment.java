@@ -1,7 +1,6 @@
 package frt.gurgur.theconfession.ui.user.login;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
+import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
@@ -54,7 +54,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     TextView goRegister;
 
     @Inject
-    SharedPreferences prefs;
+    PreferencesHelper preferencesHelper;
+
 
     public LoginFragment() {
         // Required empty public constructor
@@ -103,10 +104,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             public void onChanged(UserResponse user) {
                 if (user != null) {
                   //shared a kaydet
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("userId", user.getUser().getId());
-                    editor.commit();
-                    mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
+                  preferencesHelper.setUser("user",user);
+                  mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
                 }
             }
         });

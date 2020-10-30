@@ -1,10 +1,7 @@
 package frt.gurgur.theconfession.ui.main;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -13,30 +10,24 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
+import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
-
-import static android.content.Context.MODE_PRIVATE;
-import static android.os.ParcelFileDescriptor.MODE_APPEND;
 
 public class MainFragment extends BaseFragment {
     ViewDataBinding binding;
@@ -52,7 +43,8 @@ public class MainFragment extends BaseFragment {
     ProgressBar progressBar;
 
     @Inject
-    SharedPreferences prefs;
+    PreferencesHelper preferencesHelper;
+
 
     private List<DataItem> postList = new ArrayList<>();
 
@@ -89,7 +81,9 @@ public class MainFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
 
-        int id = prefs.getInt("idd",-11);
+        int id = preferencesHelper.getUserId();
+        String photo = preferencesHelper.getPhoto();
+        Toast.makeText(getContext(), photo, Toast.LENGTH_SHORT).show();
 
         vm.loadPostList(1,id);
         observePostList();
