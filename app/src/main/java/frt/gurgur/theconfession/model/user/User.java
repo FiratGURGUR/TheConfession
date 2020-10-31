@@ -10,6 +10,9 @@ public class User{
 	@SerializedName("following_count")
 	private int followingCount;
 
+	@SerializedName("post_count")
+	private int postCount;
+
 	@SerializedName("photo")
 	private String photo;
 
@@ -72,5 +75,9 @@ public class User{
 
 	public String getUsername(){
 		return username;
+	}
+
+	public int getPostCount() {
+		return postCount;
 	}
 }

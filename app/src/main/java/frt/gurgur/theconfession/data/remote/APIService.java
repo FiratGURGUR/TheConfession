@@ -24,4 +24,9 @@ public interface APIService {
     @GET(Constants.POST_LIST)
     Single<PostResponse> postList(@Query("page") int page , @Query("user_id") int user_id);
 
+
+    @POST(Constants.GET_USER)
+    Single<UserResponse> getSingleUser(@Body RequestUser requestUser);
+
+
 }

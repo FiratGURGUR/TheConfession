@@ -25,5 +25,8 @@ public class UserRepo {
         return api.register(user);
     }
 
+    public Single<UserResponse> getSingleUSer(RequestUser user){
+        return api.getSingleUser(user);
+    }
 
 }
