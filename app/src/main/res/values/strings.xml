@@ -15,4 +15,10 @@
     <string name="register_fullname_hint">Ad Soyad</string>
     <string name="register_email_hint">Email adresiniz</string>
     <string name="register_password_hint">Şifreniz</string>
+
+    <string name="profile_shared_count">Paylaşım</string>
+    <string name="profile_follower_count">Takipçi</string>
+    <string name="profile_following_count">Takip</string>
+    <string name="profile_edit">Profili Düzenle</string>
+
 </resources>

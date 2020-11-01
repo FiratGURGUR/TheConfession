@@ -60,7 +60,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hind_medium"
                             android:textSize="15sp"
-                            android:text="Paylaşım" />
+                            android:text="@string/profile_shared_count" />
 
                         <TextView
                             android:id="@+id/textView3"
@@ -84,7 +84,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hind_medium"
                             android:textSize="15sp"
-                            android:text="Takipçi" />
+                            android:text="@string/profile_follower_count" />
 
                         <TextView
                             android:id="@+id/textView4"
@@ -108,7 +108,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hind_medium"
                             android:textSize="15sp"
-                            android:text="Takip" />
+                            android:text="@string/profile_following_count" />
 
                         <TextView
                             android:id="@+id/textView5"
@@ -145,7 +145,7 @@
                 android:id="@+id/txtAboutUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Android Developer \nNKU"
+                android:text="@{singleUser.about}"
                 android:lineSpacingMultiplier="0.7"
                 android:fontFamily="@font/hind_medium"/>
 
@@ -155,7 +155,7 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/login_button_background"
-                android:text="Profili Düzenle"
+                android:text="@string/profile_edit"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:fontFamily="@font/hind_medium"

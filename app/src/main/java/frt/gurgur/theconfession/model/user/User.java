@@ -37,6 +37,9 @@ public class User{
 	@SerializedName("username")
 	private String username;
 
+	@SerializedName("about")
+	private String about;
+
 	public String getPassword(){
 		return password;
 	}
@@ -79,5 +82,57 @@ public class User{
 
 	public int getPostCount() {
 		return postCount;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setFollowingCount(int followingCount) {
+		this.followingCount = followingCount;
+	}
+
+	public void setPostCount(int postCount) {
+		this.postCount = postCount;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	public void setCoverphoto(String coverphoto) {
+		this.coverphoto = coverphoto;
+	}
+
+	public void setFollowerCount(int followerCount) {
+		this.followerCount = followerCount;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
 	}
 }

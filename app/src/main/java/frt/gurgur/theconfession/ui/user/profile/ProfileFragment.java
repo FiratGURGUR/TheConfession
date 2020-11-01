@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -84,7 +85,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     public void initView(){
         if (Utils.getConnectionType(getContext()) == Utils.NO_CONNECTION){
             //bilgileri shared dan getir
-
+            binding.setSingleUser(preferencesHelper.getUser());
         }else {
             //bilgileri api den al
             int userId =  preferencesHelper.getUserId();
