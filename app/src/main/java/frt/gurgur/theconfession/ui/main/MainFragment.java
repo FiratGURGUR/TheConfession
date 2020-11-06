@@ -1,6 +1,8 @@
 package frt.gurgur.theconfession.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,20 +16,32 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+
+import com.bumptech.glide.Glide;
+import com.stfalcon.imageviewer.StfalconImageViewer;
+import com.stfalcon.imageviewer.loader.ImageLoader;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
+import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
+import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
+
+import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
 
 public class MainFragment extends BaseFragment {
     ViewDataBinding binding;
@@ -44,6 +58,11 @@ public class MainFragment extends BaseFragment {
 
     @Inject
     PreferencesHelper preferencesHelper;
+
+    GridLayoutManager gridLayoutManager;
+    public int page = 1;
+    int userId;
+
 
 
     private List<DataItem> postList = new ArrayList<>();
@@ -81,9 +100,9 @@ public class MainFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
 
-        int id = preferencesHelper.getUserId();
+        userId = preferencesHelper.getUserId();
 
-        vm.loadPostList(1,id);
+        vm.loadPostList(page,userId);
         observePostList();
         observeLoadStatus();
         observerErrorStatus();
@@ -120,21 +139,36 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onChanged(List<DataItem> dataItems) {
                 if (dataItems != null) {
-                    if (postList.size() > 0)
-                        postList.clear();
                     postList.addAll(dataItems);
                     recyclerView.getAdapter().notifyDataSetChanged();
-
                 }
             }
         });
     }
     private void setRecyclerView() {
-        PostListAdapter adapter = new PostListAdapter(postList);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        gridLayoutManager = new GridLayoutManager(getContext(),1);
+        PostListAdapter adapter = new PostListAdapter(postList,imageClick);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
 
-        //recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
     }
+
+
+    OnItemClickListener imageClick = new OnItemClickListener() {
+        @Override
+        public void onItemClick(DataItem item) {
+            new StfalconImageViewer.Builder<String>(getContext(), new ArrayList<>(Arrays.asList(item.getContentImage())), new ImageLoader<String>() {
+                @Override
+                public void loadImage(ImageView imageView, String image) {
+                    Glide.with(getContext())
+                            .load(image)
+                            .into(imageView);
+                }
+            }).show();
+        }
+    };
+
+
 }

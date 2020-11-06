@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
+import com.moos.navigation.BottomBarLayout;
+import com.moos.navigation.BottomTabView;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -39,6 +42,7 @@ import frt.gurgur.theconfession.ui.user.login.LoginFragment;
 import static frt.gurgur.theconfession.util.PreferencesHelper.EMPTY_USER_ID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private BottomTabView tab_home, tab_explore,tab_share_post,tab_favorities, tab_profile;
 
     private ActivityMainBinding binding;
 
@@ -60,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Inject
     PreferencesHelper preferencesHelper;
 
-    @BindView(R.id.bottom_navigation_menu)
-    BubbleNavigationLinearView bottomNavMenu;
+    @BindView(R.id.bottom_bar)
+    BottomBarLayout bottomBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,24 +78,90 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mStacks = new HashMap<String, Stack<Fragment>>();
         mStacks.put(FRAGMENTS, new Stack<Fragment>());
         initView();
+        navvv();
     }
 
 
+    public void navvv(){
+        tab_home = new BottomTabView(this);
+        tab_home.setTabIcon(R.drawable.m_home);
+        tab_home.setTabTitle("Home");
+        ////////////////////////////
+        tab_explore = new BottomTabView(this);
+        tab_explore.setTabIcon(R.drawable.m_ecplore);
+        tab_explore.setTabTitle("Keşfet");
+        ////////////////////////////
+        tab_share_post = new BottomTabView(this);
+        tab_share_post.setTabIcon(R.drawable.m_post);
+        tab_share_post.setTabTitle("Paylaş");
+        ////////////////////////////
+        tab_favorities = new BottomTabView(this);
+        tab_favorities.setTabIcon(R.drawable.m_fav);
+        tab_favorities.setTabTitle("Beğeni");
+        ////////////////////////////
+        tab_profile = new BottomTabView(this);
+        tab_profile.setTabIcon(R.drawable.m_profile);
+        tab_profile.setTabTitle("Profil");
+       //tab_mine.setUnreadCount(100);
+
+
+        bottomBarLayout
+                .addTab(tab_home)
+                .addTab(tab_explore)
+                .addTab(tab_share_post)
+                .addTab(tab_favorities)
+                .addTab(tab_profile)
+                .create(new BottomBarLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(BottomTabView tab) {
+                        //you can switch the fragment here
+                        Log.e("xx", "onTabSelected: ====="+tab.getTabPosition() );
+                        switch (tab.getTabPosition()){
+                            case 0:
+                                pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
+                                break;
+                            case 1:
+                                break;
+                            case 2:
+
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                pushFragment(new ProfileFragment(),ProfileFragment.FRAGMENT_TAG);
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(BottomTabView tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(BottomTabView tab) {
+
+                    }
+                });
+    }
 
 
     public void setTitleScreen(Fragment fragment) {
         currentFragment = fragment;
         if (fragment instanceof LoginFragment){
-            bottomNavMenu.setVisibility(View.GONE);
+            bottomBarLayout.setVisibility(View.GONE);
             btnBack.setVisibility(View.GONE);
+            txAppName.setText(getString(R.string.app_name));
         }else if (fragment instanceof RegisterFragment){
-            bottomNavMenu.setVisibility(View.GONE);
+            bottomBarLayout.setVisibility(View.GONE);
             btnBack.setVisibility(View.GONE);
+            txAppName.setText(getString(R.string.app_name));
         }else if(fragment instanceof MainFragment){
-            bottomNavMenu.setVisibility(View.VISIBLE);
+            bottomBarLayout.setVisibility(View.VISIBLE);
             btnBack.setVisibility(View.GONE);
+            txAppName.setText(getString(R.string.app_name));
         }else if (fragment instanceof ProfileFragment){
-            bottomNavMenu.setVisibility(View.VISIBLE);
+            bottomBarLayout.setVisibility(View.VISIBLE);
             btnBack.setVisibility(View.GONE);
             txAppName.setText(preferencesHelper.getUserUsername());
         }
@@ -286,25 +356,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        bottomNavMenu.setNavigationChangeListener(new BubbleNavigationChangeListener() {
-            @Override
-            public void onNavigationChanged(View view, int position) {
-                switch (position){
-                    case 0:
-                        pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        pushFragment(new ProfileFragment(),ProfileFragment.FRAGMENT_TAG);
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                }
-            }
-        });
 
 
     }

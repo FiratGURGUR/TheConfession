@@ -1,43 +1,68 @@
 package frt.gurgur.theconfession.ui.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.PostListItemBinding;
+import frt.gurgur.theconfession.databinding.PostListItemImageBinding;
 import frt.gurgur.theconfession.model.main.DataItem;
 
-public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHolder> {
-
+public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyViewHolder > {
+    private static final int TYPE_TEXT = 1;
+    private static final int TYPE_PHOTO = 2;
 
     private static final String TAG = "PostListAdapter";
     private List<DataItem> postList;
-
+    OnItemClickListener listener;
     public PostListAdapter() {
 
     }
 
-    public PostListAdapter(List<DataItem> postList) {
+    public PostListAdapter(List<DataItem> postList,OnItemClickListener listener) {
         this.postList = postList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder  onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        PostListItemBinding binding = DataBindingUtil.inflate(inflater, R.layout.post_list_item, parent, false);
-        return new ViewHolder(binding);
+
+        ViewDataBinding binding;
+        switch (viewType) {
+            case TYPE_TEXT:
+                binding = DataBindingUtil.inflate(inflater, R.layout.post_list_item, parent, false);
+                return new MyViewHolder((PostListItemBinding) binding);
+            case TYPE_PHOTO:
+                binding = DataBindingUtil.inflate(inflater, R.layout.post_list_item_image, parent, false);
+                return new MyViewHolder((PostListItemImageBinding) binding,listener);
+        }
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(postList.get(position));
+    public void onBindViewHolder(@NonNull MyViewHolder  holder, int position) {
+
+        switch (holder.getItemViewType()) {
+            case TYPE_TEXT:
+                PostListItemBinding bindingText = holder.bindingText;
+                bindingText.setPost(postList.get(position));
+                break;
+            case TYPE_PHOTO:
+                PostListItemImageBinding bindingImage = holder.bindingImage;
+                bindingImage.setPost(postList.get(position));
+                break;
+        }
+
     }
 
     @Override
@@ -45,18 +70,36 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
         return postList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder  extends RecyclerView.ViewHolder {
 
-        private final PostListItemBinding binding;
+        private  PostListItemBinding bindingText;
+        private  PostListItemImageBinding bindingImage;
 
-        public ViewHolder(PostListItemBinding binding) {
+        public MyViewHolder (PostListItemBinding binding) {
             super(binding.getRoot());
-            this.binding = binding;
+            this.bindingText = binding;
+
+        }
+        public MyViewHolder (PostListItemImageBinding binding, OnItemClickListener listener) {
+            super(binding.getRoot());
+            this.bindingImage = binding;
+            bindingImage.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(binding.getPost());
+                }
+            });
         }
 
-        public void bind(DataItem post) {
-            binding.setPost(post);
-        }
 
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (postList.get(position).getIsWithImage()==0) {
+            return TYPE_TEXT;
+        } else {
+            return TYPE_PHOTO;
+        }
     }
 }

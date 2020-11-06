@@ -5,6 +5,6 @@
     <size
         android:width="1dp"
         android:height="1dp" />
-    <solid android:color="@color/toolbar_title" />
+    <solid android:color="@color/de" />
 
 </shape>

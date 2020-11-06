@@ -32,7 +32,7 @@ public class DataItem{
 	private String fullname;
 
 	@SerializedName("content_image")
-	private Object contentImage;
+	private String contentImage;
 
 	@SerializedName("content")
 	private String content;
@@ -76,7 +76,7 @@ public class DataItem{
 		return fullname;
 	}
 
-	public Object getContentImage(){
+	public String getContentImage(){
 		return contentImage;
 	}
 
