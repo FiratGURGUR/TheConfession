@@ -9,6 +9,10 @@ public class Constants {
     public static final String LOGIN = "user/login.php";
     public static final String REGISTER = "user/createUser.php";
     public static final String POST_LIST = "post/getPostList.php";
+    public static final String POST_CREATE = "post/createPost.php";
+
+
+
     public static final String GENERATED_PHOTO_URL = "https://ui-avatars.com/api/size=256?name=";
     public static final String DEFAULT_COVERPHOTO_URL = "https://timelinecovers.pro/facebook-cover/download/photography-city-lights-facebook-cover.jpg";
 

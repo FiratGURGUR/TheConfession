@@ -7,6 +7,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 import frt.gurgur.theconfession.di.keys.ViewModelKey;
 import frt.gurgur.theconfession.ui.main.MainViewModel;
+import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
 import frt.gurgur.theconfession.ui.user.profile.ProfileViewModel;
 import frt.gurgur.theconfession.ui.user.register.RegisterViewModel;
@@ -36,4 +37,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel.class)
     public abstract ViewModel bindMainViewModel(MainViewModel mainViewModel);
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostViewModel.class)
+    public abstract ViewModel bindPostViewModel(PostViewModel postViewModel);
 }

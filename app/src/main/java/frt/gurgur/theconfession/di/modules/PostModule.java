@@ -6,6 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import frt.gurgur.theconfession.data.remote.APIService;
 import frt.gurgur.theconfession.data.remote.repo.MainRepo;
+import frt.gurgur.theconfession.data.remote.repo.PostRepo;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
 
 @Module
@@ -23,4 +24,9 @@ public class PostModule {
         return new MainRepo(api);
     }
 
+    @Singleton
+    @Provides
+    static PostRepo providePostRepo(APIService api){
+        return new PostRepo(api);
+    }
 }

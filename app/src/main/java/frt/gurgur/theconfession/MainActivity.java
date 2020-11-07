@@ -15,9 +15,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
-import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
-import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
 import com.moos.navigation.BottomBarLayout;
 import com.moos.navigation.BottomTabView;
 
@@ -32,6 +29,7 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 
+import frt.gurgur.theconfession.ui.post.PostFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.ui.user.register.RegisterFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
@@ -53,19 +51,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment currentFragment;
     private String animStyle = "";
 
+    @Inject
+    PreferencesHelper preferencesHelper;
+
     @BindView(R.id.toolbar_lay)
     View toolbar_lay;
     @BindView(R.id.btnBack)
     ImageButton btnBack;
-
     @BindView(R.id.txAppName)
     TextView txAppName;
-
-    @Inject
-    PreferencesHelper preferencesHelper;
-
     @BindView(R.id.bottom_bar)
     BottomBarLayout bottomBarLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mStacks.put(FRAGMENTS, new Stack<Fragment>());
         initView();
         navvv();
+
     }
 
 
@@ -123,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case 1:
                                 break;
                             case 2:
-
+                                pushFragment(new PostFragment(),PostFragment.FRAGMENT_TAG);
                                 break;
                             case 3:
                                 break;
@@ -164,6 +162,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             bottomBarLayout.setVisibility(View.VISIBLE);
             btnBack.setVisibility(View.GONE);
             txAppName.setText(preferencesHelper.getUserUsername());
+        }else if (fragment instanceof PostFragment){
+            bottomBarLayout.setVisibility(View.VISIBLE);
+            btnBack.setVisibility(View.GONE);
+            txAppName.setText(getString(R.string.app_name));
         }
     }
 
@@ -366,6 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnBack:
                     this.onBackPressed();
                 break;
+
         }
     }
 
