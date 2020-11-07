@@ -1,12 +1,17 @@
 package frt.gurgur.theconfession.util;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 
 import androidx.annotation.IntRange;
+
+import com.google.firestore.v1.Cursor;
 
 public class  Utils {
 
@@ -48,6 +53,5 @@ public class  Utils {
         }
         return result;
     }
-
 
 }

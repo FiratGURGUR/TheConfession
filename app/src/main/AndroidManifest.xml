@@ -13,6 +13,7 @@
 
     <application
         android:name=".di.App"
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
