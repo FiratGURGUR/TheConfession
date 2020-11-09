@@ -10,6 +10,7 @@ public class Constants {
     public static final String REGISTER = "user/createUser.php";
     public static final String POST_LIST = "post/getPostList.php";
     public static final String POST_CREATE = "post/createPost.php";
+    public static final String POST_CREATE_WITH_IMAGE = "post/upload.php";
 
 
 

@@ -1,5 +1,7 @@
 package frt.gurgur.theconfession.data.remote.repo;
 
+
+
 import javax.inject.Inject;
 
 import frt.gurgur.theconfession.data.remote.APIResponseModel;
@@ -7,6 +9,8 @@ import frt.gurgur.theconfession.data.remote.APIService;
 import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import io.reactivex.Single;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class PostRepo {
 
@@ -20,4 +24,9 @@ public class PostRepo {
     public Single<APIResponseModel> createPost(PostRequestModel postRequestModel){
         return api.createPost(postRequestModel);
     }
+
+    public Single<APIResponseModel> createPostWithImage(MultipartBody.Part content_image, RequestBody user_id, RequestBody content){
+        return api.createPostWithImage(content_image,user_id,content);
+    }
+
 }

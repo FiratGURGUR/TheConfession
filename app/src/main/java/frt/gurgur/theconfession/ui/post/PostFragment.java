@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -46,9 +47,12 @@ import frt.gurgur.theconfession.databinding.FragmentPostBinding;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.ui.main.MainFragment;
-import frt.gurgur.theconfession.ui.user.register.RegisterViewModel;
 import frt.gurgur.theconfession.util.PreferencesHelper;
+import frt.gurgur.theconfession.util.Utils;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 
 import static android.app.Activity.RESULT_OK;
 
@@ -56,7 +60,7 @@ import static android.app.Activity.RESULT_OK;
 public class PostFragment extends BaseFragment implements View.OnClickListener {
     FragmentPostBinding binding;
     public static final String FRAGMENT_TAG = "PostFragment";
-
+    File file;
     @Inject
     ViewModelFactory vmFactory;
     PostViewModel vm;
@@ -73,6 +77,10 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     ImageView ivSelected;
     @BindView(R.id.ivChooseImage)
     ImageView ivChooseImage;
+    @BindView(R.id.btnImageCancel)
+    ImageView btnImageCancel;
+    @BindView(R.id.imageLayout)
+    ConstraintLayout imageLayout;
 
     public PostFragment() {
         // Required empty public constructor
@@ -106,6 +114,7 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
 
         observeCreatePost();
+        observeCreatePostWithImage();
         this.observeLoadStatus();
         this.observerErrorStatus();
     }
@@ -113,11 +122,23 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     public void initView() {
         buttonSharePost.setOnClickListener(this);
         ivChooseImage.setOnClickListener(this);
+        btnImageCancel.setOnClickListener(this);
+        imageLayout.setVisibility(View.GONE);
         binding.setUser(preferencesHelper.getUser());
     }
 
     public void observeCreatePost() {
         vm.getResponse().observe(this, new Observer<APIResponseModel>() {
+            @Override
+            public void onChanged(APIResponseModel apiResponseModel) {
+                //shared preferences kaydetme yapma
+                onError(getContext(), apiResponseModel.getMessage());
+            }
+        });
+    }
+
+    public void observeCreatePostWithImage() {
+        vm.getResponseWithImage().observe(this, new Observer<APIResponseModel>() {
             @Override
             public void onChanged(APIResponseModel apiResponseModel) {
                 //shared preferences kaydetme yapma
@@ -157,26 +178,9 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    public void startChoose() {
-        if (ActivityCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    2000);
-        } else {
-            openGallery();
-        }
-    }
 
-    public void openGallery() {
-       /* Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        cameraIntent.setType("image/*");
-        if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(cameraIntent, 1000);
-        }*/
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto, 1);
-    }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -184,11 +188,11 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 Uri returnUri = data.getData();
-
                 try {
                     Bitmap bitmapImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), returnUri);
                     UUID uuid = UUID.randomUUID();
-                    saveee(bitmapImage, uuid.toString());
+                    Utils.saveee(bitmapImage, uuid.toString());
+                    imageLayout.setVisibility(View.VISIBLE);
                     ivSelected.setImageBitmap(bitmapImage);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -206,36 +210,51 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonSharePost:
-                PostRequestModel model = new PostRequestModel(etContent.getText().toString().trim(), preferencesHelper.getUserId());
-                vm.createPost(model);
+
+                if (file == null) {
+                    shareNormlaPost();
+                } else {
+                    sharePostWithImage();
+                }
                 break;
             case R.id.ivChooseImage:
                 startChoose();
                 break;
+            case R.id.btnImageCancel:
+                file = null;
+                imageLayout.setVisibility(View.GONE);
+                break;
         }
     }
 
-
-    File file;
-
-    public void saveee(Bitmap bmp, String name) throws IOException {
-        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/firat";
-        File dir = new File(file_path);
-
-        if (!dir.exists())
-            dir.mkdirs();
-        File file = new File(dir, name + ".png");
-        FileOutputStream fOut = new FileOutputStream(file);
-
-        bmp.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-        fOut.flush();
-        fOut.close();
-        this.file = file;
+    public void startChoose() {
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    2000);
+        } else {
+            openGallery();
+        }
     }
 
+    public void openGallery() {
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto, 1);
+    }
 
+    public void shareNormlaPost() {
+        PostRequestModel model = new PostRequestModel(etContent.getText().toString().trim(), preferencesHelper.getUserId());
+        vm.createPost(model);
+    }
 
+    public void sharePostWithImage(){
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("content_image", file.getName(), requestBody);
+        RequestBody content = RequestBody.create(MediaType.parse("text/plain"), etContent.getText().toString().trim());
+        RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(preferencesHelper.getUserId()));
+        vm.createPostWithImage(fileToUpload, userId, content);
+    }
 
 
 }

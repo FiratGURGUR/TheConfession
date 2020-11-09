@@ -1,17 +1,23 @@
 package frt.gurgur.theconfession.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 
 import androidx.annotation.IntRange;
 
 import com.google.firestore.v1.Cursor;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class  Utils {
 
@@ -52,6 +58,23 @@ public class  Utils {
             }
         }
         return result;
+    }
+
+
+    public static File saveee(Bitmap bmp, String name) throws IOException {
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/TheConfession";
+        File dir = new File(file_path);
+
+        if (!dir.exists())
+            dir.mkdirs();
+        File file = new File(dir, name + ".png");
+        FileOutputStream fOut = new FileOutputStream(file);
+
+        bmp.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+        fOut.flush();
+        fOut.close();
+        return file;
     }
 
 }
