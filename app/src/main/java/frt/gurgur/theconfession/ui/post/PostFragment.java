@@ -191,7 +191,7 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
                 try {
                     Bitmap bitmapImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), returnUri);
                     UUID uuid = UUID.randomUUID();
-                    Utils.saveee(bitmapImage, uuid.toString());
+                    file = Utils.saveee(bitmapImage, uuid.toString());
                     imageLayout.setVisibility(View.VISIBLE);
                     ivSelected.setImageBitmap(bitmapImage);
                 } catch (IOException e) {

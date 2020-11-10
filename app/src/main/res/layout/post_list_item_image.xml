@@ -65,6 +65,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:textColor="@color/black"
+                android:visibility="@{post.content.length()>0 ? View.VISIBLE : View.GONE }"
                 android:text="@{post.content}" />
 
 
@@ -118,6 +119,7 @@
     </LinearLayout>
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="post"
             type="frt.gurgur.theconfession.model.main.DataItem" />
