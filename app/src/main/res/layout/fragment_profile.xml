@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <import type="android.view.View"/>
         <variable
             name="singleUser"
             type="frt.gurgur.theconfession.model.user.User" />
@@ -147,6 +148,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{singleUser.about}"
                 android:lineSpacingMultiplier="0.7"
+                android:visibility="@{singleUser.about.length()>0 ? View.VISIBLE : View.GONE }"
                 android:fontFamily="@font/hind_medium"/>
 
             <Button

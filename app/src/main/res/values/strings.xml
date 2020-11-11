@@ -21,4 +21,13 @@
     <string name="profile_following_count">Takip</string>
     <string name="profile_edit">Profili Düzenle</string>
 
+    <string name="what_do_you_think">Ne düşünüyorsun?</string>
+    <string name="bsm_item1">Ayarlar</string>
+    <string name="bsm_item2">Yeni İnsanlar Keşfet</string>
+    <string name="bsm_item3">İstatistikler</string>
+    <string name="bsm_item4">Uygulama Hakkında</string>
+    <string name="bsm_item5">Çıkış</string>
+
+    <string name="share">Paylaş</string>
+
 </resources>

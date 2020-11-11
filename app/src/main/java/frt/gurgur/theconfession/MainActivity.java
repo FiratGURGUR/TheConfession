@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.moos.navigation.BottomBarLayout;
 import com.moos.navigation.BottomTabView;
@@ -30,6 +31,7 @@ import dagger.android.AndroidInjection;
 import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 
 import frt.gurgur.theconfession.ui.post.PostFragment;
+import frt.gurgur.theconfession.ui.user.profile.ProfileBottomSheetFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.ui.user.register.RegisterFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
@@ -39,7 +41,7 @@ import frt.gurgur.theconfession.ui.user.login.LoginFragment;
 
 import static frt.gurgur.theconfession.util.PreferencesHelper.EMPTY_USER_ID;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener , ProfileBottomSheetFragment.ItemClickListener {
     private BottomTabView tab_home, tab_explore,tab_share_post,tab_favorities, tab_profile;
 
     private ActivityMainBinding binding;
@@ -62,7 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView txAppName;
     @BindView(R.id.bottom_bar)
     BottomBarLayout bottomBarLayout;
-
+    @BindView(R.id.btnProfileDetail)
+    ImageButton btnProfileDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,22 +153,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             bottomBarLayout.setVisibility(View.GONE);
             btnBack.setVisibility(View.GONE);
             txAppName.setText(getString(R.string.app_name));
+            btnProfileDetail.setVisibility(View.GONE);
         }else if (fragment instanceof RegisterFragment){
             bottomBarLayout.setVisibility(View.GONE);
             btnBack.setVisibility(View.GONE);
             txAppName.setText(getString(R.string.app_name));
+            btnProfileDetail.setVisibility(View.GONE);
         }else if(fragment instanceof MainFragment){
             bottomBarLayout.setVisibility(View.VISIBLE);
             btnBack.setVisibility(View.GONE);
             txAppName.setText(getString(R.string.app_name));
+            btnProfileDetail.setVisibility(View.GONE);
         }else if (fragment instanceof ProfileFragment){
             bottomBarLayout.setVisibility(View.VISIBLE);
             btnBack.setVisibility(View.GONE);
             txAppName.setText(preferencesHelper.getUserUsername());
+            btnProfileDetail.setVisibility(View.VISIBLE);
         }else if (fragment instanceof PostFragment){
             bottomBarLayout.setVisibility(View.VISIBLE);
             btnBack.setVisibility(View.GONE);
             txAppName.setText(getString(R.string.app_name));
+            btnProfileDetail.setVisibility(View.GONE);
         }
     }
 
@@ -346,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toolbar.setContentInsetsAbsolute(0, 0);
         btnBack.setOnClickListener(this);
+        btnProfileDetail.setOnClickListener(this);
         btnBack.setVisibility(View.GONE);
 
 
@@ -368,9 +377,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnBack:
                     this.onBackPressed();
                 break;
+            case R.id.btnProfileDetail:
+                showBottomSheet();
+                break;
 
         }
     }
 
+
+    public void showBottomSheet() {
+        ProfileBottomSheetFragment addPhotoBottomDialogFragment =
+                ProfileBottomSheetFragment.newInstance();
+        addPhotoBottomDialogFragment.show(getSupportFragmentManager(),
+                ProfileBottomSheetFragment.TAG);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        if (position==4){
+            preferencesHelper.clear();
+            popAllFragments();
+            pushFragment(new LoginFragment(),LoginFragment.FRAGMENT_TAG);
+        }
+    }
 
 }

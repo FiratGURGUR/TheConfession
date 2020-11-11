@@ -34,7 +34,7 @@ import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.Utils;
 
 
-public class ProfileFragment extends BaseFragment implements View.OnClickListener {
+public class ProfileFragment extends BaseFragment implements View.OnClickListener{
     //ViewDataBinding binding;
     FragmentProfileBinding binding;
     public static final String FRAGMENT_TAG = "ProfileFragment";
@@ -139,4 +139,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     public void onClick(View v) {
 
     }
+
+
 }
