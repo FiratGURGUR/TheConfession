@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
+import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.Utils;
 
@@ -48,6 +50,12 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
+    @BindView(R.id.layoutFollowerCount)
+    LinearLayout layoutFollowerCount;
+
+    @BindView(R.id.layoutFollowingCount)
+    LinearLayout layoutFollowingCount;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -92,6 +100,9 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             RequestUser user = new RequestUser(userId);
             vm.getSingleUser(user);
         }
+        layoutFollowerCount.setOnClickListener(this);
+        layoutFollowingCount.setOnClickListener(this);
+
     }
 
     public void observeSingleUser(){
@@ -137,7 +148,14 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.layoutFollowerCount:
+                mainActivity.pushFragment(new FollowFragment(),FollowFragment.FRAGMENT_TAG);
+                break;
+            case R.id.layoutFollowingCount:
+                mainActivity.pushFragment(new FollowFragment(),FollowFragment.FRAGMENT_TAG);
+                break;
+        }
     }
 
 

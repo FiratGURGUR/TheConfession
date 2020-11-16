@@ -33,6 +33,7 @@ import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 import frt.gurgur.theconfession.ui.post.PostFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileBottomSheetFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
+import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
 import frt.gurgur.theconfession.ui.user.register.RegisterFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
@@ -172,6 +173,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (fragment instanceof PostFragment){
             bottomBarLayout.setVisibility(View.VISIBLE);
             btnBack.setVisibility(View.GONE);
+            txAppName.setText(getString(R.string.app_name));
+            btnProfileDetail.setVisibility(View.GONE);
+        }else if (fragment instanceof FollowFragment){
+            bottomBarLayout.setVisibility(View.VISIBLE);
+            btnBack.setVisibility(View.VISIBLE);
             txAppName.setText(getString(R.string.app_name));
             btnProfileDetail.setVisibility(View.GONE);
         }

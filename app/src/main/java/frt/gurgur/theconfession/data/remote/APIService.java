@@ -45,4 +45,9 @@ public interface APIService {
             @Part("user_id") RequestBody user_id,
             @Part("content") RequestBody content);
 
+    @GET(Constants.GET_FOLLOWERS_LIST)
+    Single<PostResponse> followersList(@Query("user_id") int user_id);
+
+    @GET(Constants.GET_FOLLOWING_LIST)
+    Single<PostResponse> followingsList(@Query("user_id") int user_id);
 }

@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -39,20 +38,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/layoutSharedCount"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_horizontal"
+                        android:clickable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
@@ -73,10 +77,13 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layoutFollowerCount"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_horizontal"
+                        android:clickable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
@@ -97,10 +104,13 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layoutFollowingCount"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_horizontal"
+                        android:clickable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
