@@ -10,6 +10,7 @@ import frt.gurgur.theconfession.ui.main.MainViewModel;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
 import frt.gurgur.theconfession.ui.user.profile.ProfileViewModel;
+import frt.gurgur.theconfession.ui.user.profile.followpage.FollowViewModel;
 import frt.gurgur.theconfession.ui.user.register.RegisterViewModel;
 
 @Module
@@ -43,4 +44,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PostViewModel.class)
     public abstract ViewModel bindPostViewModel(PostViewModel postViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FollowViewModel.class)
+    public abstract ViewModel bindFollowViewModel(FollowViewModel followViewModel);
+
 }

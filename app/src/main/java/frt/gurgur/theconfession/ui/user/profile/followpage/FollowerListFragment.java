@@ -7,13 +7,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +29,20 @@ import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentFollowBinding;
 import frt.gurgur.theconfession.databinding.FragmentFollowerListBinding;
+import frt.gurgur.theconfession.model.main.DataItem;
+import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
+import frt.gurgur.theconfession.model.user.follow.FollowsItem;
+import frt.gurgur.theconfession.ui.ViewModelFactory;
+import frt.gurgur.theconfession.ui.adapters.FollowerAdapter;
+import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
+import frt.gurgur.theconfession.ui.base.BaseFragment;
+import frt.gurgur.theconfession.ui.main.MainViewModel;
 import frt.gurgur.theconfession.ui.user.profile.ProfileViewModel;
+import frt.gurgur.theconfession.util.PreferencesHelper;
+import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 
 
-public class FollowerListFragment extends Fragment {
+public class FollowerListFragment extends BaseFragment {
 
     FragmentFollowerListBinding binding;
     public static final String FRAGMENT_TAG = "FollowerListFragment";
@@ -33,6 +51,14 @@ public class FollowerListFragment extends Fragment {
     ProgressBar progressBar;
     @BindView(R.id.followerRv)
     RecyclerView rvFolloweList;
+    @Inject
+    ViewModelFactory vmFactory;
+    FollowViewModel vm;
+    @Inject
+    PreferencesHelper preferencesHelper;
+    GridLayoutManager gridLayoutManager;
+    int userId;
+    private List<FollowsItem> list = new ArrayList<>();
 
     public FollowerListFragment() {
         // Required empty public constructor
@@ -61,12 +87,62 @@ public class FollowerListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
+        vm = ViewModelProviders.of(this, vmFactory).get(FollowViewModel.class);
+        userId = preferencesHelper.getUserId();
+
+        vm.getFollowerList(userId);
+        observeFollowerList();
+        observeLoadStatus();
+        observerErrorStatus();
+        setRecyclerView();
+
     }
 
-    public void initView(){
 
+    public void observeFollowerList(){
+        vm.getResponse().observe(this, new Observer<List<FollowsItem>>() {
+            @Override
+            public void onChanged(List<FollowsItem> followsItems) {
+                if (followsItems != null) {
+                    list.addAll(followsItems);
+                    rvFolloweList.getAdapter().notifyDataSetChanged();
+                }
+            }
+        });
     }
 
+    @Override
+    protected void observerErrorStatus() {
+        vm.getErrorStatus().observe(this,
+                error -> {
+                    if (error != null) {
+                        onError(getContext(), error);
+                        showProgressBar(false);
+                        Log.e("fff", "Error");
+                    }
+                });
+    }
 
+    @Override
+    protected void observeLoadStatus() {
+        vm.getLoadingStatus().observe(
+                this,
+                isLoading -> showProgressBar(isLoading)
+        );
+    }
+    private void showProgressBar(boolean isVisible) {
+        if (isVisible)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
+    }
+    private void setRecyclerView() {
+        gridLayoutManager = new GridLayoutManager(getContext(),1);
+        FollowerAdapter adapter = new FollowerAdapter(list);
+        rvFolloweList.setLayoutManager(gridLayoutManager);
+        rvFolloweList.setHasFixedSize(true);
+        rvFolloweList.setAdapter(adapter);
+        rvFolloweList.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+
+    }
 }

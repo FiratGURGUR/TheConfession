@@ -4,6 +4,7 @@ package frt.gurgur.theconfession.data.remote;
 import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.model.user.UserResponse;
+import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.util.Constants;
 import io.reactivex.Single;
@@ -46,8 +47,8 @@ public interface APIService {
             @Part("content") RequestBody content);
 
     @GET(Constants.GET_FOLLOWERS_LIST)
-    Single<PostResponse> followersList(@Query("user_id") int user_id);
+    Single<FollowListResponse> followersList(@Query("user_id") int user_id);
 
     @GET(Constants.GET_FOLLOWING_LIST)
-    Single<PostResponse> followingsList(@Query("user_id") int user_id);
+    Single<FollowListResponse> followingsList(@Query("user_id") int user_id);
 }
