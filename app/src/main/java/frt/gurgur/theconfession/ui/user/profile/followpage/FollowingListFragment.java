@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,11 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
-import frt.gurgur.theconfession.databinding.FragmentFollowerListBinding;
 import frt.gurgur.theconfession.databinding.FragmentFollowingListBinding;
 import frt.gurgur.theconfession.model.user.follow.FollowsItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
-import frt.gurgur.theconfession.ui.adapters.FollowerAdapter;
+import frt.gurgur.theconfession.ui.adapters.FollowListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
@@ -131,7 +129,7 @@ public class FollowingListFragment extends BaseFragment {
     }
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
-        FollowerAdapter adapter = new FollowerAdapter(list);
+        FollowListAdapter adapter = new FollowListAdapter(list);
         rvFollowingList.setLayoutManager(gridLayoutManager);
         rvFollowingList.setHasFixedSize(true);
         rvFollowingList.setAdapter(adapter);

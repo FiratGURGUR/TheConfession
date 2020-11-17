@@ -37,6 +37,7 @@ public class FollowFragment extends BaseFragment {
     ViewPager viewPager;
 
     public TabAdapter adapter;
+    public String whichClick="";
 
     public FollowFragment() {
         // Required empty public constructor
@@ -71,12 +72,23 @@ public class FollowFragment extends BaseFragment {
     }
 
     public void initView(){
+        whichClick =  getArguments().getString("whichClick");
+
         adapter = new TabAdapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(new FollowerListFragment(), "Takipçiler");
         adapter.addFragment(new FollowingListFragment(), "Takip");
 
+
         viewPager.setAdapter(adapter);
+
+
+        if (whichClick.equals("follower")){
+            viewPager.setCurrentItem(0);
+        }else {
+            viewPager.setCurrentItem(1);
+        }
         tabLayout.setupWithViewPager(viewPager);
+
     }
 
 }

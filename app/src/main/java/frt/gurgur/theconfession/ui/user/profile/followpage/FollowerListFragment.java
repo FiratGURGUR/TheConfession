@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,17 +26,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
-import frt.gurgur.theconfession.databinding.FragmentFollowBinding;
 import frt.gurgur.theconfession.databinding.FragmentFollowerListBinding;
-import frt.gurgur.theconfession.model.main.DataItem;
-import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowsItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
-import frt.gurgur.theconfession.ui.adapters.FollowerAdapter;
-import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
+import frt.gurgur.theconfession.ui.adapters.FollowListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.ui.main.MainViewModel;
-import frt.gurgur.theconfession.ui.user.profile.ProfileViewModel;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 
@@ -50,7 +43,7 @@ public class FollowerListFragment extends BaseFragment {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.followerRv)
-    RecyclerView rvFolloweList;
+    RecyclerView rvFollowerList;
     @Inject
     ViewModelFactory vmFactory;
     FollowViewModel vm;
@@ -105,7 +98,7 @@ public class FollowerListFragment extends BaseFragment {
             public void onChanged(List<FollowsItem> followsItems) {
                 if (followsItems != null) {
                     list.addAll(followsItems);
-                    rvFolloweList.getAdapter().notifyDataSetChanged();
+                    rvFollowerList.getAdapter().notifyDataSetChanged();
                 }
             }
         });
@@ -138,11 +131,11 @@ public class FollowerListFragment extends BaseFragment {
     }
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
-        FollowerAdapter adapter = new FollowerAdapter(list);
-        rvFolloweList.setLayoutManager(gridLayoutManager);
-        rvFolloweList.setHasFixedSize(true);
-        rvFolloweList.setAdapter(adapter);
-        rvFolloweList.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        FollowListAdapter adapter = new FollowListAdapter(list);
+        rvFollowerList.setLayoutManager(gridLayoutManager);
+        rvFollowerList.setHasFixedSize(true);
+        rvFollowerList.setAdapter(adapter);
+        rvFollowerList.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
 
     }
 }

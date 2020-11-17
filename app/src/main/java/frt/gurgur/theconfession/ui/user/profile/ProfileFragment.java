@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -150,12 +152,20 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.layoutFollowerCount:
-                mainActivity.pushFragment(new FollowFragment(),FollowFragment.FRAGMENT_TAG);
+                openFollowFragment("follower");
                 break;
             case R.id.layoutFollowingCount:
-                mainActivity.pushFragment(new FollowFragment(),FollowFragment.FRAGMENT_TAG);
+                openFollowFragment("following");
                 break;
         }
+    }
+
+    public void openFollowFragment(String click){
+        Bundle arguments = new Bundle();
+        arguments.putString("whichClick", click);
+        FollowFragment followFragment = new FollowFragment();
+        followFragment.setArguments(arguments);
+        mainActivity.pushFragment(followFragment,FollowFragment.FRAGMENT_TAG);
     }
 
 
