@@ -5,6 +5,8 @@ import dagger.android.ContributesAndroidInjector;
 import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.post.PostFragment;
 import frt.gurgur.theconfession.ui.user.login.LoginFragment;
+import frt.gurgur.theconfession.ui.user.profile.UserFavoritedPostListFragment;
+import frt.gurgur.theconfession.ui.user.profile.UserPostListFragment;
 import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.ui.user.profile.followpage.FollowerListFragment;
@@ -38,4 +40,9 @@ public abstract class FragmentBuildersModule {
     @ContributesAndroidInjector(modules = {ViewModelModule.class})
     abstract FollowingListFragment followingListFragment();
 
+    @ContributesAndroidInjector(modules = {ViewModelModule.class})
+    abstract UserPostListFragment userPostListFragment();
+
+    @ContributesAndroidInjector(modules = {ViewModelModule.class})
+    abstract UserFavoritedPostListFragment userFavoritedPostListFragment();
 }

@@ -355,6 +355,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void initView(){
+
+        int[] ary = new int[]{8,2,7,3,1,2,3,2,7,3,5,2,0,5,6,9};
+
+        singleee(forMeloo(ary));
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -406,5 +411,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             pushFragment(new LoginFragment(),LoginFragment.FRAGMENT_TAG);
         }
     }
+
+
+    public static int[] forMeloo(int[] mArray){
+        int[] newArray = new int[16];
+        for (int i=0; i<mArray.length;i++){
+
+            if (i%2==0){
+                if (mArray[i]*2>9){
+                    newArray[i] = (mArray[i]*2)-9;
+                }else{
+                    newArray[i]=mArray[i]*2;
+                }
+            }else{
+                newArray[i]=mArray[i];
+            }
+        }
+        return newArray;
+    }
+
+    public void singleee(int[] mArray){
+        for (int i=0; i<mArray.length;i++){
+            Log.e("melo", i + "->" + mArray[i]);
+        }
+    }
+
+
+
 
 }

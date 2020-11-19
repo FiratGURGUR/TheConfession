@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.Serializable;
 
@@ -30,10 +33,13 @@ import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentProfileBinding;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
+import frt.gurgur.theconfession.ui.adapters.TabAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
 import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
+import frt.gurgur.theconfession.ui.user.profile.followpage.FollowerListFragment;
+import frt.gurgur.theconfession.ui.user.profile.followpage.FollowingListFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.Utils;
 
@@ -58,6 +64,12 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     @BindView(R.id.layoutFollowingCount)
     LinearLayout layoutFollowingCount;
+
+    @BindView(R.id.tablayoutProfile)
+    TabLayout tabLayout;
+    @BindView(R.id.viewpagerProfile)
+    ViewPager viewPager;
+    public TabAdapter adapter;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -105,6 +117,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         layoutFollowerCount.setOnClickListener(this);
         layoutFollowingCount.setOnClickListener(this);
 
+        adapter = new TabAdapter(getActivity().getSupportFragmentManager());
+        adapter.addFragment(new UserPostListFragment(), "Gönderiler");
+        adapter.addFragment(new UserFavoritedPostListFragment(), "Beğeniler");
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     public void observeSingleUser(){
