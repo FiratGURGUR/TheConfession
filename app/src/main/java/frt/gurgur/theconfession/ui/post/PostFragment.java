@@ -196,7 +196,6 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
                     ivSelected.setImageBitmap(bitmapImage);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(mainActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             }

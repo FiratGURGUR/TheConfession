@@ -35,6 +35,7 @@ import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.TabAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
+import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
 import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
@@ -182,7 +183,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         arguments.putString("whichClick", click);
         FollowFragment followFragment = new FollowFragment();
         followFragment.setArguments(arguments);
-        mainActivity.pushFragment(followFragment,FollowFragment.FRAGMENT_TAG);
+        multipleStackNavigator.start(followFragment);
     }
 
 

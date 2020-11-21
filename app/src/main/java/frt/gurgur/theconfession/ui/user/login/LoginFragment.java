@@ -105,7 +105,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 if (user != null) {
                   //shared a kaydet
                   preferencesHelper.setUser("user",user);
-                  mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
+                    multipleStackNavigator.start(new MainFragment());
+
                 }
             }
         });
@@ -157,7 +158,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 doLogin();
                 break;
             case R.id.goRegister:
-                mainActivity.pushFragment(new RegisterFragment(), RegisterFragment.FRAGMENT_TAG);
+                multipleStackNavigator.start(new RegisterFragment());
                 break;
         }
     }

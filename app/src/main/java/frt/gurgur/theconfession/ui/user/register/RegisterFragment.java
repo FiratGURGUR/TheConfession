@@ -97,7 +97,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onChanged(APIResponseModel apiResponseModel) {
                 //shared preferences kaydetme yapma
-                mainActivity.pushFragment(new MainFragment(),MainFragment.FRAGMENT_TAG);
+
+                multipleStackNavigator.start(new MainFragment());
             }
         });
     }
