@@ -13,6 +13,8 @@ public class Constants {
     public static final String POST_CREATE_WITH_IMAGE = "post/upload.php";
     public static final String GET_FOLLOWERS_LIST = "follow/getFollowers.php";
     public static final String GET_FOLLOWING_LIST = "follow/getFollowings.php";
+    public static final String POST_FAV = "favori/addFavori.php";
+
 
 
 
@@ -25,5 +27,11 @@ public class Constants {
         String lastName  = fullName.substring(idx + 1);
         return GENERATED_PHOTO_URL + firstName + "+" + lastName;
     }
+
+
+
+    public static final int FAV_DELETED = 100;
+    public static final int FAV_ADDED = 110;
+    public static final int FAV_ERROR = 0;
 
 }

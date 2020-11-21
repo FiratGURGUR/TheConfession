@@ -8,6 +8,8 @@ public abstract class BaseViewModel extends ViewModel {
     protected final MutableLiveData<Boolean> loadingStatus = new  MutableLiveData<>();
     protected final MutableLiveData<String> onError = new  MutableLiveData<>();
 
+
+
     public MutableLiveData<Boolean> getLoadingStatus() {
         return loadingStatus;
     }
@@ -15,5 +17,7 @@ public abstract class BaseViewModel extends ViewModel {
     public MutableLiveData<String> getErrorStatus() {
         return onError;
     }
+
+
 }
 

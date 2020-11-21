@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import javax.inject.Inject;
 
-import frt.gurgur.theconfession.data.remote.APIResponseModel;
+import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
-import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.util.ErrorUtils;

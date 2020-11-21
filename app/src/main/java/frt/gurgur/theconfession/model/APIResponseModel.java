@@ -1,4 +1,4 @@
-package frt.gurgur.theconfession.data.remote;
+package frt.gurgur.theconfession.model;
 
 import com.google.gson.annotations.SerializedName;
 

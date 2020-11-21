@@ -2,9 +2,8 @@ package frt.gurgur.theconfession.data.remote.repo;
 
 import javax.inject.Inject;
 
-import frt.gurgur.theconfession.data.remote.APIResponseModel;
+import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.APIService;
-import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
 import frt.gurgur.theconfession.ui.user.RequestUser;

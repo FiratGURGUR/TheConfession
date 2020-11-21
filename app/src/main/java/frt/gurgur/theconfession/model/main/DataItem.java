@@ -87,4 +87,12 @@ public class DataItem{
 	public String getUsername(){
 		return username;
 	}
+
+	public void setSelfLikes(String selfLikes) {
+		this.selfLikes = selfLikes;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
 }

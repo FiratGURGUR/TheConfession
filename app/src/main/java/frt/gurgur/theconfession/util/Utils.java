@@ -1,6 +1,7 @@
 package frt.gurgur.theconfession.util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -75,6 +76,10 @@ public class  Utils {
         fOut.flush();
         fOut.close();
         return file;
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
 }

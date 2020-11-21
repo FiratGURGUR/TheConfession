@@ -119,4 +119,7 @@ dependencies {
     implementation 'com.github.trendyol:medusa:0.8.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    implementation 'com.airbnb.android:lottie:3.5.0'
+
+
 }

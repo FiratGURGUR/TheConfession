@@ -7,12 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import javax.inject.Inject;
 
-import frt.gurgur.theconfession.data.remote.APIResponseModel;
+import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.repo.PostRepo;
-import frt.gurgur.theconfession.data.remote.repo.UserRepo;
+import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
-import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.util.ErrorUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -28,6 +27,7 @@ public class PostViewModel  extends BaseViewModel {
     private CompositeDisposable disposable;
     private MutableLiveData<APIResponseModel> response = new MutableLiveData<>();
     private MutableLiveData<APIResponseModel> responseWithImage = new MutableLiveData<>();
+    private MutableLiveData<APIResponseModel> responseFavPost = new MutableLiveData<>();
 
     @Inject
     public PostViewModel(PostRepo postRepo) {
@@ -41,6 +41,9 @@ public class PostViewModel  extends BaseViewModel {
     public LiveData<APIResponseModel> getResponseWithImage() {
         return responseWithImage;
     }
+    public LiveData<APIResponseModel> getResponseFavPost() {
+        return responseFavPost;
+    }
 
     public void createPost(PostRequestModel postRequestModel) {
 
@@ -53,6 +56,27 @@ public class PostViewModel  extends BaseViewModel {
                     @Override
                     public void onSuccess(APIResponseModel resultsResponse) {
                         response.setValue(resultsResponse);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        onError.setValue(ErrorUtils.showError(t).getMessage());
+                    }
+                }));
+    }
+
+
+    public void favPost(PostFavRequestModel postFavRequestModel) {
+
+        disposable.add(postRepo.favPost(postFavRequestModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> loadingStatus.setValue(true))
+                .doAfterTerminate(() -> loadingStatus.setValue(false))
+                .subscribeWith(new DisposableSingleObserver<APIResponseModel>() {
+                    @Override
+                    public void onSuccess(APIResponseModel resultsResponse) {
+                        responseFavPost.setValue(resultsResponse);
                     }
 
                     @Override

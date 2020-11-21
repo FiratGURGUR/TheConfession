@@ -33,22 +33,30 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
+import frt.gurgur.theconfession.model.APIResponseModel;
+import frt.gurgur.theconfession.model.post.PostFavRequestModel;
+import frt.gurgur.theconfession.ui.adapters.FavClickListener;
 import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
+import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
+import frt.gurgur.theconfession.util.Utils;
 
 import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
+import static frt.gurgur.theconfession.util.Constants.FAV_ADDED;
+import static frt.gurgur.theconfession.util.Constants.FAV_DELETED;
+import static frt.gurgur.theconfession.util.Constants.FAV_ERROR;
 
 public class MainFragment extends BaseFragment {
     ViewDataBinding binding;
-    public static final String FRAGMENT_TAG = "MainFragment";
     @Inject
     ViewModelFactory vmFactory;
     MainViewModel vm;
+    PostViewModel post_vm;
 
     @BindView(R.id.rcyclePostList)
     RecyclerView recyclerView;
@@ -60,9 +68,9 @@ public class MainFragment extends BaseFragment {
     PreferencesHelper preferencesHelper;
 
     GridLayoutManager gridLayoutManager;
-    public int page = 1;
-    int userId;
 
+    int userId;
+    public int page = 1;
     public static final int PAGE_SIZE = 10;
     public boolean isLastPage = false;
 
@@ -102,6 +110,7 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
+        post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
 
         userId = preferencesHelper.getUserId();
 
@@ -110,6 +119,9 @@ public class MainFragment extends BaseFragment {
         observeLoadStatus();
         observerErrorStatus();
         setRecyclerView();
+
+        Log.e("boyut" , Utils.dpToPx(20)+ "");
+
     }
 
     @Override
@@ -158,9 +170,10 @@ public class MainFragment extends BaseFragment {
             }
         });
     }
+    PostListAdapter adapter;
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
-        PostListAdapter adapter = new PostListAdapter(postList,imageClick);
+        adapter = new PostListAdapter(postList,imageClick,favClickListener);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -207,6 +220,26 @@ public class MainFragment extends BaseFragment {
             }).show();
         }
     };
+
+    FavClickListener favClickListener = new FavClickListener() {
+        @Override
+        public void favClick(DataItem item) {
+            PostFavRequestModel favModel = new PostFavRequestModel(item.getId(),userId);
+            post_vm.favPost(favModel);
+
+            if (item.getSelfLikes().equals("false") ){
+                item.setLikeCount(item.getLikeCount()+1);
+                item.setSelfLikes("true");
+            }else{
+                item.setLikeCount(item.getLikeCount()-1);
+                item.setSelfLikes("false");
+            }
+            recyclerView.getAdapter().notifyDataSetChanged();
+
+
+        }
+    };
+
 
 
 }

@@ -1,7 +1,9 @@
 package frt.gurgur.theconfession.data.remote;
 
 
+import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.model.main.PostResponse;
+import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
@@ -51,4 +53,8 @@ public interface APIService {
 
     @GET(Constants.GET_FOLLOWING_LIST)
     Single<FollowListResponse> followingsList(@Query("user_id") int user_id);
+
+    @POST(Constants.POST_FAV)
+    Single<APIResponseModel> favPost(@Body PostFavRequestModel postFavRequestModel);
+
 }

@@ -7,10 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import frt.gurgur.theconfession.data.remote.APIResponseModel;
-import frt.gurgur.theconfession.data.remote.repo.PostRepo;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
-import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowsItem;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
