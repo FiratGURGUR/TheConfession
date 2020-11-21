@@ -59,11 +59,11 @@ import static frt.gurgur.theconfession.util.PreferencesHelper.EMPTY_USER_ID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , ProfileBottomSheetFragment.ItemClickListener, Navigator.NavigatorListener {
 
-    @BindView(R.id.navigation)
-    BottomNavigationView navigation;
+
 
     public MultipleStackNavigator multipleStackNavigator;
     private ActivityMainBinding binding;
+
     private List<Function0<Fragment>> rootsFragmentProvider = Arrays.asList(
             new Function0<Fragment>() {
                 @Override
@@ -95,8 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return new ProfileFragment();
                 }
             }
-
-    );
+            );
 
     @Inject
     PreferencesHelper preferencesHelper;
@@ -108,6 +107,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView txAppName;
     @BindView(R.id.btnProfileDetail)
     ImageButton btnProfileDetail;
+    @BindView(R.id.navigation)
+    BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,18 +227,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (tabIndex) {
             case 0:
                 navigation.setSelectedItemId(R.id.navigation_home);
+                btnProfileDetail.setVisibility(View.GONE);
                 break;
             case 1:
                 navigation.setSelectedItemId(R.id.navigation_explore);
+                btnProfileDetail.setVisibility(View.GONE);
                 break;
             case 2:
                 navigation.setSelectedItemId(R.id.navigation_post);
+                btnProfileDetail.setVisibility(View.GONE);
                 break;
             case 3:
                 navigation.setSelectedItemId(R.id.navigation_fav);
+                btnProfileDetail.setVisibility(View.GONE);
                 break;
             case 4:
                 navigation.setSelectedItemId(R.id.navigation_profile);
+                btnProfileDetail.setVisibility(View.VISIBLE);
                 break;
         }
     }

@@ -63,6 +63,9 @@ public class MainFragment extends BaseFragment {
     public int page = 1;
     int userId;
 
+    public static final int PAGE_SIZE = 10;
+    public boolean isLastPage = false;
+
 
 
     private List<DataItem> postList = new ArrayList<>();
@@ -117,6 +120,7 @@ public class MainFragment extends BaseFragment {
                         onError(getContext(), error);
                         showProgressBar(false);
                         Log.e("fff", "Error");
+                        isLastPage = true;
                     }
                 });
     }
@@ -141,6 +145,15 @@ public class MainFragment extends BaseFragment {
                 if (dataItems != null) {
                     postList.addAll(dataItems);
                     recyclerView.getAdapter().notifyDataSetChanged();
+
+                    if (dataItems.size() >= PAGE_SIZE){
+                        //addfooter
+                        Log.e("fff","addfooter");
+                    }else {
+                        isLastPage = true;
+                        Log.e("fff","isLastPage True");
+                    }
+
                 }
             }
         });
@@ -152,9 +165,34 @@ public class MainFragment extends BaseFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
     }
 
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int visibleItemCount = gridLayoutManager.getChildCount();
+            int totalItemCount = gridLayoutManager.getItemCount();
+            int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+
+            if (!vm.getLoadingStatus().getValue() && !isLastPage) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                        && totalItemCount >= PAGE_SIZE) {
+                    page=page+1;
+                   vm.loadPostList(page,userId);
+                   Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
+                }
+            }
+        }
+    };
 
     OnItemClickListener imageClick = new OnItemClickListener() {
         @Override

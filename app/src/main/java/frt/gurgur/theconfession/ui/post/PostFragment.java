@@ -59,7 +59,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class PostFragment extends BaseFragment implements View.OnClickListener {
     FragmentPostBinding binding;
-    public static final String FRAGMENT_TAG = "PostFragment";
     File file;
     @Inject
     ViewModelFactory vmFactory;
@@ -131,8 +130,9 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         vm.getResponse().observe(this, new Observer<APIResponseModel>() {
             @Override
             public void onChanged(APIResponseModel apiResponseModel) {
-                //shared preferences kaydetme yapma
                 onError(getContext(), apiResponseModel.getMessage());
+                afterSharePost();
+
             }
         });
     }
@@ -215,6 +215,8 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
                 } else {
                     sharePostWithImage();
                 }
+
+
                 break;
             case R.id.ivChooseImage:
                 startChoose();
@@ -255,5 +257,12 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         vm.createPostWithImage(fileToUpload, userId, content);
     }
 
+
+    public void afterSharePost(){
+        file=null;
+        imageLayout.setVisibility(View.GONE);
+        etContent.setText("");
+        multipleStackNavigator.goBack();
+    }
 
 }
