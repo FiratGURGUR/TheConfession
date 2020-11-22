@@ -1,9 +1,12 @@
 package frt.gurgur.theconfession.ui.adapters;
 
+import android.view.View;
 import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.BindingAdapter;
+
+import com.like.LikeButton;
 import com.squareup.picasso.Picasso;
 import frt.gurgur.theconfession.R;
 
@@ -20,27 +23,18 @@ public class CustomBindingAdapter {
     }
 
 
-    @BindingAdapter("likeStatus")
-    public static void setLike(ImageView view, String like) {
+    @BindingAdapter("animationFav")
+    public static void setFav(LikeButton view, String like) {
+        view.setUnlikeDrawableRes(R.drawable.m_fav);
+        view.setLikeDrawableRes(R.drawable.heart_on);
         if (like.equals("true")) {
-
-            Picasso.get().load(R.drawable.m_fav_true).into(view, new com.squareup.picasso.Callback() {
-                @Override
-                public void onSuccess() {
-                    DrawableCompat.setTint(view.getDrawable(), view.getContext().getResources().getColor(R.color.red_active));
-                }
-
-                @Override
-                public void onError(Exception e) {
-
-                }
-
-            });
-
-
+            //dolu
+            view.setLiked(true);
         } else {
-            Picasso.get().load(R.drawable.m_fav).into(view);
+           //boş
+            view.setLiked(false);
         }
     }
+
 
 }

@@ -79,15 +79,20 @@
                 android:paddingRight="5dp"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/ivFavori"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    app:likeStatus="@{post.selfLikes}" />
+
+                    <com.like.LikeButton
+                        app:icon_type="heart"
+                        app:icon_size="17dp"
+                        android:id="@+id/star_button"
+                        android:layout_width="25dp"
+                        app:animationFav="@{post.selfLikes}"
+                        android:layout_height="25dp"/>
+
+
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="25dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:textColor="@color/black"

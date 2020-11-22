@@ -12,6 +12,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+
 import java.util.List;
 
 import frt.gurgur.theconfession.R;
@@ -84,15 +87,20 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
         public MyViewHolder(PostListItemBinding binding) {
             super(binding.getRoot());
             this.bindingText = binding;
-            bindingText.ivFavori.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
+            bindingText.starButton.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
                     favClickListener.favClick(binding.getPost());
                 }
 
-
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    favClickListener.favClick(binding.getPost());
+                }
             });
+
+
 
         }
 
@@ -105,9 +113,14 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
                     listener.onItemClick(binding.getPost());
                 }
             });
-            bindingImage.ivFavori.setOnClickListener(new View.OnClickListener() {
+            bindingImage.starButton.setOnLikeListener(new OnLikeListener() {
                 @Override
-                public void onClick(View v) {
+                public void liked(LikeButton likeButton) {
+                    favClickListener.favClick(binding.getPost());
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
                     favClickListener.favClick(binding.getPost());
                 }
             });
