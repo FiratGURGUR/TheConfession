@@ -2,6 +2,7 @@ package frt.gurgur.theconfession.data.remote;
 
 
 import frt.gurgur.theconfession.model.APIResponseModel;
+import frt.gurgur.theconfession.model.comment.CommentResponse;
 import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
@@ -56,5 +57,8 @@ public interface APIService {
 
     @POST(Constants.POST_FAV)
     Single<APIResponseModel> favPost(@Body PostFavRequestModel postFavRequestModel);
+
+    @GET(Constants.COMMENT_LIST)
+    Single<CommentResponse> commentList(@Query("page") int page , @Query("post_id") int post_id);
 
 }

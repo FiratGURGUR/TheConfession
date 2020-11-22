@@ -41,6 +41,7 @@ import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 import frt.gurgur.theconfession.ui.explore.ExploreFragment;
 import frt.gurgur.theconfession.ui.favorities.FavoritiesFragment;
 import frt.gurgur.theconfession.ui.post.PostFragment;
+import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileBottomSheetFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.ui.user.profile.UserFavoritedPostListFragment;
@@ -165,14 +166,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnBack:
-                    this.onBackPressed();
+                multipleStackNavigator.goBack();
                 break;
             case R.id.btnProfileDetail:
                 showBottomSheet();

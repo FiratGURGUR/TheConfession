@@ -80,14 +80,13 @@
                 android:layout_height="wrap_content">
 
 
-                    <com.like.LikeButton
-                        app:icon_type="heart"
-                        app:icon_size="17dp"
-                        android:id="@+id/star_button"
-                        android:layout_width="25dp"
-                        app:animationFav="@{post.selfLikes}"
-                        android:layout_height="25dp"/>
-
+                <com.like.LikeButton
+                    android:id="@+id/star_button"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:animationFav="@{post.selfLikes}"
+                    app:icon_size="17dp"
+                    app:icon_type="heart" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -98,6 +97,13 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/hind_medium"
                     android:text="@{Integer.toString(post.likeCount)}" />
+
+                <ImageView
+                    android:id="@+id/commentButton"
+                    android:layout_width="20dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    app:srcCompat="@drawable/m_comment" />
 
             </LinearLayout>
 

@@ -30,15 +30,17 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
     private List<DataItem> postList;
     OnItemClickListener listener;
     FavClickListener favClickListener;
+    CommentClickListener commentClickListener;
 
     public PostListAdapter() {
 
     }
 
-    public PostListAdapter(List<DataItem> postList, OnItemClickListener listener, FavClickListener favClickListener) {
+    public PostListAdapter(List<DataItem> postList, OnItemClickListener listener, FavClickListener favClickListener,CommentClickListener commentClickListener) {
         this.postList = postList;
         this.listener = listener;
         this.favClickListener = favClickListener;
+        this.commentClickListener = commentClickListener;
     }
 
     @NonNull
@@ -100,6 +102,13 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
                 }
             });
 
+            bindingText.commentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commentClickListener.openCommentClick(binding.getPost().getId());
+                }
+            });
+
 
 
         }
@@ -124,6 +133,13 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
                     favClickListener.favClick(binding.getPost());
                 }
             });
+
+            bindingImage.commentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commentClickListener.openCommentClick(binding.getPost().getId());
+                }
+            });
         }
 
 
@@ -137,4 +153,8 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
             return TYPE_PHOTO;
         }
     }
+
+
+
+
 }
