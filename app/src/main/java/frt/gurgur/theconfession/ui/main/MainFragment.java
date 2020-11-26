@@ -32,6 +32,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
+import frt.gurgur.theconfession.MainActivity;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.PostListItemBinding;
 import frt.gurgur.theconfession.model.APIResponseModel;
@@ -56,6 +57,7 @@ import static frt.gurgur.theconfession.util.Constants.FAV_DELETED;
 import static frt.gurgur.theconfession.util.Constants.FAV_ERROR;
 
 public class MainFragment extends BaseFragment {
+
     ViewDataBinding binding;
     @Inject
     ViewModelFactory vmFactory;
@@ -98,7 +100,6 @@ public class MainFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

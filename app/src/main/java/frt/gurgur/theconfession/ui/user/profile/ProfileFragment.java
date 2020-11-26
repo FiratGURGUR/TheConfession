@@ -31,6 +31,7 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentProfileBinding;
+import frt.gurgur.theconfession.databinding.FragmentProfileCopyBinding;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.TabAdapter;
@@ -47,8 +48,8 @@ import frt.gurgur.theconfession.util.Utils;
 
 public class ProfileFragment extends BaseFragment implements View.OnClickListener{
     //ViewDataBinding binding;
-    FragmentProfileBinding binding;
-    public static final String FRAGMENT_TAG = "ProfileFragment";
+    FragmentProfileCopyBinding binding;
+
 
     @Inject
     ViewModelFactory vmFactory;
@@ -90,7 +91,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_copy, container, false);
         View view = binding.getRoot();
         ButterKnife.bind(this, view);
         return view;

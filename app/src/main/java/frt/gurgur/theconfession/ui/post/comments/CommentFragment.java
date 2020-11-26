@@ -13,11 +13,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +34,9 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentCommentBinding;
+import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.model.comment.CommentsItem;
+import frt.gurgur.theconfession.model.comment.CreateCommentRequestModel;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.CommentListAdapter;
@@ -47,16 +54,21 @@ public class CommentFragment extends BaseFragment {
     @Inject
     ViewModelFactory vmFactory;
     MainViewModel vm;
-
+    @Inject
+    PreferencesHelper preferencesHelper;
+    @BindView(R.id.etComment)
+    EditText etComment;
+    @BindView(R.id.tvShare)
+    TextView tvShare;
     @BindView(R.id.rcycleCommentList)
     RecyclerView recyclerView;
-
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
     GridLayoutManager gridLayoutManager;
 
     int postId = 0;
+    int userId = 0;
     public int page = 1;
     public static final int PAGE_SIZE = 10;
     public boolean isLastPage = false;
@@ -78,6 +90,10 @@ public class CommentFragment extends BaseFragment {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
 
+        vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
+        postId = getArguments().getInt("post_id");
+        userId = preferencesHelper.getUserId();
+
     }
 
     @Override
@@ -93,14 +109,66 @@ public class CommentFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
-        postId = getArguments().getInt("post_id");
+        initView();
+
         vm.loadCommentList(page,postId);
         observeCommentList();
         observeLoadStatus();
         observerErrorStatus();
         setRecyclerView();
+        observeAddComment();
+    }
 
+    public void initView(){
+
+        etComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length()==0){
+                    tvShare.setAlpha(0.45f);
+                    tvShare.setEnabled(false);
+                }else {
+                    tvShare.setAlpha(1);
+                    tvShare.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        tvShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateCommentRequestModel requestModel = new CreateCommentRequestModel(etComment.getText().toString().trim(),userId,postId);
+                vm.AddComment(requestModel);
+            }
+        });
+    }
+
+    public void observeAddComment(){
+        vm.getAddCommentResponse().observe(this, new Observer<APIResponseModel>() {
+            @Override
+            public void onChanged(APIResponseModel apiResponseModel) {
+                if (apiResponseModel.getStatus()==1){
+                    //başarılı
+
+                    CommentsItem newComment = new CommentsItem();
+                    newComment.setComment(etComment.getText().toString().trim());
+                    newComment.setFullname(preferencesHelper.getUserFullname());
+                    newComment.setPhoto(preferencesHelper.getPhoto());
+                    commentList.add(newComment);
+                    etComment.setText("");
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
 

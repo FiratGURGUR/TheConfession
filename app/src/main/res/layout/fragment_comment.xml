@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data></data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,48 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcycleCommentList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_weight="1"
+            android:layout_height="wrap_content" >
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:background="@drawable/post_edit_background">
+
+            <EditText
+                android:id="@+id/etComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:ems="10"
+                android:layout_weight="1"
+                android:hint="Yorum yaz..."
+                android:inputType="textMultiLine"
+                android:paddingLeft="10dp"
+                android:maxLines="5"
+                android:scrollbars="vertical"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:id="@+id/tvShare"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Paylaş"
+                android:alpha="0.45"
+                android:enabled="false"
+                android:gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/hind_bold"
+                android:textColor="@color/blue_active"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
 
         <ProgressBar
             android:id="@+id/progressBar"

@@ -13,7 +13,7 @@ import frt.gurgur.theconfession.ui.base.BaseFragment;
 
 
 public class FavoritiesFragment extends BaseFragment {
-    public static final String FRAGMENT_TAG = "FavoritiesFragment";
+
 
     public FavoritiesFragment() {
         // Required empty public constructor

@@ -1,7 +1,10 @@
 package frt.gurgur.theconfession.ui.adapters;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.BindingAdapter;
@@ -35,6 +38,8 @@ public class CustomBindingAdapter {
             view.setLiked(false);
         }
     }
+
+
 
 
 }

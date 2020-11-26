@@ -59,4 +59,36 @@ public class CommentsItem{
 	public String getUsername(){
 		return username;
 	}
+
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

@@ -25,6 +25,8 @@ import com.trendyol.medusalib.navigator.Navigator;
 import com.trendyol.medusalib.navigator.NavigatorConfiguration;
 import com.trendyol.medusalib.navigator.transaction.NavigatorTransaction;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
 
 
+
     }
 
 
@@ -137,7 +140,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 null);
         multipleStackNavigator.initialize(savedInstanceState);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
+
 
 
 
@@ -163,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             multipleStackNavigator.start(new LoginFragment());
         }
+
+
 
 
 
@@ -197,9 +204,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
+
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
                     multipleStackNavigator.switchTab(0);
@@ -216,14 +228,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.navigation_profile:
                     multipleStackNavigator.switchTab(4);
                     return true;
-
             }
+
+
             return false;
         }
     };
 
     @Override
     public void onTabChanged(int tabIndex) {
+
         switch (tabIndex) {
             case 0:
                 navigation.setSelectedItemId(R.id.navigation_home);
@@ -246,7 +260,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 btnProfileDetail.setVisibility(View.VISIBLE);
                 break;
         }
+
     }
+
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -256,6 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onBackPressed();
         }
     }
+
 
 
 }
