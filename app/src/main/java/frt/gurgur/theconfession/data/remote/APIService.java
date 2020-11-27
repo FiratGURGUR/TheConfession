@@ -68,5 +68,6 @@ public interface APIService {
     @GET(Constants.SHARED_POST_LIST)
     Single<PostResponse> sharedPostList(@Query("page") int page , @Query("user_id") int user_id);
 
-
+    @GET(Constants.FAVORITED_POST_LIST)
+    Single<PostResponse> favoritedPostList(@Query("page") int page , @Query("user_id") int user_id);
 }

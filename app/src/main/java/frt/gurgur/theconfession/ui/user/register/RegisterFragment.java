@@ -108,7 +108,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error);
+                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
                         Log.e("fff", "Error");
                     }

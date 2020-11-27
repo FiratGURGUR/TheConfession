@@ -73,6 +73,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     ViewPager viewPager;
     public TabAdapter adapter;
 
+    public int userId;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -107,12 +109,9 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void initView(){
-        if (Utils.getConnectionType(getContext()) == Utils.NO_CONNECTION){
-            //bilgileri shared dan getir
-            binding.setSingleUser(preferencesHelper.getUser());
-        }else {
+        userId = getArguments().getInt("userId");
+        if (Utils.getConnectionType(getContext()) != Utils.NO_CONNECTION){
             //bilgileri api den al
-            int userId =  preferencesHelper.getUserId();
             RequestUser user = new RequestUser(userId);
             vm.getSingleUser(user);
         }
@@ -120,8 +119,16 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         layoutFollowingCount.setOnClickListener(this);
 
         adapter = new TabAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new UserPostListFragment(), "Gönderiler");
-        adapter.addFragment(new UserFavoritedPostListFragment(), "Beğeniler");
+
+        UserPostListFragment userPostListFragment = new UserPostListFragment();
+        UserFavoritedPostListFragment userFavoritedPostListFragment = new UserFavoritedPostListFragment();
+        Bundle arguments = new Bundle();
+        arguments.putInt("userId", userId);
+        userPostListFragment.setArguments(arguments);
+        userFavoritedPostListFragment.setArguments(arguments);
+
+        adapter.addFragment(userPostListFragment, "Gönderiler");
+        adapter.addFragment(userFavoritedPostListFragment, "Beğeniler");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -151,7 +158,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error);
+                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
                         Log.e("fff", "Error");
                     }

@@ -29,6 +29,7 @@ public class MainViewModel extends BaseViewModel {
     private CompositeDisposable disposable;
     private MutableLiveData<List<DataItem>> postList = new MutableLiveData<>();
     private MutableLiveData<List<DataItem>> sharedPostList = new MutableLiveData<>();
+    private MutableLiveData<List<DataItem>> favoritedPostList = new MutableLiveData<>();
     private MutableLiveData<List<CommentsItem>> commentList = new MutableLiveData<>();
     private MutableLiveData<APIResponseModel> responseAddComment = new MutableLiveData<>();
 
@@ -43,6 +44,9 @@ public class MainViewModel extends BaseViewModel {
     }
     public LiveData<List<DataItem>> getSharedPostList() {
         return sharedPostList;
+    }
+    public LiveData<List<DataItem>> getFavoritedPostList() {
+        return favoritedPostList;
     }
     public LiveData<List<CommentsItem>> getCommentList() {
         return commentList;
@@ -71,7 +75,7 @@ public class MainViewModel extends BaseViewModel {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        onError.setValue(ErrorUtils.showError(e).getMessage());
+                        onError.setValue(ErrorUtils.showError(e));
                     }
                 }));
 
@@ -94,7 +98,30 @@ public class MainViewModel extends BaseViewModel {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        onError.setValue(ErrorUtils.showError(e).getMessage());
+                        onError.setValue(ErrorUtils.showError(e));
+                    }
+                }));
+
+    }
+
+    public void loadFavoritedPostList(int page,int user_id) {
+
+        disposable.add(mainRepo.getFavoritedPostList(page,user_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> loadingStatus.setValue(true))
+                .doAfterTerminate(() -> loadingStatus.setValue(false))
+                .subscribeWith(new DisposableSingleObserver<PostResponse>() {
+
+                    @Override
+                    public void onSuccess(PostResponse resultsResponse) {
+                        favoritedPostList.setValue(resultsResponse.getData());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        onError.setValue(ErrorUtils.showError(e));
                     }
                 }));
 
@@ -115,7 +142,7 @@ public class MainViewModel extends BaseViewModel {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        onError.setValue(ErrorUtils.showError(e).getMessage());
+                        onError.setValue(ErrorUtils.showError(e));
                     }
                 }));
 
@@ -135,7 +162,7 @@ public class MainViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        onError.setValue(ErrorUtils.showError(e).getMessage());
+                        onError.setValue(ErrorUtils.showError(e));
                     }
                 }));
     }

@@ -3,10 +3,13 @@ package frt.gurgur.theconfession.ui.base;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import frt.gurgur.theconfession.util.APIError;
+
 public abstract class BaseViewModel extends ViewModel {
 
     protected final MutableLiveData<Boolean> loadingStatus = new  MutableLiveData<>();
-    protected final MutableLiveData<String> onError = new  MutableLiveData<>();
+    protected final MutableLiveData<APIError> onError = new  MutableLiveData<>();
+
 
 
 
@@ -14,10 +17,9 @@ public abstract class BaseViewModel extends ViewModel {
         return loadingStatus;
     }
 
-    public MutableLiveData<String> getErrorStatus() {
+    public MutableLiveData<APIError> getErrorStatus() {
         return onError;
     }
-
 
 }
 

@@ -109,7 +109,7 @@ public class FollowerListFragment extends BaseFragment {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error);
+                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
                         Log.e("fff", "Error");
                     }

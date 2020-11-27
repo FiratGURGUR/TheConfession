@@ -50,7 +50,7 @@ import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 import frt.gurgur.theconfession.util.Utils;
 
 
-public class UserPostListFragment extends BaseFragment {
+public class UserPostListFragment extends BaseFragment{
 
     FragmentUserPostListBinding binding;
     @Inject
@@ -64,8 +64,6 @@ public class UserPostListFragment extends BaseFragment {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    @Inject
-    PreferencesHelper preferencesHelper;
 
     GridLayoutManager gridLayoutManager;
 
@@ -107,7 +105,7 @@ public class UserPostListFragment extends BaseFragment {
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
         post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
 
-        userId = preferencesHelper.getUserId();
+        userId = getArguments().getInt("userId");
 
         vm.loadSharedPostList(page,userId);
         observePostList();
@@ -124,7 +122,7 @@ public class UserPostListFragment extends BaseFragment {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error);
+                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
                         Log.e("fff", "Error");
                         isLastPage = true;
@@ -247,10 +245,6 @@ public class UserPostListFragment extends BaseFragment {
             multipleStackNavigator.start(commentFragment);
         }
     };
-
-
-
-
 
 
 

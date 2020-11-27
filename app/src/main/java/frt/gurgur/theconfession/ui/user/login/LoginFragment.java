@@ -117,7 +117,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error);
+                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
                         Log.e("fff", "Error");
                     }

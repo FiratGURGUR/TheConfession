@@ -60,7 +60,7 @@ public class PostViewModel  extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        onError.setValue(ErrorUtils.showError(t).getMessage());
+                        onError.setValue(ErrorUtils.showError(t));
                     }
                 }));
     }
@@ -81,7 +81,7 @@ public class PostViewModel  extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        onError.setValue(ErrorUtils.showError(t).getMessage());
+                        onError.setValue(ErrorUtils.showError(t));
                     }
                 }));
     }
@@ -101,7 +101,7 @@ public class PostViewModel  extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        onError.setValue(ErrorUtils.showError(t).getMessage());
+                        onError.setValue(ErrorUtils.showError(t));
                     }
                 }));
     }

@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +65,9 @@ public class CommentFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.tvNoCommentWarning)
+    TextView tvNoCommentWarning;
+
 
     GridLayoutManager gridLayoutManager;
 
@@ -89,6 +93,8 @@ public class CommentFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
+
+
 
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
         postId = getArguments().getInt("post_id");
@@ -117,6 +123,7 @@ public class CommentFragment extends BaseFragment {
         observerErrorStatus();
         setRecyclerView();
         observeAddComment();
+
     }
 
     public void initView(){
@@ -177,13 +184,22 @@ public class CommentFragment extends BaseFragment {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error);
+
                         showProgressBar(false);
-                        Log.e("fff", "Error");
                         isLastPage = true;
+                        if (error.getStatus()==404){
+                            recyclerView.setVisibility(View.GONE);
+                            tvNoCommentWarning.setVisibility(View.VISIBLE);
+                        }else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            tvNoCommentWarning.setVisibility(View.GONE);
+                        }
+
                     }
                 });
     }
+
+
 
     @Override
     protected void observeLoadStatus() {

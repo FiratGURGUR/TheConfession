@@ -27,6 +27,10 @@ public class MainRepo {
         return api.sharedPostList(page,user_id);
     }
 
+    public Single<PostResponse> getFavoritedPostList(int page, int user_id){
+        return api.favoritedPostList(page,user_id);
+    }
+
     public Single<CommentResponse> getCommentList(int page, int post_id){
         return api.commentList(page,post_id);
     }

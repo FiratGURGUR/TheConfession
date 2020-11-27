@@ -49,4 +49,5 @@ public abstract class BaseFragment extends DaggerFragment {
     public MainActivity getMainActivity() {
         return mActivity;
     }
+
 }

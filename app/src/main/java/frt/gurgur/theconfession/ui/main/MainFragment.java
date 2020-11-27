@@ -114,18 +114,17 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
         post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
-
         userId = preferencesHelper.getUserId();
-
         vm.loadPostList(page,userId);
         observePostList();
         observeLoadStatus();
         observerErrorStatus();
         setRecyclerView();
 
-        Log.e("boyut" , Utils.dpToPx(20)+ "");
+
 
     }
 
@@ -134,7 +133,7 @@ public class MainFragment extends BaseFragment {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error);
+                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
                         Log.e("fff", "Error");
                         isLastPage = true;

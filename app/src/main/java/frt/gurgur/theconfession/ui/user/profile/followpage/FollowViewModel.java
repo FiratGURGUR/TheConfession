@@ -52,7 +52,7 @@ public class FollowViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        onError.setValue(ErrorUtils.showError(e).getMessage());
+                        onError.setValue(ErrorUtils.showError(e));
                     }
                 }));
     }
@@ -71,7 +71,7 @@ public class FollowViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        onError.setValue(ErrorUtils.showError(e).getMessage());
+                        onError.setValue(ErrorUtils.showError(e));
                     }
                 }));
     }

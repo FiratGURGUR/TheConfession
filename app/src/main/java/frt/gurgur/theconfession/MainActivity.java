@@ -1,6 +1,7 @@
 package frt.gurgur.theconfession;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
@@ -95,23 +96,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Function0<Fragment>() {
                 @Override
                 public Fragment invoke() {
-                    return new ProfileFragment();
+
+                    ProfileFragment fragment = new ProfileFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putInt("userId", preferencesHelper.getUserId());
+                    fragment.setArguments(arguments);
+
+
+                    return fragment;
                 }
             }
             );
 
     @Inject
     PreferencesHelper preferencesHelper;
+
     @BindView(R.id.toolbar_lay)
     View toolbar_lay;
+    @BindView(R.id.toolbar)
+    public Toolbar toolbar;
     @BindView(R.id.btnBack)
     ImageButton btnBack;
-    @BindView(R.id.txAppName)
-    TextView txAppName;
+
     @BindView(R.id.btnProfileDetail)
     ImageButton btnProfileDetail;
+
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,9 +136,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initNavMenu(savedInstanceState);
         initView();
-
-
-
     }
 
 
@@ -144,23 +154,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
-
-
-
-
-    public void initView(){
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
+    public void initToolbar(){
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toolbar.setContentInsetsAbsolute(0, 0);
         btnBack.setOnClickListener(this);
         btnProfileDetail.setOnClickListener(this);
         btnBack.setVisibility(View.GONE);
+    }
 
-
+    public void initView(){
+        initToolbar();
 
         int userId = preferencesHelper.getUserId();
         if (userId != EMPTY_USER_ID){
@@ -168,10 +172,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             multipleStackNavigator.start(new LoginFragment());
         }
-
-
-
-
 
     }
 
