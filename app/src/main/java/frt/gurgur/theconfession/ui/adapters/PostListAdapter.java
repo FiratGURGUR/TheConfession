@@ -31,16 +31,18 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
     OnItemClickListener listener;
     FavClickListener favClickListener;
     CommentClickListener commentClickListener;
+    ProfileClickListener profileClickListener;
 
     public PostListAdapter() {
 
     }
 
-    public PostListAdapter(List<DataItem> postList, OnItemClickListener listener, FavClickListener favClickListener,CommentClickListener commentClickListener) {
+    public PostListAdapter(List<DataItem> postList, OnItemClickListener listener, FavClickListener favClickListener,CommentClickListener commentClickListener,ProfileClickListener profileClickListener) {
         this.postList = postList;
         this.listener = listener;
         this.favClickListener = favClickListener;
         this.commentClickListener = commentClickListener;
+        this.profileClickListener = profileClickListener;
     }
 
     @NonNull
@@ -109,6 +111,12 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
                 }
             });
 
+            bindingText.ivUserPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    profileClickListener.showProfile(binding.getPost().getUserId());
+                }
+            });
 
 
         }
@@ -138,6 +146,13 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
                 @Override
                 public void onClick(View v) {
                     commentClickListener.openCommentClick(binding.getPost().getId());
+                }
+            });
+
+            bindingImage.ivUserPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    profileClickListener.showProfile(binding.getPost().getUserId());
                 }
             });
         }

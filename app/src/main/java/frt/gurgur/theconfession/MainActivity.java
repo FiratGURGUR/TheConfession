@@ -84,12 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Function0<Fragment>() {
                 @Override
                 public Fragment invoke() {
-                    return new PostFragment();
-                }
-            },
-            new Function0<Fragment>() {
-                @Override
-                public Fragment invoke() {
                     return new FavoritiesFragment();
                 }
             },
@@ -116,13 +110,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
     @BindView(R.id.btnBack)
-    ImageButton btnBack;
-
+    public ImageButton btnBack;
     @BindView(R.id.btnProfileDetail)
     ImageButton btnProfileDetail;
 
     @BindView(R.id.navigation)
-    BottomNavigationView navigation;
+    public BottomNavigationView navigation;
 
 
 
@@ -219,14 +212,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.navigation_explore:
                     multipleStackNavigator.switchTab(1);
                     return true;
-                case R.id.navigation_post:
+                case R.id.navigation_fav:
                     multipleStackNavigator.switchTab(2);
                     return true;
-                case R.id.navigation_fav:
-                    multipleStackNavigator.switchTab(3);
-                    return true;
                 case R.id.navigation_profile:
-                    multipleStackNavigator.switchTab(4);
+                    multipleStackNavigator.switchTab(3);
                     return true;
             }
 
@@ -240,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (tabIndex) {
             case 0:
+
                 navigation.setSelectedItemId(R.id.navigation_home);
                 btnProfileDetail.setVisibility(View.GONE);
                 break;
@@ -247,21 +238,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 navigation.setSelectedItemId(R.id.navigation_explore);
                 btnProfileDetail.setVisibility(View.GONE);
                 break;
+
             case 2:
-                navigation.setSelectedItemId(R.id.navigation_post);
-                btnProfileDetail.setVisibility(View.GONE);
-                break;
-            case 3:
                 navigation.setSelectedItemId(R.id.navigation_fav);
                 btnProfileDetail.setVisibility(View.GONE);
                 break;
-            case 4:
+            case 3:
                 navigation.setSelectedItemId(R.id.navigation_profile);
                 btnProfileDetail.setVisibility(View.VISIBLE);
                 break;
         }
-
     }
+
+
+
 
 
 

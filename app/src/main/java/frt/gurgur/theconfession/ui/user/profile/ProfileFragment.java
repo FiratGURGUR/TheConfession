@@ -16,10 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.Serializable;
@@ -35,6 +37,7 @@ import frt.gurgur.theconfession.databinding.FragmentProfileCopyBinding;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.TabAdapter;
+import frt.gurgur.theconfession.ui.adapters.ViewPagerAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
@@ -67,11 +70,20 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     @BindView(R.id.layoutFollowingCount)
     LinearLayout layoutFollowingCount;
 
+    @BindView(R.id.layoutSharedCount)
+    LinearLayout layoutSharedCount;
+
     @BindView(R.id.tablayoutProfile)
     TabLayout tabLayout;
     @BindView(R.id.viewpagerProfile)
     ViewPager viewPager;
-    public TabAdapter adapter;
+    //public TabAdapter adapter;
+    public ViewPagerAdapter adapter;
+
+    @BindView(R.id.profileAppBar)
+    AppBarLayout profileAppBar;
+    @BindView(R.id.editProfileButton)
+    Button editProfileButton;
 
     public int userId;
 
@@ -83,11 +95,13 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
+        Log.e("sd","onAttach");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("sd","onCreate");
     }
 
     @Override
@@ -96,6 +110,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_copy, container, false);
         View view = binding.getRoot();
         ButterKnife.bind(this, view);
+        Log.e("sd","onCreateView");
         return view;
     }
 
@@ -110,6 +125,14 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     public void initView(){
         userId = getArguments().getInt("userId");
+
+        if (userId == preferencesHelper.getUserId()){
+            //benim profilimse
+            editProfileButton.setVisibility(View.VISIBLE);
+        }else {
+            editProfileButton.setVisibility(View.GONE);
+        }
+
         if (Utils.getConnectionType(getContext()) != Utils.NO_CONNECTION){
             //bilgileri api den al
             RequestUser user = new RequestUser(userId);
@@ -117,8 +140,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         }
         layoutFollowerCount.setOnClickListener(this);
         layoutFollowingCount.setOnClickListener(this);
+        layoutSharedCount.setOnClickListener(this);
 
-        adapter = new TabAdapter(getActivity().getSupportFragmentManager());
+       //adapter = new TabAdapter(getActivity().getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
+
 
         UserPostListFragment userPostListFragment = new UserPostListFragment();
         UserFavoritedPostListFragment userFavoritedPostListFragment = new UserFavoritedPostListFragment();
@@ -127,11 +153,18 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         userPostListFragment.setArguments(arguments);
         userFavoritedPostListFragment.setArguments(arguments);
 
-        adapter.addFragment(userPostListFragment, "Gönderiler");
-        adapter.addFragment(userFavoritedPostListFragment, "Beğeniler");
+        adapter.addFrag(userPostListFragment, "Gönderiler");
+        adapter.addFrag(userFavoritedPostListFragment, "Beğeniler");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+
+
+
+
     }
+
+
 
     public void observeSingleUser(){
       vm.getUser().observe(this, new Observer<UserResponse>() {
@@ -182,6 +215,9 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.layoutFollowingCount:
                 openFollowFragment("following");
+                break;
+            case R.id.layoutSharedCount:
+                profileAppBar.setExpanded(false);
                 break;
         }
     }

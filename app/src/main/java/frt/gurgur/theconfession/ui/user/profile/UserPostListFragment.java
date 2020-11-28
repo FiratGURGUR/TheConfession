@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stfalcon.imageviewer.StfalconImageViewer;
@@ -41,6 +42,7 @@ import frt.gurgur.theconfession.ui.adapters.CommentClickListener;
 import frt.gurgur.theconfession.ui.adapters.FavClickListener;
 import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
+import frt.gurgur.theconfession.ui.adapters.ProfileClickListener;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainViewModel;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
@@ -106,14 +108,12 @@ public class UserPostListFragment extends BaseFragment{
         post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
 
         userId = getArguments().getInt("userId");
-
         vm.loadSharedPostList(page,userId);
         observePostList();
         observeLoadStatus();
         observerErrorStatus();
         setRecyclerView();
 
-        Log.e("boyut" , Utils.dpToPx(20)+ "");
 
     }
 
@@ -166,7 +166,7 @@ public class UserPostListFragment extends BaseFragment{
     PostListAdapter adapter;
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
-        adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener);
+        adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener,profileClickListener);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -246,6 +246,15 @@ public class UserPostListFragment extends BaseFragment{
         }
     };
 
-
+    ProfileClickListener profileClickListener = new ProfileClickListener() {
+        @Override
+        public void showProfile(int user_Id) {
+            Bundle arguments = new Bundle();
+            arguments.putInt("userId", user_Id);
+            ProfileFragment profileFragment = new ProfileFragment();
+            profileFragment.setArguments(arguments);
+            multipleStackNavigator.start(profileFragment);
+        }
+    };
 
 }

@@ -7,6 +7,7 @@ import frt.gurgur.theconfession.model.comment.CreateCommentRequestModel;
 import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
+import frt.gurgur.theconfession.model.post.giphy.GiphyModel;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
 import frt.gurgur.theconfession.ui.user.RequestUser;
@@ -70,4 +71,7 @@ public interface APIService {
 
     @GET(Constants.FAVORITED_POST_LIST)
     Single<PostResponse> favoritedPostList(@Query("page") int page , @Query("user_id") int user_id);
+
+    @GET(Constants.GIPHY_LIST)
+    Single<GiphyModel> giphyList(@Query("page") int page);
 }

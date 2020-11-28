@@ -2,6 +2,7 @@ package frt.gurgur.theconfession.ui.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,5 +50,24 @@ public abstract class BaseFragment extends DaggerFragment {
     public MainActivity getMainActivity() {
         return mActivity;
     }
+
+
+    public void showBackButton(boolean show){
+        if (show){
+            mActivity.btnBack.setVisibility(View.VISIBLE);
+        }else{
+            mActivity.btnBack.setVisibility(View.GONE);
+        }
+    }
+
+    public void showNavigation(boolean show){
+        if (show){
+            mActivity.navigation.setVisibility(View.VISIBLE);
+        }else{
+            mActivity.navigation.setVisibility(View.GONE);
+        }
+    }
+
+
 
 }

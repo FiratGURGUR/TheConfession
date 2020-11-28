@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.stfalcon.imageviewer.loader.ImageLoader;
 
@@ -40,8 +41,11 @@ import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.ui.adapters.CommentClickListener;
 import frt.gurgur.theconfession.ui.adapters.FavClickListener;
 import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
+import frt.gurgur.theconfession.ui.adapters.ProfileClickListener;
+import frt.gurgur.theconfession.ui.post.PostFragment;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
+import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.model.main.DataItem;
@@ -56,7 +60,7 @@ import static frt.gurgur.theconfession.util.Constants.FAV_ADDED;
 import static frt.gurgur.theconfession.util.Constants.FAV_DELETED;
 import static frt.gurgur.theconfession.util.Constants.FAV_ERROR;
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements View.OnClickListener{
 
     ViewDataBinding binding;
     @Inject
@@ -69,6 +73,9 @@ public class MainFragment extends BaseFragment {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
+    @BindView(R.id.fabPost)
+    FloatingActionButton fabPost;
 
     @Inject
     PreferencesHelper preferencesHelper;
@@ -115,6 +122,7 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initView();
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
         post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
         userId = preferencesHelper.getUserId();
@@ -124,9 +132,12 @@ public class MainFragment extends BaseFragment {
         observerErrorStatus();
         setRecyclerView();
 
-
-
     }
+
+    public void initView(){
+        fabPost.setOnClickListener(this);
+    }
+
 
     @Override
     protected void observerErrorStatus() {
@@ -177,7 +188,7 @@ public class MainFragment extends BaseFragment {
     PostListAdapter adapter;
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
-        adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener);
+        adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener,profileClickListener);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -258,5 +269,24 @@ public class MainFragment extends BaseFragment {
     };
 
 
+    ProfileClickListener profileClickListener = new ProfileClickListener() {
+        @Override
+        public void showProfile(int user_Id) {
+            Bundle arguments = new Bundle();
+            arguments.putInt("userId", user_Id);
+            ProfileFragment profileFragment = new ProfileFragment();
+            profileFragment.setArguments(arguments);
+            multipleStackNavigator.start(profileFragment);
+        }
+    };
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.fabPost:
+                multipleStackNavigator.start(new PostFragment());
+                break;
+        }
+    }
 }

@@ -9,10 +9,6 @@
         android:icon="@drawable/m_ecplore"
         />
     <item
-        android:id="@+id/navigation_post"
-        android:icon="@drawable/m_post"
-        />
-    <item
         android:id="@+id/navigation_fav"
         android:icon="@drawable/m_fav"
         />

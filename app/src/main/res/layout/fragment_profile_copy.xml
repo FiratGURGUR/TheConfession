@@ -18,6 +18,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
+            android:id="@+id/profileAppBar"
             android:layout_height="wrap_content"
             android:background="@color/white"
             >
@@ -191,7 +192,7 @@
                             android:fontFamily="@font/hind_medium"/>
 
                         <Button
-                            android:id="@+id/button"
+                            android:id="@+id/editProfileButton"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:layout_marginTop="5dp"

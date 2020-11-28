@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.BindingAdapter;
 
+import com.bumptech.glide.Glide;
 import com.like.LikeButton;
 import com.squareup.picasso.Picasso;
 import frt.gurgur.theconfession.R;
@@ -21,7 +22,10 @@ public class CustomBindingAdapter {
         if (url == null) {
             view.setImageDrawable(null);
         } else {
-            Picasso.get().load(url).into(view);
+            //Picasso.get().load(url).into(view);
+            Glide.with(view.getContext())
+                    .load(url)
+                    .into(view);
         }
     }
 

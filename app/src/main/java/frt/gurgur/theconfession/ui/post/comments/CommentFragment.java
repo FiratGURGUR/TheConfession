@@ -45,6 +45,8 @@ import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainViewModel;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
+import frt.gurgur.theconfession.util.Constants;
+import frt.gurgur.theconfession.util.Helper;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 import frt.gurgur.theconfession.util.Utils;
@@ -93,13 +95,19 @@ public class CommentFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
-
-
+        showBackButton(true);
 
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
         postId = getArguments().getInt("post_id");
         userId = preferencesHelper.getUserId();
 
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        showBackButton(false);
     }
 
     @Override
@@ -127,6 +135,18 @@ public class CommentFragment extends BaseFragment {
     }
 
     public void initView(){
+
+        Helper.keyboardVisibility(getContext(), getView(), new Constants.KeyboardVisibility() {
+            @Override
+            public void onKeyboardOpen() {
+                showNavigation(false);
+            }
+
+            @Override
+            public void onKeyboardClose() {
+                showNavigation(true);
+            }
+        });
 
         etComment.addTextChangedListener(new TextWatcher() {
             @Override

@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"
+       android:id="@+id/postRootView"
         android:orientation="vertical">
 
         <ProgressBar
@@ -25,104 +26,121 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:imageUrl="@{user.photo}" />
-
-            <EditText
-                android:id="@+id/etContent"
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:layout_weight="1"
-                android:background="@drawable/post_edit_background"
-                android:cursorVisible="true"
-                android:ems="10"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="@font/hind_light"
-                android:gravity="start|top"
-                android:hint="@string/what_do_you_think"
-                android:inputType="textMultiLine"
-                android:padding="5dp"
-                android:textColor="@color/black" />
-
-
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="7dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/imageLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/ivSelected"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:foreground="@drawable/selected_image_foreground"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <ImageView
-                android:id="@+id/btnImageCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/ivSelected"
-                app:layout_constraintTop_toTopOf="@+id/ivSelected"
-                app:srcCompat="@drawable/image_cancel_button" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right|center_vertical"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:orientation="horizontal">
-                <ImageView
-                    android:id="@+id/ivChooseImage"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:tint="@color/green_active"
-                    app:srcCompat="@drawable/addimage" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:imageUrl="@{user.photo}" />
+
+                <EditText
+                    android:id="@+id/etContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/post_edit_background"
+                    android:cursorVisible="true"
+                    android:ems="10"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/hind_light"
+                    android:gravity="start|top"
+                    android:hint="@string/what_do_you_think"
+                    android:inputType="textMultiLine"
+                    android:padding="5dp"
+                    android:textColor="@color/black" />
+
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="7dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/imageLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivSelected"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        android:foreground="@drawable/selected_image_foreground"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <ImageView
+                        android:id="@+id/btnImageCancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintEnd_toEndOf="@+id/ivSelected"
+                        app:layout_constraintTop_toTopOf="@+id/ivSelected"
+                        app:srcCompat="@drawable/image_cancel_button" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/buttonSharePost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:background="@drawable/post_button_background"
+                    android:fontFamily="@font/hind_medium"
+                    android:text="@string/share"
+                    android:alpha="0.40"
+                    android:enabled="false"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
 
-            <Button
-                android:id="@+id/buttonSharePost"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:background="@drawable/post_button_background"
-                android:fontFamily="@font/hind_medium"
-                android:text="@string/share"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/ivChooseImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:tint="@color/blue_active"
+                app:srcCompat="@drawable/addimage" />
+
+            <ImageView
+                android:id="@+id/ivChooseGif"
+                android:layout_width="30dp"
+                android:background="@drawable/dialog_border"
+                android:layout_height="30dp"
+                app:srcCompat="@drawable/post_add_gif"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
 
 
     </LinearLayout>

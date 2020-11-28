@@ -9,6 +9,7 @@ public class Constants {
     public static final String LOGIN = "user/login.php";
     public static final String REGISTER = "user/createUser.php";
     public static final String POST_LIST = "post/getPostList.php";
+    public static final String GIPHY_LIST = "post/getAllGiphy.php";
     public static final String SHARED_POST_LIST = "post/getSharedPost.php";
     public static final String FAVORITED_POST_LIST = "post/getFavoritedPost.php";
     public static final String POST_CREATE = "post/createPost.php";
@@ -25,17 +26,20 @@ public class Constants {
     public static final String GENERATED_PHOTO_URL = "https://ui-avatars.com/api/size=256?name=";
     public static final String DEFAULT_COVERPHOTO_URL = "https://timelinecovers.pro/facebook-cover/download/photography-city-lights-facebook-cover.jpg";
 
-    public static String generateUserPhoto(String fullName){
-        int idx = fullName.lastIndexOf(' ');
-        String firstName = fullName.substring(0, idx);
-        String lastName  = fullName.substring(idx + 1);
-        return GENERATED_PHOTO_URL + firstName + "+" + lastName;
-    }
+
 
 
 
     public static final int FAV_DELETED = 100;
     public static final int FAV_ADDED = 110;
     public static final int FAV_ERROR = 0;
+
+
+
+    public interface KeyboardVisibility {
+        void onKeyboardOpen();
+
+        void onKeyboardClose();
+    }
 
 }

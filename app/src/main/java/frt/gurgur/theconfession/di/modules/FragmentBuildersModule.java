@@ -7,6 +7,7 @@ import frt.gurgur.theconfession.ui.favorities.FavoritiesFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.post.PostFragment;
 import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
+import frt.gurgur.theconfession.ui.post.giphy.GiphyListFragment;
 import frt.gurgur.theconfession.ui.user.login.LoginFragment;
 import frt.gurgur.theconfession.ui.user.profile.UserFavoritedPostListFragment;
 import frt.gurgur.theconfession.ui.user.profile.UserPostListFragment;
@@ -57,4 +58,7 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector(modules = {ViewModelModule.class})
     abstract CommentFragment commentFragment();
+
+    @ContributesAndroidInjector(modules = {ViewModelModule.class})
+    abstract GiphyListFragment giphyListFragment();
 }

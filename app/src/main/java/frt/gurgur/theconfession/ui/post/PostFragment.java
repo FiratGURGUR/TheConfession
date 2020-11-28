@@ -1,6 +1,7 @@
 package frt.gurgur.theconfession.ui.post;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +44,10 @@ import frt.gurgur.theconfession.databinding.FragmentPostBinding;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
+import frt.gurgur.theconfession.ui.post.giphy.GiphyListFragment;
+import frt.gurgur.theconfession.util.Common;
+import frt.gurgur.theconfession.util.Constants;
+import frt.gurgur.theconfession.util.Helper;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.Utils;
 import okhttp3.MediaType;
@@ -70,6 +77,8 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     ImageView ivSelected;
     @BindView(R.id.ivChooseImage)
     ImageView ivChooseImage;
+    @BindView(R.id.ivChooseGif)
+    ImageView ivChooseGif;
     @BindView(R.id.btnImageCancel)
     ImageView btnImageCancel;
     @BindView(R.id.imageLayout)
@@ -83,13 +92,23 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
+
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        showBackButton(true);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        showBackButton(false);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,9 +134,47 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     public void initView() {
         buttonSharePost.setOnClickListener(this);
         ivChooseImage.setOnClickListener(this);
+        ivChooseGif.setOnClickListener(this);
         btnImageCancel.setOnClickListener(this);
         imageLayout.setVisibility(View.GONE);
         binding.setUser(preferencesHelper.getUser());
+        etContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length()==0){
+                    buttonSharePost.setEnabled(false);
+                    buttonSharePost.setAlpha(0.40f);
+                }else {
+                    buttonSharePost.setEnabled(true);
+                    buttonSharePost.setAlpha(1);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        Helper.keyboardVisibility(getContext(), getView(), new Constants.KeyboardVisibility() {
+            @Override
+            public void onKeyboardOpen() {
+                showNavigation(false);
+            }
+
+            @Override
+            public void onKeyboardClose() {
+                showNavigation(true);
+            }
+        });
+
+
     }
 
     public void observeCreatePost() {
@@ -194,9 +251,10 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
 
             }
         }
-
-
     }
+
+
+
 
 
     @Override
@@ -204,16 +262,23 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.buttonSharePost:
 
-                if (file == null) {
-                    shareNormlaPost();
-                } else {
-                    sharePostWithImage();
+                if (isShareable()){
+                    if (file == null) {
+                        shareNormlaPost();
+                    } else {
+                        sharePostWithImage();
+                    }
+                }else {
+                    //uyarı göster
+                    Common.customAlert(getContext() ,"Paylaşmak için yazı yazabilir, fotoğraf ekleyebilirsin!", "Anladım",false);
                 }
-
 
                 break;
             case R.id.ivChooseImage:
                 startChoose();
+                break;
+            case R.id.ivChooseGif:
+                multipleStackNavigator.start(new GiphyListFragment());
                 break;
             case R.id.btnImageCancel:
                 file = null;
@@ -257,6 +322,21 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         imageLayout.setVisibility(View.GONE);
         etContent.setText("");
         multipleStackNavigator.goBack();
+    }
+
+
+    public boolean isShareable(){
+        boolean summary=false;
+        if (etContent.getText().toString().trim().length()>0){
+            summary = true;
+        }else {
+            if (file == null){
+                summary = false;
+            }else {
+                summary = true;
+            }
+        }
+        return summary;
     }
 
 }

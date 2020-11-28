@@ -43,10 +43,12 @@ import frt.gurgur.theconfession.ui.adapters.CommentClickListener;
 import frt.gurgur.theconfession.ui.adapters.FavClickListener;
 import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
+import frt.gurgur.theconfession.ui.adapters.ProfileClickListener;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainViewModel;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
+import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 import frt.gurgur.theconfession.util.Utils;
@@ -185,7 +187,7 @@ public class FavoritiesFragment extends BaseFragment {
     PostListAdapter adapter;
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
-        adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener);
+        adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener,profileClickListener);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -264,5 +266,14 @@ public class FavoritiesFragment extends BaseFragment {
             multipleStackNavigator.start(commentFragment);
         }
     };
-
+    ProfileClickListener profileClickListener = new ProfileClickListener() {
+        @Override
+        public void showProfile(int user_Id) {
+            Bundle arguments = new Bundle();
+            arguments.putInt("userId", user_Id);
+            ProfileFragment profileFragment = new ProfileFragment();
+            profileFragment.setArguments(arguments);
+            multipleStackNavigator.start(profileFragment);
+        }
+    };
 }

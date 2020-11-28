@@ -30,6 +30,7 @@ import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.util.Constants;
+import frt.gurgur.theconfession.util.Helper;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener {
     ViewDataBinding binding;
@@ -139,7 +140,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         String fullname= edtFullName.getText().toString();
         String email= edtEmail.getText().toString();
         String password= edtPassword.getText().toString();
-        RequestUser user = new RequestUser(username,fullname,Constants.generateUserPhoto(fullname),password,email, Constants.DEFAULT_COVERPHOTO_URL);
+        RequestUser user = new RequestUser(username,fullname, Helper.generateUserPhoto(fullname),password,email, Constants.DEFAULT_COVERPHOTO_URL);
         vm.registerUser(user);
     }
 
