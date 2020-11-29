@@ -15,15 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.Glide;
-import com.stfalcon.imageviewer.StfalconImageViewer;
-import com.stfalcon.imageviewer.loader.ImageLoader;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 import butterknife.BindView;
@@ -31,20 +25,11 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentGiphyListBinding;
-import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.giphy.DataItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
-import frt.gurgur.theconfession.ui.adapters.CommentClickListener;
-import frt.gurgur.theconfession.ui.adapters.FavClickListener;
 import frt.gurgur.theconfession.ui.adapters.GiphyListAdapter;
-import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
-import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
-import frt.gurgur.theconfession.ui.adapters.ProfileClickListener;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainViewModel;
-import frt.gurgur.theconfession.ui.post.PostViewModel;
-import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
-import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 
 
@@ -84,12 +69,13 @@ public class GiphyListFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showBackButton(true);
+        showNavigation(false);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        showBackButton(false);
+        showNavigation(true);
     }
 
     @Override

@@ -6,12 +6,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.stfalcon.imageviewer.StfalconImageViewer;
@@ -35,21 +32,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
-import frt.gurgur.theconfession.databinding.FragmentFavoritiesBinding;
 import frt.gurgur.theconfession.databinding.FragmentUserFavoritedPostListBinding;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
-import frt.gurgur.theconfession.ui.adapters.CommentClickListener;
-import frt.gurgur.theconfession.ui.adapters.FavClickListener;
-import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
+import frt.gurgur.theconfession.ui.listeners.CommentClickListener;
+import frt.gurgur.theconfession.ui.listeners.FavClickListener;
+import frt.gurgur.theconfession.ui.listeners.OnItemClickListener;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
-import frt.gurgur.theconfession.ui.adapters.ProfileClickListener;
+import frt.gurgur.theconfession.ui.listeners.ProfileClickListener;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainViewModel;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
-import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 import frt.gurgur.theconfession.util.Utils;
 
@@ -218,7 +213,7 @@ public class UserFavoritedPostListFragment extends BaseFragment {
 
     FavClickListener favClickListener = new FavClickListener() {
         @Override
-        public void favClick(DataItem item) {
+        public void favClick(DataItem item,int pos) {
             PostFavRequestModel favModel = new PostFavRequestModel(item.getId(),userId);
             post_vm.favPost(favModel);
 

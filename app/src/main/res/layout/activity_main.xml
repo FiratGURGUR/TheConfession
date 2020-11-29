@@ -25,7 +25,7 @@
             android:id="@+id/viewLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/login_orange" />
+            android:background="@color/blue_inactive" />
 
 
 

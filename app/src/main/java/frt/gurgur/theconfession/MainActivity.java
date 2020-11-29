@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -90,13 +91,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Function0<Fragment>() {
                 @Override
                 public Fragment invoke() {
-
                     ProfileFragment fragment = new ProfileFragment();
                     Bundle arguments = new Bundle();
                     arguments.putInt("userId", preferencesHelper.getUserId());
                     fragment.setArguments(arguments);
-
-
                     return fragment;
                 }
             }
@@ -198,9 +196,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -219,8 +214,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     multipleStackNavigator.switchTab(3);
                     return true;
             }
-
-
             return false;
         }
     };
@@ -230,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (tabIndex) {
             case 0:
-
                 navigation.setSelectedItemId(R.id.navigation_home);
                 btnProfileDetail.setVisibility(View.GONE);
                 break;
@@ -238,7 +230,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 navigation.setSelectedItemId(R.id.navigation_explore);
                 btnProfileDetail.setVisibility(View.GONE);
                 break;
-
             case 2:
                 navigation.setSelectedItemId(R.id.navigation_fav);
                 btnProfileDetail.setVisibility(View.GONE);

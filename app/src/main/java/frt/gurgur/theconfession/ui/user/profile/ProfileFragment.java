@@ -17,14 +17,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.stfalcon.imageviewer.StfalconImageViewer;
+import com.stfalcon.imageviewer.loader.ImageLoader;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -85,6 +91,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     @BindView(R.id.editProfileButton)
     Button editProfileButton;
 
+    @BindView(R.id.cover_image)
+    ImageView coverImage;
+    @BindView(R.id.profile_image)
+    ImageView profileImage;
+
     public int userId;
 
     public ProfileFragment() {
@@ -125,6 +136,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     public void initView(){
         userId = getArguments().getInt("userId");
+        coverImage.setOnClickListener(this);
+        profileImage.setOnClickListener(this);
 
         if (userId == preferencesHelper.getUserId()){
             //benim profilimse
@@ -219,8 +232,26 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             case R.id.layoutSharedCount:
                 profileAppBar.setExpanded(false);
                 break;
+            case R.id.cover_image:
+                showFullScreenPhoto(vm.getUser().getValue().getUser().getCoverphoto());
+                break;
+            case R.id.profile_image:
+                showFullScreenPhoto(vm.getUser().getValue().getUser().getPhoto());
+                break;
         }
     }
+
+    public void showFullScreenPhoto(String url){
+        new StfalconImageViewer.Builder<String>(getContext(), new ArrayList<>(Arrays.asList(url)), new ImageLoader<String>() {
+            @Override
+            public void loadImage(ImageView imageView, String image) {
+                Glide.with(getContext())
+                        .load(image)
+                        .into(imageView);
+            }
+        }).show();
+    }
+
 
     public void openFollowFragment(String click){
         Bundle arguments = new Bundle();

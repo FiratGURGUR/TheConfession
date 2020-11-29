@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,12 +16,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.stfalcon.imageviewer.loader.ImageLoader;
+import com.trendyol.medusalib.navigator.Navigator;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,15 +39,15 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentFavoritiesBinding;
-import frt.gurgur.theconfession.databinding.FragmentUserPostListBinding;
+import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
-import frt.gurgur.theconfession.ui.adapters.CommentClickListener;
-import frt.gurgur.theconfession.ui.adapters.FavClickListener;
-import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
+import frt.gurgur.theconfession.ui.listeners.CommentClickListener;
+import frt.gurgur.theconfession.ui.listeners.FavClickListener;
+import frt.gurgur.theconfession.ui.listeners.OnItemClickListener;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
-import frt.gurgur.theconfession.ui.adapters.ProfileClickListener;
+import frt.gurgur.theconfession.ui.listeners.ProfileClickListener;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainViewModel;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
@@ -51,7 +55,6 @@ import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
-import frt.gurgur.theconfession.util.Utils;
 
 
 public class FavoritiesFragment extends BaseFragment {
@@ -69,6 +72,9 @@ public class FavoritiesFragment extends BaseFragment {
 
     @BindView(R.id.swipeRefreshLayout)
     PullRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.noLikedLayout)
+    LinearLayout noLikedLayout;
+
 
     @Inject
     PreferencesHelper preferencesHelper;
@@ -90,12 +96,20 @@ public class FavoritiesFragment extends BaseFragment {
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
+        Log.e("vkf","onAttach");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
+
+        vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
+        post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
+
+        userId = preferencesHelper.getUserId();
+        vm.loadFavoritedPostList(page,userId);
+        Log.e("vkf","onCreate");
     }
 
     @Override
@@ -104,22 +118,50 @@ public class FavoritiesFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorities, container, false);
         View view = binding.getRoot();
         ButterKnife.bind(this, view);
+        Log.e("vkf","onCreateView");
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("vkf","onResume");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("vkf","onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.e("vkf","onDetach");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("vkf","onStart");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("vkf","onStop");
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
-        post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
 
-        userId = preferencesHelper.getUserId();
-        vm.loadFavoritedPostList(page,userId);
         observePostList();
         observeLoadStatus();
         observerErrorStatus();
         setRecyclerView();
+
+        Log.e("vkf","onViewCreated");
 
         swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -134,6 +176,8 @@ public class FavoritiesFragment extends BaseFragment {
     public void clearList(){
         page=1;
         postList.clear();
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 
@@ -142,10 +186,18 @@ public class FavoritiesFragment extends BaseFragment {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error.getMessage());
+
                         showProgressBar(false);
                         Log.e("fff", "Error");
                         isLastPage = true;
+
+                        if (error.getStatus()==404){
+                            setWarning(true);
+                        }else {
+                            setWarning(false);
+                        }
+
+
                     }
                 });
     }
@@ -167,23 +219,32 @@ public class FavoritiesFragment extends BaseFragment {
         vm.getFavoritedPostList().observe(this, new Observer<List<DataItem>>() {
             @Override
             public void onChanged(List<DataItem> dataItems) {
+                swipeRefreshLayout.setRefreshing(false);
                 if (dataItems != null) {
-                    swipeRefreshLayout.setRefreshing(false);
+                    setWarning(false);
+
                     postList.addAll(dataItems);
                     recyclerView.getAdapter().notifyDataSetChanged();
 
                     if (dataItems.size() >= PAGE_SIZE){
-                        //addfooter
-                        Log.e("fff","addfooter");
                     }else {
                         isLastPage = true;
-                        Log.e("fff","isLastPage True");
                     }
-
                 }
             }
         });
     }
+
+    public void setWarning(boolean warning){
+        if (warning){
+            noLikedLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else{
+            recyclerView.setVisibility(View.VISIBLE);
+            noLikedLayout.setVisibility(View.GONE);
+        }
+    }
+
     PostListAdapter adapter;
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
@@ -235,22 +296,22 @@ public class FavoritiesFragment extends BaseFragment {
         }
     };
 
+
+
+
     FavClickListener favClickListener = new FavClickListener() {
         @Override
-        public void favClick(DataItem item) {
+        public void favClick(DataItem item,int pos) {
             PostFavRequestModel favModel = new PostFavRequestModel(item.getId(),userId);
             post_vm.favPost(favModel);
 
-            if (item.getSelfLikes().equals("false") ){
-                item.setLikeCount(item.getLikeCount()+1);
-                item.setSelfLikes("true");
-            }else{
-                item.setLikeCount(item.getLikeCount()-1);
-                item.setSelfLikes("false");
+            postList.remove(pos);
+            if (postList.isEmpty()){
+                setWarning(true);
+            }else {
+                setWarning(false);
             }
-
             adapter.notifyDataSetChanged();
-
 
         }
     };
@@ -276,4 +337,6 @@ public class FavoritiesFragment extends BaseFragment {
             multipleStackNavigator.start(profileFragment);
         }
     };
+
+
 }

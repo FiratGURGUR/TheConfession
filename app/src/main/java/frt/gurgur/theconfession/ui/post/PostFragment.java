@@ -44,6 +44,7 @@ import frt.gurgur.theconfession.databinding.FragmentPostBinding;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
+import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.ui.post.giphy.GiphyListFragment;
 import frt.gurgur.theconfession.util.Common;
 import frt.gurgur.theconfession.util.Constants;
@@ -92,21 +93,21 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
-
     }
-
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showBackButton(true);
+        Log.e("xxx","onCreate");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         showBackButton(false);
+        Log.e("xxx","onDestroy");
     }
 
 

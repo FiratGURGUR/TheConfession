@@ -1,11 +1,8 @@
 package frt.gurgur.theconfession.ui.adapters;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -21,6 +18,10 @@ import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.PostListItemBinding;
 import frt.gurgur.theconfession.databinding.PostListItemImageBinding;
 import frt.gurgur.theconfession.model.main.DataItem;
+import frt.gurgur.theconfession.ui.listeners.CommentClickListener;
+import frt.gurgur.theconfession.ui.listeners.FavClickListener;
+import frt.gurgur.theconfession.ui.listeners.OnItemClickListener;
+import frt.gurgur.theconfession.ui.listeners.ProfileClickListener;
 
 public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyViewHolder> {
     private static final int TYPE_TEXT = 1;
@@ -62,6 +63,9 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
         return null;
     }
 
+
+
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
@@ -75,7 +79,6 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
                 bindingImage.setPost(postList.get(position));
                 break;
         }
-
     }
 
     @Override
@@ -95,12 +98,12 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
             bindingText.starButton.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-                    favClickListener.favClick(binding.getPost());
+                    favClickListener.favClick(binding.getPost(),getAdapterPosition());
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
-                    favClickListener.favClick(binding.getPost());
+                    favClickListener.favClick(binding.getPost(),getAdapterPosition());
                 }
             });
 
@@ -133,12 +136,12 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
             bindingImage.starButton.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-                    favClickListener.favClick(binding.getPost());
+                    favClickListener.favClick(binding.getPost(),getAdapterPosition());
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
-                    favClickListener.favClick(binding.getPost());
+                    favClickListener.favClick(binding.getPost(),getAdapterPosition());
                 }
             });
 

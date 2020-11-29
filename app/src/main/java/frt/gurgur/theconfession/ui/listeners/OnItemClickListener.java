@@ -1,4 +1,4 @@
-package frt.gurgur.theconfession.ui.adapters;
+package frt.gurgur.theconfession.ui.listeners;
 
 import frt.gurgur.theconfession.model.main.DataItem;
 

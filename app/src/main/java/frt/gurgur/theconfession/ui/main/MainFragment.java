@@ -1,8 +1,6 @@
 package frt.gurgur.theconfession.ui.main;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,13 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.stfalcon.imageviewer.loader.ImageLoader;
+import com.trendyol.medusalib.navigator.Navigator;
+import com.trendyol.medusalib.navigator.transaction.NavigatorTransaction;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,34 +34,24 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
-import frt.gurgur.theconfession.MainActivity;
 import frt.gurgur.theconfession.R;
-import frt.gurgur.theconfession.databinding.PostListItemBinding;
-import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
-import frt.gurgur.theconfession.ui.adapters.CommentClickListener;
-import frt.gurgur.theconfession.ui.adapters.FavClickListener;
-import frt.gurgur.theconfession.ui.adapters.OnItemClickListener;
-import frt.gurgur.theconfession.ui.adapters.ProfileClickListener;
+import frt.gurgur.theconfession.ui.listeners.CommentClickListener;
+import frt.gurgur.theconfession.ui.listeners.FavClickListener;
+import frt.gurgur.theconfession.ui.listeners.OnItemClickListener;
+import frt.gurgur.theconfession.ui.listeners.ProfileClickListener;
 import frt.gurgur.theconfession.ui.post.PostFragment;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
-import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
-import frt.gurgur.theconfession.util.Utils;
 
-import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
-import static frt.gurgur.theconfession.util.Constants.FAV_ADDED;
-import static frt.gurgur.theconfession.util.Constants.FAV_DELETED;
-import static frt.gurgur.theconfession.util.Constants.FAV_ERROR;
-
-public class MainFragment extends BaseFragment implements View.OnClickListener{
+public class MainFragment extends BaseFragment implements View.OnClickListener, Navigator.OnGoBackListener {
 
     ViewDataBinding binding;
     @Inject
@@ -238,7 +229,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener{
 
     FavClickListener favClickListener = new FavClickListener() {
         @Override
-        public void favClick(DataItem item) {
+        public void favClick(DataItem item,int pos) {
             PostFavRequestModel favModel = new PostFavRequestModel(item.getId(),userId);
             post_vm.favPost(favModel);
 
@@ -289,4 +280,13 @@ public class MainFragment extends BaseFragment implements View.OnClickListener{
                 break;
         }
     }
+
+
+    @Override
+    public boolean onGoBack() {
+        recyclerView.smoothScrollToPosition(0);
+        return false;
+    }
+
+
 }
