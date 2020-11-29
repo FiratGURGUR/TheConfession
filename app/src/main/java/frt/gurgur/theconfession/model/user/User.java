@@ -40,6 +40,9 @@ public class User{
 	@SerializedName("about")
 	private String about;
 
+	@SerializedName("isTakip")
+	private String isTakip;
+
 	public String getPassword(){
 		return password;
 	}
@@ -134,5 +137,13 @@ public class User{
 
 	public void setAbout(String about) {
 		this.about = about;
+	}
+
+	public String getIsTakip() {
+		return isTakip;
+	}
+
+	public void setIsTakip(String isTakip) {
+		this.isTakip = isTakip;
 	}
 }

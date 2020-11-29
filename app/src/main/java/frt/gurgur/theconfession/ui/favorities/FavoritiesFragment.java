@@ -311,8 +311,8 @@ public class FavoritiesFragment extends BaseFragment {
             }else {
                 setWarning(false);
             }
-            adapter.notifyDataSetChanged();
-
+            //adapter.notifyDataSetChanged();
+            adapter.notifyItemRemoved(pos);
         }
     };
 

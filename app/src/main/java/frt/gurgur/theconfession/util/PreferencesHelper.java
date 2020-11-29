@@ -23,6 +23,7 @@ public class PreferencesHelper {
     public static final String USER_FOLLOWING_COUNT = "userFollowingCount";
     public static final String USER_ABOUT = "userAbout";
 
+
     private final SharedPreferences preferences;
 
     @Inject

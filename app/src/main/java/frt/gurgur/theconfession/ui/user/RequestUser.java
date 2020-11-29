@@ -3,7 +3,8 @@ package frt.gurgur.theconfession.ui.user;
 import com.google.gson.annotations.SerializedName;
 
 public class RequestUser{
-	public RequestUser(int id) {
+	public RequestUser(int myid,int id) {
+		this.myid = myid;
 		this.id = id;
 	}
 
@@ -34,6 +35,8 @@ public class RequestUser{
 	private String coverphoto;
 	@SerializedName("id")
 	private int id;
+	@SerializedName("myid")
+	private int myid;
 	@SerializedName("email")
 	private String email;
 	@SerializedName("password")
@@ -65,5 +68,9 @@ public class RequestUser{
 
 	public String getCoverphoto() {
 		return coverphoto;
+	}
+
+	public int getMyid() {
+		return myid;
 	}
 }

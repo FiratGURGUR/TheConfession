@@ -1,6 +1,7 @@
 package frt.gurgur.theconfession.ui.adapters;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +44,14 @@ public class CustomBindingAdapter {
         }
     }
 
-
+    @BindingAdapter("followText")
+    public static void setFollowText(Button textView, String follow) {
+         if (follow != null && follow.equals("true")){
+             textView.setText(R.string.profile_unfollow);
+         }else{
+             textView.setText(R.string.profile_follow);
+         }
+    }
 
 
 }

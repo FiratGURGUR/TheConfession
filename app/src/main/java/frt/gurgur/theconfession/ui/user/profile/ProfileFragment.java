@@ -90,13 +90,15 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     AppBarLayout profileAppBar;
     @BindView(R.id.editProfileButton)
     Button editProfileButton;
-
+    @BindView(R.id.followButton)
+    Button followButton;
     @BindView(R.id.cover_image)
     ImageView coverImage;
     @BindView(R.id.profile_image)
     ImageView profileImage;
 
     public int userId;
+    public int my_userId;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -136,19 +138,22 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     public void initView(){
         userId = getArguments().getInt("userId");
+        my_userId = preferencesHelper.getUserId();
         coverImage.setOnClickListener(this);
         profileImage.setOnClickListener(this);
 
         if (userId == preferencesHelper.getUserId()){
             //benim profilimse
             editProfileButton.setVisibility(View.VISIBLE);
+            followButton.setVisibility(View.GONE);
         }else {
             editProfileButton.setVisibility(View.GONE);
+            followButton.setVisibility(View.VISIBLE);
         }
 
         if (Utils.getConnectionType(getContext()) != Utils.NO_CONNECTION){
             //bilgileri api den al
-            RequestUser user = new RequestUser(userId);
+            RequestUser user = new RequestUser(my_userId,userId);
             vm.getSingleUser(user);
         }
         layoutFollowerCount.setOnClickListener(this);

@@ -1,10 +1,7 @@
 package frt.gurgur.theconfession.di;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-
 import javax.inject.Singleton;
-
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
@@ -28,7 +25,7 @@ public interface AppComponent extends AndroidInjector<App> {
         AppComponent build();
     }
     void inject(App app);
-    SharedPreferences sharedPreferences();
+
     PreferencesHelper preferencesHelper();
 }
 

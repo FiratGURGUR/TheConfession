@@ -198,17 +198,41 @@
                             android:visibility="@{singleUser.about.length()>0 ? View.VISIBLE : View.GONE }"
                             android:fontFamily="@font/hind_medium"/>
 
-                        <Button
-                            android:id="@+id/editProfileButton"
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/login_button_background"
-                            android:text="@string/profile_edit"
-                            android:gravity="center"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/hind_medium"
-                            android:textAllCaps="false"/>
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/editProfileButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/login_button_background"
+                                android:text="@string/profile_edit"
+                                android:gravity="center"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/hind_medium"
+                                android:textAllCaps="false"/>
+
+                           <Button
+                                android:id="@+id/followButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/login_button_background"
+                                app:followText="@{singleUser.isTakip}"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/hind_medium"
+                                android:textAllCaps="false"/>
+
+                        </LinearLayout>
+
+
 
 
                     </LinearLayout>

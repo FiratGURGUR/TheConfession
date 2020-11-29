@@ -20,6 +20,8 @@
     <string name="profile_follower_count">Takipçi</string>
     <string name="profile_following_count">Takip</string>
     <string name="profile_edit">Profili Düzenle</string>
+    <string name="profile_follow">Takip Et</string>
+    <string name="profile_unfollow">Takibi Bırak</string>
 
     <string name="what_do_you_think">Ne düşünüyorsun?</string>
     <string name="bsm_item1">Ayarlar</string>
