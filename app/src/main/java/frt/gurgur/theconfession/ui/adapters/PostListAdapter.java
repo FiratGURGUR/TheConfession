@@ -63,9 +63,6 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
         return null;
     }
 
-
-
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
@@ -120,8 +117,6 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
                     profileClickListener.showProfile(binding.getPost().getUserId());
                 }
             });
-
-
         }
 
         public MyViewHolder(PostListItemImageBinding binding, OnItemClickListener listener) {
@@ -159,8 +154,6 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
                 }
             });
         }
-
-
     }
 
     @Override
@@ -171,8 +164,5 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
             return TYPE_PHOTO;
         }
     }
-
-
-
 
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.stfalcon.imageviewer.loader.ImageLoader;
-import com.trendyol.medusalib.navigator.Navigator;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +36,6 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentFavoritiesBinding;
-import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
@@ -57,7 +53,8 @@ import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 
 
-public class FavoritiesFragment extends BaseFragment {
+public class FavoritiesFragment extends BaseFragment  {
+
     FragmentFavoritiesBinding binding;
     @Inject
     ViewModelFactory vmFactory;
@@ -87,8 +84,13 @@ public class FavoritiesFragment extends BaseFragment {
     public boolean isLastPage = false;
     private List<DataItem> postList = new ArrayList<>();
 
+
+
+
+
     public FavoritiesFragment() {
         // Required empty public constructor
+
     }
 
 
@@ -110,6 +112,7 @@ public class FavoritiesFragment extends BaseFragment {
         userId = preferencesHelper.getUserId();
         vm.loadFavoritedPostList(page,userId);
         Log.e("vkf","onCreate");
+
     }
 
     @Override
@@ -121,6 +124,13 @@ public class FavoritiesFragment extends BaseFragment {
         Log.e("vkf","onCreateView");
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.e("vkf","onActivityCreated");
+    }
+
 
     @Override
     public void onResume() {
@@ -275,7 +285,7 @@ public class FavoritiesFragment extends BaseFragment {
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= PAGE_SIZE) {
                     page=page+1;
-                    vm.loadPostList(page,userId);
+                    vm.loadFavoritedPostList(page,userId);
                     Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
                 }
             }
@@ -337,6 +347,9 @@ public class FavoritiesFragment extends BaseFragment {
             multipleStackNavigator.start(profileFragment);
         }
     };
+
+
+
 
 
 }

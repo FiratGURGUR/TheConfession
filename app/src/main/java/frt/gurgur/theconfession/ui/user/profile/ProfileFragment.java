@@ -134,6 +134,9 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         initView();
 
         observeSingleUser();
+
+        observeLoadStatus();
+        observerErrorStatus();
     }
 
     public void initView(){
@@ -235,6 +238,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 openFollowFragment("following");
                 break;
             case R.id.layoutSharedCount:
+                viewPager.setCurrentItem(0);
                 profileAppBar.setExpanded(false);
                 break;
             case R.id.cover_image:

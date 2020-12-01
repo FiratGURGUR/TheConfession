@@ -1,39 +1,24 @@
 package frt.gurgur.theconfession;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.moos.navigation.BottomBarLayout;
-import com.moos.navigation.BottomTabView;
 import com.trendyol.medusalib.navigator.MultipleStackNavigator;
 import com.trendyol.medusalib.navigator.Navigator;
 import com.trendyol.medusalib.navigator.NavigatorConfiguration;
 import com.trendyol.medusalib.navigator.transaction.NavigatorTransaction;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.lang.ref.WeakReference;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
 
 import javax.inject.Inject;
 
@@ -44,18 +29,9 @@ import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 
 import frt.gurgur.theconfession.ui.explore.ExploreFragment;
 import frt.gurgur.theconfession.ui.favorities.FavoritiesFragment;
-import frt.gurgur.theconfession.ui.post.PostFragment;
-import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileBottomSheetFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
-import frt.gurgur.theconfession.ui.user.profile.UserFavoritedPostListFragment;
-import frt.gurgur.theconfession.ui.user.profile.UserPostListFragment;
-import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
-import frt.gurgur.theconfession.ui.user.profile.followpage.FollowerListFragment;
-import frt.gurgur.theconfession.ui.user.profile.followpage.FollowingListFragment;
-import frt.gurgur.theconfession.ui.user.register.RegisterFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
-import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.login.LoginFragment;
 import kotlin.jvm.functions.Function0;
@@ -218,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+
     @Override
     public void onTabChanged(int tabIndex) {
 
@@ -240,10 +217,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
-
-
-
 
 
 

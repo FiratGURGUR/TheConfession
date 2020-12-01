@@ -189,7 +189,7 @@ public class UserPostListFragment extends BaseFragment{
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= PAGE_SIZE) {
                     page=page+1;
-                    vm.loadPostList(page,userId);
+                    vm.loadSharedPostList(page,userId);
                     Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
                 }
             }

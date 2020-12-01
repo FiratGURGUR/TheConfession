@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:padding="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -33,18 +33,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:layout_height="wrap_content">
+                android:paddingRight="5dp">
 
                 <TextView
                     android:id="@+id/txtFullName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/hind_semibold"
-                    android:textColor="@color/black"
                     android:text="@{post.fullname}"
+                    android:textColor="@color/black"
                     android:textSize="17sp" />
 
                 <TextView
@@ -54,8 +54,8 @@
                     android:fontFamily="@font/hind_medium"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:textColor="@color/grey_active"
                     android:text="@{'@' + post.username}"
+                    android:textColor="@color/grey_active"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -66,18 +66,18 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:textColor="@color/black"
-                android:text="@{post.content}" />
+                android:text="@{post.content}"
+                android:textColor="@color/black" />
 
 
             <LinearLayout
                 android:id="@+id/iconLayout"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:paddingRight="5dp"
-                android:layout_height="wrap_content">
+                android:paddingRight="5dp">
 
 
                 <com.like.LikeButton
@@ -92,11 +92,11 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
+                    android:fontFamily="@font/hind_medium"
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/hind_medium"
-                    android:text="@{Integer.toString(post.likeCount)}" />
+                    android:text="@{Integer.toString(post.likeCount)}"
+                    android:textColor="@color/black" />
 
                 <ImageView
                     android:id="@+id/commentButton"

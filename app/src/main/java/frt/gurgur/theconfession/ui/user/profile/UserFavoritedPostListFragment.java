@@ -16,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.stfalcon.imageviewer.loader.ImageLoader;
@@ -62,6 +64,10 @@ public class UserFavoritedPostListFragment extends BaseFragment {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    @BindView(R.id.noLikedLayout)
+    LinearLayout noLikedLayout;
+    @BindView(R.id.swipeRefreshLayout)
+    PullRefreshLayout swipeRefreshLayout;
 
     GridLayoutManager gridLayoutManager;
 
@@ -110,8 +116,21 @@ public class UserFavoritedPostListFragment extends BaseFragment {
         observerErrorStatus();
         setRecyclerView();
 
-        Log.e("boyut" , Utils.dpToPx(20)+ "");
+        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                clearList();
+                vm.loadFavoritedPostList(page,userId);
+            }
+        });
 
+    }
+
+    public void clearList(){
+        page=1;
+        postList.clear();
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -119,12 +138,26 @@ public class UserFavoritedPostListFragment extends BaseFragment {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
-                        Log.e("fff", "Error");
                         isLastPage = true;
+                        if (error.getStatus()==404){
+                            setWarning(true);
+                        }else {
+                            setWarning(false);
+                        }
                     }
                 });
+    }
+
+
+    public void setWarning(boolean warning){
+        if (warning){
+            noLikedLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else{
+            recyclerView.setVisibility(View.VISIBLE);
+            noLikedLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -144,7 +177,9 @@ public class UserFavoritedPostListFragment extends BaseFragment {
         vm.getFavoritedPostList().observe(this, new Observer<List<DataItem>>() {
             @Override
             public void onChanged(List<DataItem> dataItems) {
+                swipeRefreshLayout.setRefreshing(false);
                 if (dataItems != null) {
+                    setWarning(false);
                     postList.addAll(dataItems);
                     recyclerView.getAdapter().notifyDataSetChanged();
 
@@ -190,7 +225,7 @@ public class UserFavoritedPostListFragment extends BaseFragment {
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= PAGE_SIZE) {
                     page=page+1;
-                    vm.loadPostList(page,userId);
+                    vm.loadFavoritedPostList(page,userId);
                     Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
                 }
             }
