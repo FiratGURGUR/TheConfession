@@ -1,18 +1,13 @@
 package frt.gurgur.theconfession.ui.adapters;
 
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.like.LikeButton;
-import com.squareup.picasso.Picasso;
+
 import frt.gurgur.theconfession.R;
 
 public class CustomBindingAdapter {
@@ -52,6 +47,8 @@ public class CustomBindingAdapter {
              textView.setText(R.string.profile_follow);
          }
     }
+
+
 
 
 }

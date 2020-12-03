@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data></data>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +17,24 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:visibility="gone" />
+
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:tint="@color/blue_inactive"
+            app:srcCompat="@drawable/app_icon_black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="@font/hind_medium"
+            android:text="Log in to Confession"
+            android:textColor="@color/blue_inactive"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="40dp"/>
 
         <EditText
             android:id="@+id/edtEmail"
@@ -38,8 +58,8 @@
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="120dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:textAllCaps="false"
@@ -54,7 +74,7 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:fontFamily="@font/hind_semibold"
-            android:textColor="@color/login_orange"
+            android:textColor="@color/blue_inactive"
             android:layout_margin="10dp"
             android:text="@string/register" />
 

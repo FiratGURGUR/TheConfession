@@ -68,6 +68,12 @@ public abstract class BaseFragment extends DaggerFragment {
         }
     }
 
-
+    public void showToolbar(boolean show){
+        if (show){
+            mActivity.toolbar.setVisibility(View.VISIBLE);
+        }else{
+            mActivity.toolbar.setVisibility(View.GONE);
+        }
+    }
 
 }

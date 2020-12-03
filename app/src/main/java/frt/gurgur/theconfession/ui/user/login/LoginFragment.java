@@ -25,6 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
+import frt.gurgur.theconfession.model.ValidationModel;
+import frt.gurgur.theconfession.util.Common;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
@@ -64,7 +66,17 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showNavigation(false);
+        showToolbar(false);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        showNavigation(true);
+        showToolbar(true);
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -90,7 +102,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         observeLogin();
         this.observeLoadStatus();
         this.observerErrorStatus();
-
+        observeLoginValidation();
     }
 
     public void initView(){
@@ -147,9 +159,27 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     public void doLogin() {
         String mEmail = email.getText().toString();
         String mPassword = password.getText().toString();
-        RequestUser user = new RequestUser(mEmail, mPassword);
-        vm.loadData(user);
+        vm.setLoginValidation(mEmail,mPassword);
+
     }
+
+    public void observeLoginValidation(){
+        vm.getLoginValidation().observe(this, new Observer<ValidationModel>() {
+            @Override
+            public void onChanged(ValidationModel validationModel) {
+                if (validationModel.isValid){
+                    String mEmail = email.getText().toString();
+                    String mPassword = password.getText().toString();
+                    RequestUser user = new RequestUser(mEmail, mPassword);
+                    vm.loadData(user);
+                }else{
+                    Common.customAlert(getActivity(),"", validationModel.errorMessage,"Tamam");
+                }
+            }
+        });
+    }
+
+
 
     @Override
     public void onClick(View v) {

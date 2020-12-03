@@ -1,6 +1,7 @@
 package frt.gurgur.theconfession.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -34,6 +35,10 @@ public class Helper {
                     listener.onKeyboardClose();
             }
         });
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
 }

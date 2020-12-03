@@ -169,6 +169,8 @@ public class Common {
         customAlert(context, msg, btnText, Gravity.CENTER, false, cancelable);
     }
 
-
+    public static void customAlertSpanable(Context context, String title, String msg, String btnText) {
+        customAlert(context, msg, btnText, Gravity.CENTER, true, true);
+    }
 
 }

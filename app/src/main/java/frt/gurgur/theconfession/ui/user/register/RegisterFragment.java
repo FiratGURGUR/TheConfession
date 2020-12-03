@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,12 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.model.APIResponseModel;
+import frt.gurgur.theconfession.model.ValidationModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
 import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.util.Common;
 import frt.gurgur.theconfession.util.Constants;
 import frt.gurgur.theconfession.util.Helper;
 
@@ -65,7 +68,15 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showToolbar(true);
+        showBackButton(true);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        showToolbar(false);
+        showBackButton(true);
     }
 
     @Override
@@ -86,6 +97,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         observeRegister();
         this.observeLoadStatus();
         this.observerErrorStatus();
+        observeRegisterValidation();
 
     }
 
@@ -140,9 +152,30 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         String fullname= edtFullName.getText().toString();
         String email= edtEmail.getText().toString();
         String password= edtPassword.getText().toString();
-        RequestUser user = new RequestUser(username,fullname, Helper.generateUserPhoto(fullname),password,email, Constants.DEFAULT_COVERPHOTO_URL);
-        vm.registerUser(user);
+
+        vm.setRegisterValidation(username,fullname,email,password);
+
     }
+
+    public void observeRegisterValidation(){
+        vm.getRegisterValidation().observe(this, new Observer<ValidationModel>() {
+            @Override
+            public void onChanged(ValidationModel validationModel) {
+                if (validationModel.isValid){
+                    String username= edtUserName.getText().toString();
+                    String fullname= edtFullName.getText().toString();
+                    String email= edtEmail.getText().toString();
+                    String password= edtPassword.getText().toString();
+                    RequestUser user = new RequestUser(username,fullname, Helper.generateUserPhoto(fullname),password,email, Constants.DEFAULT_COVERPHOTO_URL);
+                    vm.registerUser(user);
+                }else {
+                    Common.customAlertSpanable(getContext(),"", validationModel.errorMessage,"Anladım");
+                }
+            }
+        });
+
+    }
+
 
     @Override
     public void onClick(View v) {

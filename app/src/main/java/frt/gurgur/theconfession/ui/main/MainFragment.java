@@ -15,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stfalcon.imageviewer.StfalconImageViewer;
@@ -67,6 +69,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 
     @BindView(R.id.fabPost)
     FloatingActionButton fabPost;
+    @BindView(R.id.swipeRefreshLayout)
+    PullRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.noPostLayout)
+    LinearLayout noPostLayout;
 
     @Inject
     PreferencesHelper preferencesHelper;
@@ -98,6 +104,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     public void onCreate(Bundle savedInstanceState) {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
+        showToolbar(true);
+        showNavigation(true);
     }
 
     @Override
@@ -123,6 +131,22 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         observerErrorStatus();
         setRecyclerView();
 
+
+        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                clearList();
+                vm.loadPostList(page,userId);
+            }
+        });
+
+    }
+
+    public void clearList(){
+        page=1;
+        postList.clear();
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     public void initView(){
@@ -130,14 +154,30 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
+    public void setWarning(boolean warning){
+        if (warning){
+            noPostLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else{
+            recyclerView.setVisibility(View.VISIBLE);
+            noPostLayout.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     protected void observerErrorStatus() {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error.getMessage());
+
                         showProgressBar(false);
-                        Log.e("fff", "Error");
+
+                        if (error.getStatus()==404){
+                            setWarning(true);
+                        }else {
+                            setWarning(false);
+                        }
+
                         isLastPage = true;
                     }
                 });
@@ -160,7 +200,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         vm.getPostList().observe(this, new Observer<List<DataItem>>() {
             @Override
             public void onChanged(List<DataItem> dataItems) {
+                swipeRefreshLayout.setRefreshing(false);
                 if (dataItems != null) {
+                    setWarning(false);
                     postList.addAll(dataItems);
                     recyclerView.getAdapter().notifyDataSetChanged();
 

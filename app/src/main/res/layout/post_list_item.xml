@@ -75,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
@@ -82,8 +83,8 @@
 
                 <com.like.LikeButton
                     android:id="@+id/star_button"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     app:animationFav="@{post.selfLikes}"
                     app:icon_size="17dp"
                     app:icon_type="heart" />
@@ -101,7 +102,7 @@
                 <ImageView
                     android:id="@+id/commentButton"
                     android:layout_width="20dp"
-                    android:layout_height="25dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     app:srcCompat="@drawable/m_comment" />
 

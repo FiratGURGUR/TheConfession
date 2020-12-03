@@ -1,15 +1,15 @@
 package frt.gurgur.theconfession.ui.user.login;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import javax.inject.Inject;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
+import frt.gurgur.theconfession.model.ValidationModel;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.util.ErrorUtils;
+import frt.gurgur.theconfession.util.Helper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -21,6 +21,8 @@ public class LoginViewModel extends BaseViewModel {
     private final UserRepo userRepo;
     private CompositeDisposable disposable;
     private MutableLiveData<UserResponse> user = new MutableLiveData<>();
+    private MutableLiveData<ValidationModel> loginValidation = new MutableLiveData<>();
+
 
     @Inject
     public LoginViewModel(UserRepo userRepo) {
@@ -31,7 +33,25 @@ public class LoginViewModel extends BaseViewModel {
     public LiveData<UserResponse> getUser() {
         return user;
     }
+    public LiveData<ValidationModel> getLoginValidation() {
+        return loginValidation;
+    }
 
+    public void setLoginValidation(String email,String password){
+        ValidationModel model= new ValidationModel();
+        if (email.isEmpty() || password.isEmpty()){
+            model.setValid(false);
+            model.setErrorMessage("Lütefen email ve şifrenizi eksiksiz giirniz!");
+        }else {
+            if (Helper.isValidEmail(email)){
+                model.setValid(true);
+            }else {
+                model.setValid(false);
+                model.setErrorMessage("Geçerli bir email adresi giriniz");
+            }
+        }
+        loginValidation.setValue(model);
+    }
 
     public void loadData(RequestUser requestUser) {
 

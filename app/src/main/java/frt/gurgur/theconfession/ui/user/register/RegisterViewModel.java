@@ -1,15 +1,21 @@
 package frt.gurgur.theconfession.ui.user.register;
 
+import android.content.Context;
+import android.text.SpannableStringBuilder;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import javax.inject.Inject;
 
+import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
+import frt.gurgur.theconfession.model.ValidationModel;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
 import frt.gurgur.theconfession.ui.user.RequestUser;
 import frt.gurgur.theconfession.util.ErrorUtils;
+import frt.gurgur.theconfession.util.Helper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -21,6 +27,10 @@ public class RegisterViewModel extends BaseViewModel {
     private final UserRepo userRepo;
     private CompositeDisposable disposable;
     private MutableLiveData<APIResponseModel> user = new MutableLiveData<>();
+    private MutableLiveData<ValidationModel> registerValidation = new MutableLiveData<>();
+
+    @Inject
+    Context context;
 
     @Inject
     public RegisterViewModel(UserRepo userRepo) {
@@ -30,6 +40,31 @@ public class RegisterViewModel extends BaseViewModel {
 
     public LiveData<APIResponseModel> getUser() {
         return user;
+    }
+    public LiveData<ValidationModel> getRegisterValidation() {
+        return registerValidation;
+    }
+
+
+    public void setRegisterValidation(String username,String fullname,String email,String password){
+        ValidationModel model= new ValidationModel();
+        if (username.isEmpty() || fullname.isEmpty() || email.isEmpty() || password.isEmpty()){
+            model.setValid(false);
+            model.setErrorMessage("Lütefen tüm bilgileri eksiksiz doldurunuz.");
+        }else {
+            if (Helper.isValidEmail(email)){
+                if (username.length()>3 & fullname.length()>3 & password.length()>5){
+                    model.setValid(true);
+                }else {
+                    model.setValid(false);
+                    model.setErrorMessage(context.getString(R.string.register_warning));
+                }
+            }else {
+                model.setValid(false);
+                model.setErrorMessage("Geçerli bir email adresi giriniz");
+            }
+        }
+        registerValidation.setValue(model);
     }
 
 

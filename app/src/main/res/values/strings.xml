@@ -30,6 +30,9 @@
     <string name="bsm_item4">Uygulama Hakkında</string>
     <string name="bsm_item5">Çıkış</string>
 
+    <string name="register_warning"><![CDATA[ <p><span style="text-decoration: underline;"><strong>L&uuml;tfen bu kuralları dikkate alarak &uuml;yeliğinizi oluşturunuz.</strong></span></p>
+<p>1.Kullanıcı adı en az 3 karakter olmalıdır.<br /> 2.Ad Soyad en az 3 karakter olmalıdır.<br /> 3.Şifre en az 5 karakter olmalıdır.</p> ]]> </string>
+
     <string name="share">Paylaş</string>
 
 </resources>

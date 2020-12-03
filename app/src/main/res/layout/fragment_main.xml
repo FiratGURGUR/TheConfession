@@ -15,10 +15,60 @@
 
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcyclePostList"
+            <com.baoyz.widget.PullRefreshLayout
+                android:id="@+id/swipeRefreshLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content">
+
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:fillViewport="true"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcyclePostList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:id="@+id/noPostLayout"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:alpha="0.5"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                app:srcCompat="@drawable/no_lidek_icon_png" />
+
+                            <TextView
+                                android:id="@+id/textView9"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:gravity="center"
+                                android:fontFamily="@font/hind_regular"
+                                android:text="Favorilerinizde herhangi bir içerik bulunmuyor!" />
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+
+
+            </com.baoyz.widget.PullRefreshLayout>
 
             <ProgressBar
                 android:id="@+id/progressBar"

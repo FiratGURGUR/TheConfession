@@ -6,7 +6,7 @@
 
 
     <color name="login_orange">#4CAF50</color>
-    <color name="login_edittext_in">#4BCCCBCB</color>
+    <color name="login_edittext_in">#FFFFFF</color>
     <color name="white">#ffffff</color>
     <color name="white_20">#99EFEDED</color>
     <color name="white_special">#11DFDFDF</color>
