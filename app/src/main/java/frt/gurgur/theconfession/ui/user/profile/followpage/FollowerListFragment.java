@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import frt.gurgur.theconfession.model.user.follow.FollowsItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.FollowListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
+import frt.gurgur.theconfession.util.APIError;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 
@@ -44,6 +46,8 @@ public class FollowerListFragment extends BaseFragment {
     ProgressBar progressBar;
     @BindView(R.id.followerRv)
     RecyclerView rvFollowerList;
+    @BindView(R.id.emptyLayout)
+    LinearLayout emptyLayout;
     @Inject
     ViewModelFactory vmFactory;
     FollowViewModel vm;
@@ -52,7 +56,15 @@ public class FollowerListFragment extends BaseFragment {
     GridLayoutManager gridLayoutManager;
     int userId;
     private List<FollowsItem> list = new ArrayList<>();
-
+    public void setWarning(boolean warning){
+        if (warning){
+            emptyLayout.setVisibility(View.VISIBLE);
+            rvFollowerList.setVisibility(View.GONE);
+        }else{
+            rvFollowerList.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.GONE);
+        }
+    }
     public FollowerListFragment() {
         // Required empty public constructor
     }
@@ -81,7 +93,7 @@ public class FollowerListFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         vm = ViewModelProviders.of(this, vmFactory).get(FollowViewModel.class);
-        userId = preferencesHelper.getUserId();
+        userId = getArguments().getInt("idForCounts");
 
         vm.getFollowerList(userId);
         observeFollowerList();
@@ -97,6 +109,7 @@ public class FollowerListFragment extends BaseFragment {
             @Override
             public void onChanged(List<FollowsItem> followsItems) {
                 if (followsItems != null) {
+                    setWarning(false);
                     list.addAll(followsItems);
                     rvFollowerList.getAdapter().notifyDataSetChanged();
                 }
@@ -109,9 +122,12 @@ public class FollowerListFragment extends BaseFragment {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
-                        Log.e("fff", "Error");
+                        if (error.getStatus()==404){
+                            setWarning(true);
+                        }else {
+                            setWarning(false);
+                        }
                     }
                 });
     }

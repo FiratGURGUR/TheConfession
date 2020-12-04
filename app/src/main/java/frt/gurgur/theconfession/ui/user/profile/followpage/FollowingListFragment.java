@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class FollowingListFragment extends BaseFragment {
     ProgressBar progressBar;
     @BindView(R.id.followingRv)
     RecyclerView rvFollowingList;
+    @BindView(R.id.emptyLayout)
+    LinearLayout emptyLayout;
     @Inject
     ViewModelFactory vmFactory;
     FollowViewModel vm;
@@ -53,7 +56,15 @@ public class FollowingListFragment extends BaseFragment {
     int userId;
     private List<FollowsItem> list = new ArrayList<>();
 
-
+    public void setWarning(boolean warning){
+        if (warning){
+            emptyLayout.setVisibility(View.VISIBLE);
+            rvFollowingList.setVisibility(View.GONE);
+        }else{
+            rvFollowingList.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.GONE);
+        }
+    }
     public FollowingListFragment() {
         // Required empty public constructor
     }
@@ -81,7 +92,7 @@ public class FollowingListFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         vm = ViewModelProviders.of(this, vmFactory).get(FollowViewModel.class);
-        userId = preferencesHelper.getUserId();
+        userId = getArguments().getInt("idForCounts");
 
         vm.getFollowingList(userId);
         observeFollowerList();
@@ -95,6 +106,7 @@ public class FollowingListFragment extends BaseFragment {
             @Override
             public void onChanged(List<FollowsItem> followsItems) {
                 if (followsItems != null) {
+                    setWarning(false);
                     list.addAll(followsItems);
                     rvFollowingList.getAdapter().notifyDataSetChanged();
                 }
@@ -107,9 +119,13 @@ public class FollowingListFragment extends BaseFragment {
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error.getMessage());
+
                         showProgressBar(false);
-                        Log.e("fff", "Error");
+                        if (error.getStatus()==404){
+                            setWarning(true);
+                        }else {
+                            setWarning(false);
+                        }
                     }
                 });
     }
@@ -134,7 +150,7 @@ public class FollowingListFragment extends BaseFragment {
         rvFollowingList.setHasFixedSize(true);
         rvFollowingList.setAdapter(adapter);
         rvFollowingList.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-
     }
+
 
 }

@@ -38,7 +38,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
-import frt.gurgur.theconfession.databinding.FragmentProfileBinding;
 import frt.gurgur.theconfession.databinding.FragmentProfileCopyBinding;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
@@ -265,6 +264,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     public void openFollowFragment(String click){
         Bundle arguments = new Bundle();
         arguments.putString("whichClick", click);
+        arguments.putInt("idForCounts", userId);
         FollowFragment followFragment = new FollowFragment();
         followFragment.setArguments(arguments);
         multipleStackNavigator.start(followFragment);

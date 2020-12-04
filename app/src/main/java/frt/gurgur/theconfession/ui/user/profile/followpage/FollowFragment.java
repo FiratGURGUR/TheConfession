@@ -39,6 +39,7 @@ public class FollowFragment extends BaseFragment {
 
     public TabAdapter adapter;
     public String whichClick="";
+    public int userId;
 
     public FollowFragment() {
         // Required empty public constructor
@@ -81,10 +82,17 @@ public class FollowFragment extends BaseFragment {
 
     public void initView(){
         whichClick =  getArguments().getString("whichClick");
+        userId =  getArguments().getInt("idForCounts");
 
+        Bundle arguments = new Bundle();
+        arguments.putInt("idForCounts", userId);
+        FollowerListFragment followerListFragment = new FollowerListFragment();
+        FollowingListFragment followingListFragment = new FollowingListFragment();
+        followerListFragment.setArguments(arguments);
+        followingListFragment.setArguments(arguments);
         adapter = new TabAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new FollowerListFragment(), "Takipçiler");
-        adapter.addFragment(new FollowingListFragment(), "Takip");
+        adapter.addFragment(followerListFragment, "Takipçiler");
+        adapter.addFragment(followingListFragment, "Takip");
 
 
         viewPager.setAdapter(adapter);

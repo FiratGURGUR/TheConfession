@@ -69,10 +69,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 
     @BindView(R.id.fabPost)
     FloatingActionButton fabPost;
-    @BindView(R.id.swipeRefreshLayout)
-    PullRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.noPostLayout)
-    LinearLayout noPostLayout;
+
 
     @Inject
     PreferencesHelper preferencesHelper;
@@ -132,13 +129,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         setRecyclerView();
 
 
-        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                clearList();
-                vm.loadPostList(page,userId);
-            }
-        });
 
     }
 
@@ -146,7 +136,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         page=1;
         postList.clear();
         adapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     public void initView(){
@@ -154,15 +143,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    public void setWarning(boolean warning){
-        if (warning){
-            noPostLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        }else{
-            recyclerView.setVisibility(View.VISIBLE);
-            noPostLayout.setVisibility(View.GONE);
-        }
-    }
+
 
     @Override
     protected void observerErrorStatus() {
@@ -171,13 +152,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
                     if (error != null) {
 
                         showProgressBar(false);
-
-                        if (error.getStatus()==404){
-                            setWarning(true);
-                        }else {
-                            setWarning(false);
-                        }
-
                         isLastPage = true;
                     }
                 });
@@ -200,9 +174,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         vm.getPostList().observe(this, new Observer<List<DataItem>>() {
             @Override
             public void onChanged(List<DataItem> dataItems) {
-                swipeRefreshLayout.setRefreshing(false);
                 if (dataItems != null) {
-                    setWarning(false);
                     postList.addAll(dataItems);
                     recyclerView.getAdapter().notifyDataSetChanged();
 

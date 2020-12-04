@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data>
-        <import type="android.view.View"/>
-
-    </data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data></data>
     <LinearLayout
         android:layout_width="match_parent"
-        android:padding="10dp"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/white"
         android:orientation="vertical">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:fillViewport="true"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/followingRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:id="@+id/emptyLayout"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:alpha="0.5"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/warning_following_icon" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/hind_regular"
+                        android:text="Henüz hiç takip yok" />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -16,13 +64,6 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:visibility="gone" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/followingRv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
 
     </LinearLayout>
 </layout>

@@ -2,37 +2,31 @@
     <string name="app_name">TheConfession</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
     <string name="login_email_hint">Email adresiniz</string>
     <string name="login_password_hint">Şifreniz</string>
     <string name="login_do">Giriş Yap</string>
-
     <string name="register">Hesabın yok mu? Kayıt Ol</string>
     <string name="register_do">Kayıt Ol</string>
-
     <string name="register_username_hint">Kullanıcı Adı</string>
     <string name="register_fullname_hint">Ad Soyad</string>
     <string name="register_email_hint">Email adresiniz</string>
     <string name="register_password_hint">Şifreniz</string>
-
     <string name="profile_shared_count">Paylaşım</string>
     <string name="profile_follower_count">Takipçi</string>
     <string name="profile_following_count">Takip</string>
     <string name="profile_edit">Profili Düzenle</string>
     <string name="profile_follow">Takip Et</string>
     <string name="profile_unfollow">Takibi Bırak</string>
-
     <string name="what_do_you_think">Ne düşünüyorsun?</string>
     <string name="bsm_item1">Ayarlar</string>
     <string name="bsm_item2">Yeni İnsanlar Keşfet</string>
     <string name="bsm_item3">İstatistikler</string>
     <string name="bsm_item4">Uygulama Hakkında</string>
     <string name="bsm_item5">Çıkış</string>
-
     <string name="register_warning"><![CDATA[ <p><span style="text-decoration: underline;"><strong>L&uuml;tfen bu kuralları dikkate alarak &uuml;yeliğinizi oluşturunuz.</strong></span></p>
 <p>1.Kullanıcı adı en az 3 karakter olmalıdır.<br /> 2.Ad Soyad en az 3 karakter olmalıdır.<br /> 3.Şifre en az 5 karakter olmalıdır.</p> ]]> </string>
-
     <string name="share">Paylaş</string>
+
+
 
 </resources>

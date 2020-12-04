@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
@@ -61,6 +62,9 @@ public class UserPostListFragment extends BaseFragment{
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
+    @BindView(R.id.emptyLayout)
+    LinearLayout emptyLayout;
 
 
     GridLayoutManager gridLayoutManager;
@@ -118,9 +122,12 @@ public class UserPostListFragment extends BaseFragment{
         vm.getErrorStatus().observe(this,
                 error -> {
                     if (error != null) {
-                        onError(getContext(), error.getMessage());
                         showProgressBar(false);
-                        Log.e("fff", "Error");
+                        if (error.getStatus()==404){
+                            setWarning(true);
+                        }else {
+                            setWarning(false);
+                        }
                         isLastPage = true;
                     }
                 });
@@ -133,6 +140,17 @@ public class UserPostListFragment extends BaseFragment{
                 isLoading -> showProgressBar(isLoading)
         );
     }
+
+    public void setWarning(boolean warning){
+        if (warning){
+            emptyLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else{
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.GONE);
+        }
+    }
+
     private void showProgressBar(boolean isVisible) {
         if (isVisible)
             progressBar.setVisibility(View.VISIBLE);
@@ -144,6 +162,7 @@ public class UserPostListFragment extends BaseFragment{
             @Override
             public void onChanged(List<DataItem> dataItems) {
                 if (dataItems != null) {
+                    setWarning(false);
                     postList.addAll(dataItems);
                     recyclerView.getAdapter().notifyDataSetChanged();
 
