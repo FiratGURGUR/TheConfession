@@ -4,7 +4,7 @@ Basit bir sosyal medya uygulaması geliştiriyorum.
 
 ## Kullandığım teknolojiler:
 
-- Dagger
+- Dagger2
 - Mvvm
 - DataBinding
 - Medusa
