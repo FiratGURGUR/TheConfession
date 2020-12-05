@@ -6,7 +6,7 @@ import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.APIService;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
-import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.model.user.RequestUser;
 import io.reactivex.Single;
 
 public class UserRepo {

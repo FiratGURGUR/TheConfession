@@ -20,7 +20,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class FollowViewModel extends BaseViewModel {
 
-    private static final String TAG = "FollowViewModel";
     private final UserRepo userRepo;
     private CompositeDisposable disposable;
     private MutableLiveData<List<FollowsItem>> response = new MutableLiveData<>();

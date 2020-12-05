@@ -53,7 +53,7 @@
                             android:textSize="17sp"
                             android:gravity="center"
                             android:fontFamily="@font/hind_regular"
-                            android:text="Favorilerinizde herhangi bir içerik bulunmuyor!" />
+                            android:text="@string/no_favorited" />
                     </LinearLayout>
 
 

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -28,7 +26,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.stfalcon.imageviewer.loader.ImageLoader;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -41,15 +38,10 @@ import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentProfileCopyBinding;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
-import frt.gurgur.theconfession.ui.adapters.TabAdapter;
 import frt.gurgur.theconfession.ui.adapters.ViewPagerAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.ui.main.MainFragment;
-import frt.gurgur.theconfession.ui.user.RequestUser;
-import frt.gurgur.theconfession.ui.user.login.LoginViewModel;
+import frt.gurgur.theconfession.model.user.RequestUser;
 import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
-import frt.gurgur.theconfession.ui.user.profile.followpage.FollowerListFragment;
-import frt.gurgur.theconfession.ui.user.profile.followpage.FollowingListFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.Utils;
 
@@ -143,6 +135,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         my_userId = preferencesHelper.getUserId();
         coverImage.setOnClickListener(this);
         profileImage.setOnClickListener(this);
+        editProfileButton.setOnClickListener(this);
+        followButton.setOnClickListener(this);
 
         if (userId == preferencesHelper.getUserId()){
             //benim profilimse
@@ -154,15 +148,12 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         }
 
         if (Utils.getConnectionType(getContext()) != Utils.NO_CONNECTION){
-            //bilgileri api den al
             RequestUser user = new RequestUser(my_userId,userId);
             vm.getSingleUser(user);
         }
         layoutFollowerCount.setOnClickListener(this);
         layoutFollowingCount.setOnClickListener(this);
         layoutSharedCount.setOnClickListener(this);
-
-       //adapter = new TabAdapter(getActivity().getSupportFragmentManager());
         adapter = new ViewPagerAdapter(getChildFragmentManager());
 
 
@@ -173,14 +164,10 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         userPostListFragment.setArguments(arguments);
         userFavoritedPostListFragment.setArguments(arguments);
 
-        adapter.addFrag(userPostListFragment, "Gönderiler");
-        adapter.addFrag(userFavoritedPostListFragment, "Beğeniler");
+        adapter.addFrag(userPostListFragment, getString(R.string.profile_posts));
+        adapter.addFrag(userFavoritedPostListFragment, getString(R.string.profile_favs));
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
-
-
-
 
     }
 
@@ -190,7 +177,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
       vm.getUser().observe(this, new Observer<UserResponse>() {
           @Override
           public void onChanged(UserResponse userResponse) {
-              //burada tasarıma giydirme olaca
               binding.setSingleUser(userResponse.getUser());
           }
       });
@@ -199,10 +185,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private void showProgressBar(boolean isVisible) {
         if (isVisible) {
             progressBar.setVisibility(View.VISIBLE);
-            Log.e("fff", "loading T");
         } else {
             progressBar.setVisibility(View.GONE);
-            Log.e("fff", "loading F");
         }
     }
 
@@ -213,7 +197,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                     if (error != null) {
                         onError(getContext(), error.getMessage());
                         showProgressBar(false);
-                        Log.e("fff", "Error");
                     }
                 });
     }
@@ -223,7 +206,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         vm.getLoadingStatus().observe(
                 this,
                 isLoading -> showProgressBar(isLoading)
-
         );
     }
 
@@ -245,6 +227,12 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.profile_image:
                 showFullScreenPhoto(vm.getUser().getValue().getUser().getPhoto());
+                break;
+            case R.id.editProfileButton:
+
+                break;
+            case R.id.followButton:
+
                 break;
         }
     }

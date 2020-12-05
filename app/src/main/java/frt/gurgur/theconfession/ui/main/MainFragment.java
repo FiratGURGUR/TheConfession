@@ -53,7 +53,7 @@ import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 
-public class MainFragment extends BaseFragment implements View.OnClickListener, Navigator.OnGoBackListener {
+public class MainFragment extends BaseFragment implements View.OnClickListener {
 
     ViewDataBinding binding;
     @Inject
@@ -62,7 +62,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     PostViewModel post_vm;
 
     @BindView(R.id.rcyclePostList)
-    RecyclerView recyclerView;
+   public RecyclerView recyclerView;
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -132,11 +132,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 
     }
 
-    public void clearList(){
-        page=1;
-        postList.clear();
-        adapter.notifyDataSetChanged();
-    }
 
     public void initView(){
         fabPost.setOnClickListener(this);
@@ -180,10 +175,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 
                     if (dataItems.size() >= PAGE_SIZE){
                         //addfooter
-                        Log.e("fff","addfooter");
                     }else {
                         isLastPage = true;
-                        Log.e("fff","isLastPage True");
                     }
 
                 }
@@ -221,7 +214,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
                         && totalItemCount >= PAGE_SIZE) {
                     page=page+1;
                    vm.loadPostList(page,userId);
-                   Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
                 }
             }
         }
@@ -296,11 +288,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    @Override
-    public boolean onGoBack() {
-        recyclerView.smoothScrollToPosition(0);
-        return false;
-    }
+
+
 
 
 }

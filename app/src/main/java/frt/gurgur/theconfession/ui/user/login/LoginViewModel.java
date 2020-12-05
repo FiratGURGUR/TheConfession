@@ -1,13 +1,17 @@
 package frt.gurgur.theconfession.ui.user.login;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import javax.inject.Inject;
+
+import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
 import frt.gurgur.theconfession.model.ValidationModel;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
-import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.model.user.RequestUser;
 import frt.gurgur.theconfession.util.ErrorUtils;
 import frt.gurgur.theconfession.util.Helper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,12 +21,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoginViewModel extends BaseViewModel {
 
-    private static final String TAG = "LoginViewModel";
     private final UserRepo userRepo;
     private CompositeDisposable disposable;
     private MutableLiveData<UserResponse> user = new MutableLiveData<>();
     private MutableLiveData<ValidationModel> loginValidation = new MutableLiveData<>();
 
+    @Inject
+    Context context;
 
     @Inject
     public LoginViewModel(UserRepo userRepo) {
@@ -41,13 +46,13 @@ public class LoginViewModel extends BaseViewModel {
         ValidationModel model= new ValidationModel();
         if (email.isEmpty() || password.isEmpty()){
             model.setValid(false);
-            model.setErrorMessage("Lütefen email ve şifrenizi eksiksiz giirniz!");
+            model.setErrorMessage(context.getString(R.string.login_validation_error));
         }else {
             if (Helper.isValidEmail(email)){
                 model.setValid(true);
             }else {
                 model.setValid(false);
-                model.setErrorMessage("Geçerli bir email adresi giriniz");
+                model.setErrorMessage(context.getString(R.string.enter_valid_email));
             }
         }
         loginValidation.setValue(model);

@@ -3,7 +3,7 @@ package frt.gurgur.theconfession.ui.base;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import frt.gurgur.theconfession.util.APIError;
+import frt.gurgur.theconfession.model.APIError;
 
 public abstract class BaseViewModel extends ViewModel {
 

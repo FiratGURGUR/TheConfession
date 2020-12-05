@@ -32,7 +32,7 @@ import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
-import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.model.user.RequestUser;
 import frt.gurgur.theconfession.ui.user.register.RegisterFragment;
 
 
@@ -117,8 +117,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 if (user != null) {
                   //shared a kaydet
                   preferencesHelper.setUser("user",user);
-                    multipleStackNavigator.start(new MainFragment());
-
+                  multipleStackNavigator.start(new MainFragment());
                 }
             }
         });
@@ -131,7 +130,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     if (error != null) {
                         onError(getContext(), error.getMessage());
                         showProgressBar(false);
-                        Log.e("fff", "Error");
                     }
                 });
     }
@@ -148,10 +146,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     private void showProgressBar(boolean isVisible) {
         if (isVisible) {
             progressBar.setVisibility(View.VISIBLE);
-            Log.e("fff", "loading T");
         } else {
             progressBar.setVisibility(View.GONE);
-            Log.e("fff", "loading F");
         }
     }
 

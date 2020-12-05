@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:fontFamily="@font/hind_medium"
-            android:text="Log in to Confession"
+            android:text="@string/login_desc"
             android:textColor="@color/blue_inactive"
             android:gravity="center_horizontal"
             android:layout_marginBottom="40dp"/>

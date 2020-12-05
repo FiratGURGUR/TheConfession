@@ -37,7 +37,6 @@
             android:tint="@color/white"
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
-            android:contentDescription="Paylaş"
             android:backgroundTint="@color/blue_active"
             app:srcCompat="@drawable/m_post"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

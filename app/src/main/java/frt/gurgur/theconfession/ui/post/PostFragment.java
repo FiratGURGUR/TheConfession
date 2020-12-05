@@ -100,14 +100,12 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showBackButton(true);
-        Log.e("xxx","onCreate");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         showBackButton(false);
-        Log.e("xxx","onDestroy");
     }
 
 
@@ -206,7 +204,6 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
                     if (error != null) {
                         onError(getContext(), error.getMessage());
                         showProgressBar(false);
-                        Log.e("fff", "Error");
                     }
                 });
     }
@@ -216,17 +213,14 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         vm.getLoadingStatus().observe(
                 this,
                 isLoading -> showProgressBar(isLoading)
-
         );
     }
 
     private void showProgressBar(boolean isVisible) {
         if (isVisible) {
             progressBar.setVisibility(View.VISIBLE);
-            Log.e("fff", "loading T");
         } else {
             progressBar.setVisibility(View.GONE);
-            Log.e("fff", "loading F");
         }
     }
 
@@ -271,9 +265,8 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
                     }
                 }else {
                     //uyarı göster
-                    Common.customAlert(getContext() ,"Paylaşmak için yazı yazabilir, fotoğraf ekleyebilirsin!", "Anladım",false);
+                    Common.customAlert(getContext() ,getString(R.string.share_post_validation_error), getString(R.string.action_gotit),false);
                 }
-
                 break;
             case R.id.ivChooseImage:
                 startChoose();

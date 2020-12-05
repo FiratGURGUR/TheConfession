@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.trendyol.medusalib.navigator.MultipleStackNavigator;
@@ -29,6 +30,7 @@ import frt.gurgur.theconfession.databinding.ActivityMainBinding;
 
 import frt.gurgur.theconfession.ui.explore.ExploreFragment;
 import frt.gurgur.theconfession.ui.favorities.FavoritiesFragment;
+import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileBottomSheetFragment;
 import frt.gurgur.theconfession.ui.user.profile.ProfileFragment;
 import frt.gurgur.theconfession.util.PreferencesHelper;
@@ -134,9 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initToolbar();
 
         int userId = preferencesHelper.getUserId();
-        if (userId != EMPTY_USER_ID){
-            multipleStackNavigator.start(new MainFragment());
-        }else{
+        if (userId == EMPTY_USER_ID){
             multipleStackNavigator.start(new LoginFragment());
         }
 
@@ -179,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
                     multipleStackNavigator.switchTab(0);
+
+                    if (multipleStackNavigator.getCurrentFragment() instanceof MainFragment){
+                        ((MainFragment) multipleStackNavigator.getCurrentFragment()).recyclerView.smoothScrollToPosition(0);
+                    }
+
                     return true;
                 case R.id.navigation_explore:
                     multipleStackNavigator.switchTab(1);

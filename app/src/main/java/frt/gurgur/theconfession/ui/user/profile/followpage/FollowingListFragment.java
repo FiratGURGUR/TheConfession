@@ -39,7 +39,6 @@ import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 public class FollowingListFragment extends BaseFragment {
 
     FragmentFollowingListBinding binding;
-    public static final String FRAGMENT_TAG = "FollowerListFragment";
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;

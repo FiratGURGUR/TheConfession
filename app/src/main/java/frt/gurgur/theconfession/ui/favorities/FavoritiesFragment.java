@@ -98,7 +98,6 @@ public class FavoritiesFragment extends BaseFragment  {
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
-        Log.e("vkf","onAttach");
     }
 
     @Override
@@ -111,7 +110,6 @@ public class FavoritiesFragment extends BaseFragment  {
 
         userId = preferencesHelper.getUserId();
         vm.loadFavoritedPostList(page,userId);
-        Log.e("vkf","onCreate");
 
     }
 
@@ -121,45 +119,38 @@ public class FavoritiesFragment extends BaseFragment  {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorities, container, false);
         View view = binding.getRoot();
         ButterKnife.bind(this, view);
-        Log.e("vkf","onCreateView");
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e("vkf","onActivityCreated");
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("vkf","onResume");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("vkf","onDestroy");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.e("vkf","onDetach");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.e("vkf","onStart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.e("vkf","onStop");
     }
 
     @Override
@@ -171,7 +162,6 @@ public class FavoritiesFragment extends BaseFragment  {
         observerErrorStatus();
         setRecyclerView();
 
-        Log.e("vkf","onViewCreated");
 
         swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -198,7 +188,6 @@ public class FavoritiesFragment extends BaseFragment  {
                     if (error != null) {
 
                         showProgressBar(false);
-                        Log.e("fff", "Error");
                         isLastPage = true;
 
                         if (error.getStatus()==404){
@@ -286,7 +275,6 @@ public class FavoritiesFragment extends BaseFragment  {
                         && totalItemCount >= PAGE_SIZE) {
                     page=page+1;
                     vm.loadFavoritedPostList(page,userId);
-                    Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
                 }
             }
         }

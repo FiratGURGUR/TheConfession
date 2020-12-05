@@ -1,7 +1,6 @@
 package frt.gurgur.theconfession.ui.user.register;
 
 import android.content.Context;
-import android.text.SpannableStringBuilder;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,7 +12,7 @@ import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
 import frt.gurgur.theconfession.model.ValidationModel;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
-import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.model.user.RequestUser;
 import frt.gurgur.theconfession.util.ErrorUtils;
 import frt.gurgur.theconfession.util.Helper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -50,7 +49,7 @@ public class RegisterViewModel extends BaseViewModel {
         ValidationModel model= new ValidationModel();
         if (username.isEmpty() || fullname.isEmpty() || email.isEmpty() || password.isEmpty()){
             model.setValid(false);
-            model.setErrorMessage("Lütefen tüm bilgileri eksiksiz doldurunuz.");
+            model.setErrorMessage(context.getString(R.string.register_validation_error));
         }else {
             if (Helper.isValidEmail(email)){
                 if (username.length()>3 & fullname.length()>3 & password.length()>5){
@@ -61,7 +60,7 @@ public class RegisterViewModel extends BaseViewModel {
                 }
             }else {
                 model.setValid(false);
-                model.setErrorMessage("Geçerli bir email adresi giriniz");
+                model.setErrorMessage(context.getString(R.string.enter_valid_email));
             }
         }
         registerValidation.setValue(model);

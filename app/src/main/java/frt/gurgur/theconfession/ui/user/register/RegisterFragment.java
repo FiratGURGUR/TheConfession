@@ -10,7 +10,6 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,20 +29,18 @@ import frt.gurgur.theconfession.model.ValidationModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
-import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.model.user.RequestUser;
 import frt.gurgur.theconfession.util.Common;
 import frt.gurgur.theconfession.util.Constants;
 import frt.gurgur.theconfession.util.Helper;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener {
     ViewDataBinding binding;
-    public static final String FRAGMENT_TAG = "RegisterFragment";
     @Inject
     ViewModelFactory vmFactory;
     RegisterViewModel vm;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-
     @BindView(R.id.edtUserName)
     EditText edtUserName;
     @BindView(R.id.edtFullName)
@@ -93,24 +90,20 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
         initView();
         vm = ViewModelProviders.of(this, vmFactory).get(RegisterViewModel.class);
-
         observeRegister();
         this.observeLoadStatus();
         this.observerErrorStatus();
         observeRegisterValidation();
-
     }
 
-    public void initView(){
+    public void initView() {
         registerButton.setOnClickListener(this);
     }
 
-    public void observeRegister(){
+    public void observeRegister() {
         vm.getUser().observe(this, new Observer<APIResponseModel>() {
             @Override
             public void onChanged(APIResponseModel apiResponseModel) {
-                //shared preferences kaydetme yapma
-
                 multipleStackNavigator.start(new MainFragment());
             }
         });
@@ -123,7 +116,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     if (error != null) {
                         onError(getContext(), error.getMessage());
                         showProgressBar(false);
-                        Log.e("fff", "Error");
                     }
                 });
     }
@@ -133,53 +125,47 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         vm.getLoadingStatus().observe(
                 this,
                 isLoading -> showProgressBar(isLoading)
-
         );
     }
 
     private void showProgressBar(boolean isVisible) {
         if (isVisible) {
             progressBar.setVisibility(View.VISIBLE);
-            Log.e("fff", "loading T");
         } else {
             progressBar.setVisibility(View.GONE);
-            Log.e("fff", "loading F");
         }
     }
 
-    public void doRegister(){
-        String username= edtUserName.getText().toString();
-        String fullname= edtFullName.getText().toString();
-        String email= edtEmail.getText().toString();
-        String password= edtPassword.getText().toString();
-
-        vm.setRegisterValidation(username,fullname,email,password);
-
+    public void doRegister() {
+        String username = edtUserName.getText().toString();
+        String fullname = edtFullName.getText().toString();
+        String email = edtEmail.getText().toString();
+        String password = edtPassword.getText().toString();
+        vm.setRegisterValidation(username, fullname, email, password);
     }
 
-    public void observeRegisterValidation(){
+    public void observeRegisterValidation() {
         vm.getRegisterValidation().observe(this, new Observer<ValidationModel>() {
             @Override
             public void onChanged(ValidationModel validationModel) {
-                if (validationModel.isValid){
-                    String username= edtUserName.getText().toString();
-                    String fullname= edtFullName.getText().toString();
-                    String email= edtEmail.getText().toString();
-                    String password= edtPassword.getText().toString();
-                    RequestUser user = new RequestUser(username,fullname, Helper.generateUserPhoto(fullname),password,email, Constants.DEFAULT_COVERPHOTO_URL);
+                if (validationModel.isValid) {
+                    String username = edtUserName.getText().toString();
+                    String fullname = edtFullName.getText().toString();
+                    String email = edtEmail.getText().toString();
+                    String password = edtPassword.getText().toString();
+                    RequestUser user = new RequestUser(username, fullname, Helper.generateUserPhoto(fullname), password, email, Constants.DEFAULT_COVERPHOTO_URL);
                     vm.registerUser(user);
-                }else {
-                    Common.customAlertSpanable(getContext(),"", validationModel.errorMessage,"Anladım");
+                } else {
+                    Common.customAlertSpanable(getContext(), "", validationModel.errorMessage, getString(R.string.action_gotit));
                 }
             }
         });
-
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.registerButton:
                 doRegister();
                 break;

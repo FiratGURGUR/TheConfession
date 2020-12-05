@@ -49,7 +49,7 @@
                         android:gravity="center"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/hind_regular"
-                        android:text="Henüz hiç takip yok" />
+                        android:text="@string/no_following" />
                 </LinearLayout>
 
 

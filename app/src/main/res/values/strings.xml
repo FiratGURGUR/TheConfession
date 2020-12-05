@@ -7,6 +7,13 @@
     <string name="login_do">Giriş Yap</string>
     <string name="register">Hesabın yok mu? Kayıt Ol</string>
     <string name="register_do">Kayıt Ol</string>
+    <string name="action_gotit">Anladım</string>
+    <string name="action_ok">Tamam</string>
+    <string name="action_close">Kapat</string>
+    <string name="profile_posts">Gönderiler</string>
+    <string name="profile_favs">Beğeniler</string>
+    <string name="profile_followers">Takipçiler</string>
+    <string name="profile_followings">Takip</string>
     <string name="register_username_hint">Kullanıcı Adı</string>
     <string name="register_fullname_hint">Ad Soyad</string>
     <string name="register_email_hint">Email adresiniz</string>
@@ -26,6 +33,21 @@
     <string name="register_warning"><![CDATA[ <p><span style="text-decoration: underline;"><strong>L&uuml;tfen bu kuralları dikkate alarak &uuml;yeliğinizi oluşturunuz.</strong></span></p>
 <p>1.Kullanıcı adı en az 3 karakter olmalıdır.<br /> 2.Ad Soyad en az 3 karakter olmalıdır.<br /> 3.Şifre en az 5 karakter olmalıdır.</p> ]]> </string>
     <string name="share">Paylaş</string>
+
+    <string name="register_desc">Neler olup bittiğini öğrenmek için aramıza katıl!</string>
+    <string name="login_desc">Log in to Confession</string>
+    <string name="comments">Yorumlar</string>
+    <string name="no_comment">Henüz hiç yorum yok. \nİlk yorumu yazmaya başla!</string>
+    <string name="no_favorited">Favorilerinizde herhangi bir içerik bulunmuyor!</string>
+    <string name="no_follower">Henüz hiç takipçi yok</string>
+    <string name="no_following">Henüz hiç takip yok</string>
+    <string name="no_user_followed_anything">Kullanıcının beğendiği herhangi bir içerik yok!</string>
+    <string name="no_shared_post">Henüz hiç gönderi yok</string>
+
+    <string name="register_validation_error">Lütefen tüm bilgileri eksiksiz doldurunuz.</string>
+    <string name="enter_valid_email">Geçerli bir email adresi giriniz</string>
+    <string name="login_validation_error">Lütefen email ve şifrenizi eksiksiz giirniz!</string>
+    <string name="share_post_validation_error">Paylaşmak için yazı yazabilir, fotoğraf ekleyebilirsin!</string>
 
 
 

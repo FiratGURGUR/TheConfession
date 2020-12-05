@@ -6,6 +6,7 @@ import com.google.gson.TypeAdapter;
 
 import java.io.IOException;
 
+import frt.gurgur.theconfession.model.APIError;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 

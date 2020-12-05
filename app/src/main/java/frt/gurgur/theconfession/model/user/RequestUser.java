@@ -1,4 +1,4 @@
-package frt.gurgur.theconfession.ui.user;
+package frt.gurgur.theconfession.model.user;
 
 import com.google.gson.annotations.SerializedName;
 

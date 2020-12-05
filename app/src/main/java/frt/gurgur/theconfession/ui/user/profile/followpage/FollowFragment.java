@@ -29,7 +29,6 @@ import frt.gurgur.theconfession.ui.base.BaseFragment;
 public class FollowFragment extends BaseFragment {
 
     FragmentFollowBinding binding;
-    public static final String FRAGMENT_TAG = "ProfileFragment";
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.tablayout)
@@ -91,8 +90,8 @@ public class FollowFragment extends BaseFragment {
         followerListFragment.setArguments(arguments);
         followingListFragment.setArguments(arguments);
         adapter = new TabAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(followerListFragment, "Takipçiler");
-        adapter.addFragment(followingListFragment, "Takip");
+        adapter.addFragment(followerListFragment, getString(R.string.profile_followers));
+        adapter.addFragment(followingListFragment, getString(R.string.profile_followings));
 
 
         viewPager.setAdapter(adapter);

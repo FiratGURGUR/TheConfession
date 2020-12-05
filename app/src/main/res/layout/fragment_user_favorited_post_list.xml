@@ -55,7 +55,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
                         android:gravity="center"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/hind_regular"
-                        android:text="Kullanıcının beğendiği herhangi bir içerik yok!" />
+                        android:text="@string/no_user_followed_anything" />
                 </LinearLayout>
 
 

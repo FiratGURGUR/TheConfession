@@ -49,7 +49,7 @@
                         android:layout_marginTop="20dp"
                         android:gravity="center"
                         android:fontFamily="@font/hind_regular"
-                        android:text="Henüz hiç gönderi yok" />
+                        android:text="@string/no_shared_post" />
                 </LinearLayout>
 
 

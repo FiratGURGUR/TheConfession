@@ -3,7 +3,6 @@
     android:id="@+id/toolbarView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -29,14 +28,12 @@
                 android:background="@null"
                 android:src="@drawable/ic_baseline_arrow_back_24" />
 
-
             <ImageView
                 android:id="@+id/appTitle"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/app_icon_black" />
-
 
             <ImageButton
                 android:id="@+id/btnProfileDetail"
@@ -47,9 +44,7 @@
                 android:background="@null"
                 android:src="@drawable/hamburger_menu" />
 
-
         </RelativeLayout>
-
 
     </androidx.appcompat.widget.Toolbar>
 

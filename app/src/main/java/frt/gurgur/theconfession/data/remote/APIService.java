@@ -10,7 +10,7 @@ import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.model.post.giphy.GiphyModel;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
-import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.model.user.RequestUser;
 import frt.gurgur.theconfession.util.Constants;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;

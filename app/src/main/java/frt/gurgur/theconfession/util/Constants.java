@@ -29,13 +29,6 @@ public class Constants {
 
 
 
-
-    public static final int FAV_DELETED = 100;
-    public static final int FAV_ADDED = 110;
-    public static final int FAV_ERROR = 0;
-
-
-
     public interface KeyboardVisibility {
         void onKeyboardOpen();
 

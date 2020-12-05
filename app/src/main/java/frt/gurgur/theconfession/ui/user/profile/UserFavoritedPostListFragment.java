@@ -185,10 +185,8 @@ public class UserFavoritedPostListFragment extends BaseFragment {
 
                     if (dataItems.size() >= PAGE_SIZE){
                         //addfooter
-                        Log.e("fff","addfooter");
                     }else {
                         isLastPage = true;
-                        Log.e("fff","isLastPage True");
                     }
 
                 }
@@ -226,7 +224,6 @@ public class UserFavoritedPostListFragment extends BaseFragment {
                         && totalItemCount >= PAGE_SIZE) {
                     page=page+1;
                     vm.loadFavoritedPostList(page,userId);
-                    Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
                 }
             }
         }

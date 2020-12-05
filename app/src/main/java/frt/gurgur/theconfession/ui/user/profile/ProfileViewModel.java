@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import frt.gurgur.theconfession.data.remote.repo.UserRepo;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
-import frt.gurgur.theconfession.ui.user.RequestUser;
+import frt.gurgur.theconfession.model.user.RequestUser;
 import frt.gurgur.theconfession.util.ErrorUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -17,7 +17,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ProfileViewModel extends BaseViewModel {
 
-    private static final String TAG = "ProfileViewModel";
     private final UserRepo userRepo;
     private CompositeDisposable disposable;
     private MutableLiveData<UserResponse> user = new MutableLiveData<>();

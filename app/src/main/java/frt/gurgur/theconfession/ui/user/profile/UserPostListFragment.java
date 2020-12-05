@@ -168,10 +168,8 @@ public class UserPostListFragment extends BaseFragment{
 
                     if (dataItems.size() >= PAGE_SIZE){
                         //addfooter
-                        Log.e("fff","addfooter");
                     }else {
                         isLastPage = true;
-                        Log.e("fff","isLastPage True");
                     }
 
                 }
@@ -209,7 +207,6 @@ public class UserPostListFragment extends BaseFragment{
                         && totalItemCount >= PAGE_SIZE) {
                     page=page+1;
                     vm.loadSharedPostList(page,userId);
-                    Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
                 }
             }
         }

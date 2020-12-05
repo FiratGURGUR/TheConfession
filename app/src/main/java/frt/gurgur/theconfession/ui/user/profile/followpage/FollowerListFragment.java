@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,6 @@ import frt.gurgur.theconfession.model.user.follow.FollowsItem;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.FollowListAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
-import frt.gurgur.theconfession.util.APIError;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 
@@ -40,7 +38,6 @@ import frt.gurgur.theconfession.util.SimpleDividerItemDecoration;
 public class FollowerListFragment extends BaseFragment {
 
     FragmentFollowerListBinding binding;
-    public static final String FRAGMENT_TAG = "FollowerListFragment";
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;

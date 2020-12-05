@@ -111,7 +111,6 @@ public class GiphyListFragment extends BaseFragment {
                     if (error != null) {
                         onError(getContext(), error.getMessage());
                         showProgressBar(false);
-                        Log.e("fff", "Error");
                         isLastPage = true;
                     }
                 });
@@ -140,10 +139,8 @@ public class GiphyListFragment extends BaseFragment {
 
                     if (dataItems.size() >= PAGE_SIZE){
                         //addfooter
-                        Log.e("fff","addfooter");
                     }else {
                         isLastPage = true;
-                        Log.e("fff","isLastPage True");
                     }
 
                 }
@@ -181,7 +178,6 @@ public class GiphyListFragment extends BaseFragment {
                         && totalItemCount >= PAGE_SIZE) {
                     page=page+1;
                     vm.loadGiphyList(page);
-                    Log.e("fff" , "visibleItemCount : " + visibleItemCount + "*******" + "totalItemCount : " + totalItemCount+ "*******" + "firstVisibleItemPosition : " + firstVisibleItemPosition);
                 }
             }
         }
