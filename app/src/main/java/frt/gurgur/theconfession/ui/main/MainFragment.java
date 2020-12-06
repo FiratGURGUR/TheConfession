@@ -103,6 +103,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         showToolbar(true);
         showNavigation(true);
+
     }
 
     @Override

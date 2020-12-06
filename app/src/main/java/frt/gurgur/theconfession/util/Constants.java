@@ -19,6 +19,7 @@ public class Constants {
     public static final String POST_FAV = "favori/addFavori.php";
     public static final String COMMENT_LIST = "comment/gelAllComments.php";
     public static final String COMMENT_ADD = "comment/addComment.php";
+    public static final String FOLLOW_UNFOLLOW = "follow/addFollow.php";
 
 
 

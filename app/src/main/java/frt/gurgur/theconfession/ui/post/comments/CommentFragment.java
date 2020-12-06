@@ -107,7 +107,12 @@ public class CommentFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        showBackButton(false);
+        if (multipleStackNavigator.canGoBack()){
+            showBackButton(true);
+        }else {
+            showBackButton(false);
+        }
+
     }
 
     @Override

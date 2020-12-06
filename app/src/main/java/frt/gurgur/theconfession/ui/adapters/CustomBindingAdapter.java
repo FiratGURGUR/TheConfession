@@ -40,11 +40,13 @@ public class CustomBindingAdapter {
     }
 
     @BindingAdapter("followText")
-    public static void setFollowText(Button textView, String follow) {
+    public static void setFollowText(Button button, String follow) {
          if (follow != null && follow.equals("true")){
-             textView.setText(R.string.profile_unfollow);
+             button.setText(R.string.profile_unfollow);
+             button.setBackgroundResource(R.drawable.follow_me_pasive_background);
          }else{
-             textView.setText(R.string.profile_follow);
+             button.setText(R.string.profile_follow);
+             button.setBackgroundResource(R.drawable.login_button_background);
          }
     }
 

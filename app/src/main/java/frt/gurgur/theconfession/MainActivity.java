@@ -156,6 +156,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void initBackButton(Fragment fragment){
+        if (fragment instanceof ProfileFragment){
+            btnBack.setVisibility(View.VISIBLE);
+        }else if (fragment instanceof MainFragment){
+            btnBack.setVisibility(View.GONE);
+        }
+    }
+
+
     public void showBottomSheet() {
         ProfileBottomSheetFragment addPhotoBottomDialogFragment =
                 ProfileBottomSheetFragment.newInstance();
@@ -175,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
                     multipleStackNavigator.switchTab(0);
@@ -202,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onTabChanged(int tabIndex) {
-
         switch (tabIndex) {
             case 0:
                 navigation.setSelectedItemId(R.id.navigation_home);

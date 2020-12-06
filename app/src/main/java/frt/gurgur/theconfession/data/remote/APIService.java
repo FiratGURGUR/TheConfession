@@ -11,6 +11,7 @@ import frt.gurgur.theconfession.model.post.giphy.GiphyModel;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
 import frt.gurgur.theconfession.model.user.RequestUser;
+import frt.gurgur.theconfession.model.user.follow.FollowUnfollowRequestModel;
 import frt.gurgur.theconfession.util.Constants;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
@@ -74,4 +75,8 @@ public interface APIService {
 
     @GET(Constants.GIPHY_LIST)
     Single<GiphyModel> giphyList(@Query("page") int page);
+
+    @POST(Constants.FOLLOW_UNFOLLOW)
+    Single<APIResponseModel> followUnfollow(@Body FollowUnfollowRequestModel followUnfollowRequestModel);
+
 }

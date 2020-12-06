@@ -261,11 +261,18 @@ public class UserPostListFragment extends BaseFragment{
     ProfileClickListener profileClickListener = new ProfileClickListener() {
         @Override
         public void showProfile(int user_Id) {
-            Bundle arguments = new Bundle();
-            arguments.putInt("userId", user_Id);
-            ProfileFragment profileFragment = new ProfileFragment();
-            profileFragment.setArguments(arguments);
-            multipleStackNavigator.start(profileFragment);
+
+            if (multipleStackNavigator.getCurrentFragment() instanceof ProfileFragment){
+
+            }else {
+                Bundle arguments = new Bundle();
+                arguments.putInt("userId", user_Id);
+                ProfileFragment profileFragment = new ProfileFragment();
+                profileFragment.setArguments(arguments);
+                multipleStackNavigator.start(profileFragment);
+            }
+
+
         }
     };
 

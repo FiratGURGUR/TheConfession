@@ -7,6 +7,7 @@ import frt.gurgur.theconfession.data.remote.APIService;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
 import frt.gurgur.theconfession.model.user.RequestUser;
+import frt.gurgur.theconfession.model.user.follow.FollowUnfollowRequestModel;
 import io.reactivex.Single;
 
 public class UserRepo {
@@ -33,5 +34,9 @@ public class UserRepo {
     public Single<FollowListResponse> getFollowerList(int user_id){return api.followersList(user_id);}
 
     public Single<FollowListResponse> getFollowingList(int user_id){return api.followingsList(user_id);}
+
+    public Single<APIResponseModel> followUnfollow(FollowUnfollowRequestModel followUnfollowRequestModel){
+        return api.followUnfollow(followUnfollowRequestModel);
+    }
 
 }

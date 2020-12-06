@@ -104,7 +104,7 @@ public class FavoritiesFragment extends BaseFragment  {
     public void onCreate(Bundle savedInstanceState) {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
-
+        showBackButton(false);
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
         post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
 
@@ -328,11 +328,13 @@ public class FavoritiesFragment extends BaseFragment  {
     ProfileClickListener profileClickListener = new ProfileClickListener() {
         @Override
         public void showProfile(int user_Id) {
-            Bundle arguments = new Bundle();
-            arguments.putInt("userId", user_Id);
-            ProfileFragment profileFragment = new ProfileFragment();
-            profileFragment.setArguments(arguments);
-            multipleStackNavigator.start(profileFragment);
+
+                Bundle arguments = new Bundle();
+                arguments.putInt("userId", user_Id);
+                ProfileFragment profileFragment = new ProfileFragment();
+                profileFragment.setArguments(arguments);
+                multipleStackNavigator.start(profileFragment);
+
         }
     };
 

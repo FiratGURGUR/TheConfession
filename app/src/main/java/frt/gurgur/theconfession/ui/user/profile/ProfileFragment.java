@@ -36,47 +36,41 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.FragmentProfileCopyBinding;
+import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.model.user.UserResponse;
+import frt.gurgur.theconfession.model.user.follow.FollowUnfollowRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.adapters.ViewPagerAdapter;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
 import frt.gurgur.theconfession.model.user.RequestUser;
 import frt.gurgur.theconfession.ui.user.profile.followpage.FollowFragment;
+import frt.gurgur.theconfession.util.CustomProgressDialogue;
 import frt.gurgur.theconfession.util.PreferencesHelper;
 import frt.gurgur.theconfession.util.Utils;
 
 
 public class ProfileFragment extends BaseFragment implements View.OnClickListener{
-    //ViewDataBinding binding;
     FragmentProfileCopyBinding binding;
-
+    ProfileViewModel vm;
+    public ViewPagerAdapter adapter;
+    public int userId;
+    public int my_userId;
 
     @Inject
     ViewModelFactory vmFactory;
     @Inject
     PreferencesHelper preferencesHelper;
 
-    ProfileViewModel vm;
-
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-
     @BindView(R.id.layoutFollowerCount)
     LinearLayout layoutFollowerCount;
-
     @BindView(R.id.layoutFollowingCount)
     LinearLayout layoutFollowingCount;
-
     @BindView(R.id.layoutSharedCount)
     LinearLayout layoutSharedCount;
-
     @BindView(R.id.tablayoutProfile)
     TabLayout tabLayout;
     @BindView(R.id.viewpagerProfile)
     ViewPager viewPager;
-    //public TabAdapter adapter;
-    public ViewPagerAdapter adapter;
-
     @BindView(R.id.profileAppBar)
     AppBarLayout profileAppBar;
     @BindView(R.id.editProfileButton)
@@ -88,8 +82,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     @BindView(R.id.profile_image)
     ImageView profileImage;
 
-    public int userId;
-    public int my_userId;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -99,14 +91,23 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
-        Log.e("sd","onAttach");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("sd","onCreate");
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (multipleStackNavigator.canGoBack()){
+            showBackButton(true);
+        }else {
+            showBackButton(false);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,7 +115,8 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_copy, container, false);
         View view = binding.getRoot();
         ButterKnife.bind(this, view);
-        Log.e("sd","onCreateView");
+
+        Log.e("log","onCreateView");
         return view;
     }
 
@@ -122,12 +124,13 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         vm = ViewModelProviders.of(this, vmFactory).get(ProfileViewModel.class);
+
         initView();
-
         observeSingleUser();
-
         observeLoadStatus();
         observerErrorStatus();
+        observeFollowUnfollow();
+        Log.e("log","onViewCreated");
     }
 
     public void initView(){
@@ -142,15 +145,18 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             //benim profilimse
             editProfileButton.setVisibility(View.VISIBLE);
             followButton.setVisibility(View.GONE);
+            showBackButton(false);
         }else {
             editProfileButton.setVisibility(View.GONE);
             followButton.setVisibility(View.VISIBLE);
+            showBackButton(true);
         }
 
         if (Utils.getConnectionType(getContext()) != Utils.NO_CONNECTION){
             RequestUser user = new RequestUser(my_userId,userId);
             vm.getSingleUser(user);
         }
+
         layoutFollowerCount.setOnClickListener(this);
         layoutFollowingCount.setOnClickListener(this);
         layoutSharedCount.setOnClickListener(this);
@@ -182,13 +188,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
       });
     }
 
-    private void showProgressBar(boolean isVisible) {
-        if (isVisible) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
+
 
     @Override
     protected void observerErrorStatus() {
@@ -196,7 +196,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                 error -> {
                     if (error != null) {
                         onError(getContext(), error.getMessage());
-                        showProgressBar(false);
                     }
                 });
     }
@@ -205,8 +204,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     protected void observeLoadStatus() {
         vm.getLoadingStatus().observe(
                 this,
-                isLoading -> showProgressBar(isLoading)
-        );
+                new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean aBoolean) {
+
+                    }});
     }
 
     @Override
@@ -232,7 +234,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
                 break;
             case R.id.followButton:
-
+                followUnfollowClick();
                 break;
         }
     }
@@ -258,5 +260,27 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         multipleStackNavigator.start(followFragment);
     }
 
+    public void observeFollowUnfollow(){
+        vm.getFollowUnfollowResponse().observe(this, new Observer<APIResponseModel>() {
+            @Override
+            public void onChanged(APIResponseModel apiResponseModel) {
+                if (apiResponseModel.getStatus()==40){
+                    vm.getUser().getValue().getUser().setFollowerCount(vm.getUser().getValue().getUser().getFollowerCount()+1);
+                    vm.getUser().getValue().getUser().setIsTakip("true");
+                    binding.setSingleUser(vm.getUser().getValue().getUser());
+                }else if (apiResponseModel.getStatus()==30){
+                    vm.getUser().getValue().getUser().setFollowerCount(vm.getUser().getValue().getUser().getFollowerCount()-1);
+                    vm.getUser().getValue().getUser().setIsTakip("false");
+                    binding.setSingleUser(vm.getUser().getValue().getUser());
+                }
+            }
+        });
+    }
+
+
+    public void followUnfollowClick(){
+        FollowUnfollowRequestModel model = new FollowUnfollowRequestModel(my_userId,userId);
+        vm.followUnfollowUser(model);
+    }
 
 }
