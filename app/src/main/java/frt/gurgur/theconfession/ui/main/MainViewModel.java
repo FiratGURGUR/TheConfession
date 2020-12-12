@@ -15,6 +15,8 @@ import frt.gurgur.theconfession.model.comment.CreateCommentRequestModel;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.post.giphy.GiphyModel;
+import frt.gurgur.theconfession.model.stories.StoriessItem;
+import frt.gurgur.theconfession.model.stories.StoryListResponse;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
 import frt.gurgur.theconfession.util.ErrorUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -30,6 +32,7 @@ public class MainViewModel extends BaseViewModel {
     private CompositeDisposable disposable;
     private MutableLiveData<List<DataItem>> postList = new MutableLiveData<>();
     private MutableLiveData<List<frt.gurgur.theconfession.model.post.giphy.DataItem>> giphyList = new MutableLiveData<>();
+    private MutableLiveData<List<StoriessItem>> storyList = new MutableLiveData<>();
     private MutableLiveData<List<DataItem>> sharedPostList = new MutableLiveData<>();
     private MutableLiveData<List<DataItem>> favoritedPostList = new MutableLiveData<>();
     private MutableLiveData<List<CommentsItem>> commentList = new MutableLiveData<>();
@@ -46,6 +49,9 @@ public class MainViewModel extends BaseViewModel {
     }
     public LiveData<List<frt.gurgur.theconfession.model.post.giphy.DataItem>> getGiphyList() {
         return giphyList;
+    }
+    public LiveData<List<StoriessItem>> getStoryList() {
+        return storyList;
     }
     public LiveData<List<DataItem>> getSharedPostList() {
         return sharedPostList;
@@ -98,6 +104,30 @@ public class MainViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(GiphyModel giphyModel) {
                         giphyList.setValue(giphyModel.getData());
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        onError.setValue(ErrorUtils.showError(e));
+                    }
+                }));
+
+    }
+
+    public void loadStoryList() {
+
+        disposable.add(mainRepo.getStoryList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> loadingStatus.setValue(true))
+                .doAfterTerminate(() -> loadingStatus.setValue(false))
+                .subscribeWith(new DisposableSingleObserver<StoryListResponse>() {
+
+                    @Override
+                    public void onSuccess(StoryListResponse storyListResponse) {
+                        storyList.setValue(storyListResponse.getStoriess());
 
                     }
 

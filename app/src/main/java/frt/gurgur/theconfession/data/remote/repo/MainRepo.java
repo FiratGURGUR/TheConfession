@@ -9,6 +9,7 @@ import frt.gurgur.theconfession.model.comment.CreateCommentRequestModel;
 import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.model.post.giphy.GiphyModel;
+import frt.gurgur.theconfession.model.stories.StoryListResponse;
 import io.reactivex.Single;
 
 public class MainRepo {
@@ -26,6 +27,10 @@ public class MainRepo {
 
     public Single<GiphyModel> getGiphyList(int page){
         return api.giphyList(page);
+    }
+
+    public Single<StoryListResponse> getStoryList(){
+        return api.getStoryList();
     }
 
     public Single<PostResponse> getSharedPostList(int page, int user_id){

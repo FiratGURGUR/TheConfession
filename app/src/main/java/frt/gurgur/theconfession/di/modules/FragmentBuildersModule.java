@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector;
 import frt.gurgur.theconfession.ui.explore.ExploreFragment;
 import frt.gurgur.theconfession.ui.favorities.FavoritiesFragment;
 import frt.gurgur.theconfession.ui.main.MainFragment;
+import frt.gurgur.theconfession.ui.main.StoryFragment;
 import frt.gurgur.theconfession.ui.post.PostFragment;
 import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
 import frt.gurgur.theconfession.ui.post.giphy.GiphyListFragment;
@@ -61,4 +62,7 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector(modules = {ViewModelModule.class})
     abstract GiphyListFragment giphyListFragment();
+
+    @ContributesAndroidInjector(modules = {ViewModelModule.class})
+    abstract StoryFragment storyFragment();
 }

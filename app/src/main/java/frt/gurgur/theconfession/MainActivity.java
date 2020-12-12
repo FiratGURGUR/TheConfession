@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.navigation)
     public BottomNavigationView navigation;
 
+    @BindView(R.id.viewLineNavigation)
+    public View viewLine;
+
 
 
     @Override

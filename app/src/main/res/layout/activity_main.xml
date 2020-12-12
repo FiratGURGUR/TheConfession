@@ -22,7 +22,7 @@
             android:orientation="horizontal"/>
 
         <View
-            android:id="@+id/viewLine"
+            android:id="@+id/viewLineNavigation"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/blue_inactive" />

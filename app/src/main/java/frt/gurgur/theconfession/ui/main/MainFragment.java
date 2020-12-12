@@ -9,26 +9,19 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-
-import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.stfalcon.imageviewer.loader.ImageLoader;
-import com.trendyol.medusalib.navigator.Navigator;
-import com.trendyol.medusalib.navigator.transaction.NavigatorTransaction;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +31,13 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
+import frt.gurgur.theconfession.model.stories.StoriessItem;
+import frt.gurgur.theconfession.ui.adapters.StoryListAdapter;
 import frt.gurgur.theconfession.ui.listeners.CommentClickListener;
 import frt.gurgur.theconfession.ui.listeners.FavClickListener;
 import frt.gurgur.theconfession.ui.listeners.OnItemClickListener;
 import frt.gurgur.theconfession.ui.listeners.ProfileClickListener;
+import frt.gurgur.theconfession.ui.listeners.StoryClickListener;
 import frt.gurgur.theconfession.ui.post.PostFragment;
 import frt.gurgur.theconfession.ui.post.PostViewModel;
 import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
@@ -71,10 +67,14 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     FloatingActionButton fabPost;
 
 
+    @BindView(R.id.rcyclerStoryList)
+    RecyclerView rcyclerStoryList;
+
     @Inject
     PreferencesHelper preferencesHelper;
 
     GridLayoutManager gridLayoutManager;
+    LinearLayoutManager linearLayoutManager;
 
     int userId;
     public int page = 1;
@@ -84,6 +84,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 
 
     private List<DataItem> postList = new ArrayList<>();
+    private List<StoriessItem> storylist = new ArrayList<>();
 
 
 
@@ -130,6 +131,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         setRecyclerView();
 
 
+        setStoryAdapter();
+        observeStoryList();
+        vm.loadStoryList();
+
 
     }
 
@@ -139,6 +144,16 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
+    public void observeStoryList(){
+        vm.getStoryList().observe(this, new Observer<List<StoriessItem>>() {
+            @Override
+            public void onChanged(List<StoriessItem> storiessItems) {
+                storylist.addAll(storiessItems);
+                rcyclerStoryList.getAdapter().notifyDataSetChanged();
+                Toast.makeText(mActivity, storiessItems.get(0).getStoryUrl(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
     @Override
@@ -185,6 +200,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         });
     }
     PostListAdapter adapter;
+    StoryListAdapter storyListAdapter;
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
         adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener,profileClickListener);
@@ -193,8 +209,32 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+    }
+
+    private void setStoryAdapter(){
+        linearLayoutManager
+                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        storyListAdapter = new StoryListAdapter(storylist,storyClickListener);
+        rcyclerStoryList.setLayoutManager(linearLayoutManager);
+        rcyclerStoryList.setAdapter(storyListAdapter);
+        recyclerView.setHasFixedSize(true);
 
     }
+
+
+    StoryClickListener storyClickListener = new StoryClickListener() {
+        @Override
+        public void onStoryClick(int position) {
+
+            StoryFragment fragment = new StoryFragment();
+            Bundle arguments = new Bundle();
+            arguments.putInt("position",position);
+            fragment.setArguments(arguments);
+            multipleStackNavigator.start(fragment);
+        }
+    };
+
+
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -279,6 +319,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     };
 
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -289,6 +330,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
+    public void loadStories(){
+        //bundle ile pos gonder ona göre ac
+        multipleStackNavigator.start(new StoryFragment());
+    }
 
 
 

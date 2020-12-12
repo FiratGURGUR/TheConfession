@@ -123,4 +123,6 @@ dependencies {
 
     implementation 'com.baoyz.pullrefreshlayout:library:1.2.0'
 
+    implementation 'com.github.shts:StoriesProgressView:3.0.0'
+
 }

@@ -12,6 +12,7 @@ import com.trendyol.medusalib.navigator.MultipleStackNavigator;
 
 import dagger.android.support.DaggerFragment;
 import frt.gurgur.theconfession.MainActivity;
+import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.ui.post.comments.CommentFragment;
 
 public abstract class BaseFragment extends DaggerFragment {
@@ -63,8 +64,10 @@ public abstract class BaseFragment extends DaggerFragment {
     public void showNavigation(boolean show){
         if (show){
             mActivity.navigation.setVisibility(View.VISIBLE);
+            mActivity.viewLine.setVisibility(View.VISIBLE);
         }else{
             mActivity.navigation.setVisibility(View.GONE);
+            mActivity.viewLine.setVisibility(View.GONE);
         }
     }
 

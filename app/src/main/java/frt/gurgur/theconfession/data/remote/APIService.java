@@ -8,6 +8,8 @@ import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.model.post.giphy.GiphyModel;
+import frt.gurgur.theconfession.model.stories.StoriessItem;
+import frt.gurgur.theconfession.model.stories.StoryListResponse;
 import frt.gurgur.theconfession.model.user.UserResponse;
 import frt.gurgur.theconfession.model.user.follow.FollowListResponse;
 import frt.gurgur.theconfession.model.user.RequestUser;
@@ -78,5 +80,9 @@ public interface APIService {
 
     @POST(Constants.FOLLOW_UNFOLLOW)
     Single<APIResponseModel> followUnfollow(@Body FollowUnfollowRequestModel followUnfollowRequestModel);
+
+    @GET(Constants.STORY_LIST)
+    Single<StoryListResponse> getStoryList();
+
 
 }
