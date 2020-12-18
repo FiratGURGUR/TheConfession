@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stfalcon.imageviewer.StfalconImageViewer;
@@ -150,7 +148,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             public void onChanged(List<StoriessItem> storiessItems) {
                 storylist.addAll(storiessItems);
                 rcyclerStoryList.getAdapter().notifyDataSetChanged();
-                Toast.makeText(mActivity, storiessItems.get(0).getStoryUrl(), Toast.LENGTH_SHORT).show();
             }
         });
     }

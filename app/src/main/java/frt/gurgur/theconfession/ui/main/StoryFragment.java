@@ -85,7 +85,7 @@ public class StoryFragment extends BaseFragment implements StoriesProgressView.S
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
-        vm.loadStoryList();
+        vm.loadWatchList();
 
         counter = getArguments().getInt("position");
 
@@ -96,7 +96,7 @@ public class StoryFragment extends BaseFragment implements StoriesProgressView.S
 
 
     public void observeStoryList(){
-        vm.getStoryList().observe(this, new Observer<List<StoriessItem>>() {
+        vm.getWatchList().observe(this, new Observer<List<StoriessItem>>() {
             @Override
             public void onChanged(List<StoriessItem> storiessItems) {
                 storyList= storiessItems;
@@ -113,7 +113,7 @@ public class StoryFragment extends BaseFragment implements StoriesProgressView.S
         skip.setOnTouchListener(onTouchListener);
 
         close_story.setOnClickListener(this);
-        binding.setStory(storyList.get(0).getStoryUrl());
+        binding.setStory(storyList.get(counter));
 
         storiesProgressView.setStoriesCount(storyList.size()); // <- set stories
         storiesProgressView.setStoryDuration(5000L); // <- set a story duration
@@ -127,13 +127,13 @@ public class StoryFragment extends BaseFragment implements StoriesProgressView.S
 
     @Override
     public void onNext() {
-        binding.setStory(storyList.get(++counter).getStoryUrl());
+        binding.setStory(storyList.get(++counter));
     }
 
     @Override
     public void onPrev() {
         if ((counter - 1) < 0) return;
-        binding.setStory(storyList.get(--counter).getStoryUrl());
+        binding.setStory(storyList.get(--counter));
     }
 
     @Override

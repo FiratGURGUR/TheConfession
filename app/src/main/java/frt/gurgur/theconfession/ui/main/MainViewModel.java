@@ -33,6 +33,7 @@ public class MainViewModel extends BaseViewModel {
     private MutableLiveData<List<DataItem>> postList = new MutableLiveData<>();
     private MutableLiveData<List<frt.gurgur.theconfession.model.post.giphy.DataItem>> giphyList = new MutableLiveData<>();
     private MutableLiveData<List<StoriessItem>> storyList = new MutableLiveData<>();
+    private MutableLiveData<List<StoriessItem>> watchList = new MutableLiveData<>();
     private MutableLiveData<List<DataItem>> sharedPostList = new MutableLiveData<>();
     private MutableLiveData<List<DataItem>> favoritedPostList = new MutableLiveData<>();
     private MutableLiveData<List<CommentsItem>> commentList = new MutableLiveData<>();
@@ -52,6 +53,9 @@ public class MainViewModel extends BaseViewModel {
     }
     public LiveData<List<StoriessItem>> getStoryList() {
         return storyList;
+    }
+    public LiveData<List<StoriessItem>> getWatchList() {
+        return watchList;
     }
     public LiveData<List<DataItem>> getSharedPostList() {
         return sharedPostList;
@@ -139,7 +143,29 @@ public class MainViewModel extends BaseViewModel {
                 }));
 
     }
+    public void loadWatchList() {
 
+        disposable.add(mainRepo.getWatchList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> loadingStatus.setValue(true))
+                .doAfterTerminate(() -> loadingStatus.setValue(false))
+                .subscribeWith(new DisposableSingleObserver<StoryListResponse>() {
+
+                    @Override
+                    public void onSuccess(StoryListResponse storyListResponse) {
+                        watchList.setValue(storyListResponse.getStoriess());
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        onError.setValue(ErrorUtils.showError(e));
+                    }
+                }));
+
+    }
     public void loadSharedPostList(int page,int user_id) {
 
         disposable.add(mainRepo.getSharedPostList(page,user_id)

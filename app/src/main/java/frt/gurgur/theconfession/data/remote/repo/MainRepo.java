@@ -33,6 +33,10 @@ public class MainRepo {
         return api.getStoryList();
     }
 
+    public Single<StoryListResponse> getWatchList(){
+        return api.getWatchList();
+    }
+
     public Single<PostResponse> getSharedPostList(int page, int user_id){
         return api.sharedPostList(page,user_id);
     }

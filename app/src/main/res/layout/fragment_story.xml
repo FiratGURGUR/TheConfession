@@ -4,9 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.view.View"/>
+       <!-- <variable
+            name="story"
+            type="String" />-->
+
         <variable
             name="story"
-            type="String" />
+            type="frt.gurgur.theconfession.model.stories.StoriessItem" />
     </data>
 
 <RelativeLayout
@@ -19,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        app:imageUrl="@{story}" />
+        app:imageUrl="@{story.storyUrl}" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,8 +59,34 @@
         android:layout_height="30dp"
         android:layout_below="@id/stories"
         android:layout_alignParentRight="true"
-        android:background="@drawable/ic_close_white"
-        />
+        android:background="@drawable/ic_close_white" />
+
+    <LinearLayout
+        android:id="@+id/userLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/close_story"
+        android:orientation="horizontal"
+        android:layout_below="@id/stories"
+        android:layout_alignParentLeft="true">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            app:imageUrl="@{story.photo}" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/hind_semibold"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:text="@{story.username}" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>
 </layout>

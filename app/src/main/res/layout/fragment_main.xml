@@ -14,22 +14,36 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcyclerStoryList"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcyclerStoryList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcyclePostList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                    <View
+                        android:id="@+id/viewLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/blue_inactive" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcyclePostList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
 
 
             <ProgressBar

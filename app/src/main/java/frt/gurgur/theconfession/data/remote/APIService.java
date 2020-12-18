@@ -84,5 +84,6 @@ public interface APIService {
     @GET(Constants.STORY_LIST)
     Single<StoryListResponse> getStoryList();
 
-
+    @GET(Constants.STORY_WATCH)
+    Single<StoryListResponse> getWatchList();
 }

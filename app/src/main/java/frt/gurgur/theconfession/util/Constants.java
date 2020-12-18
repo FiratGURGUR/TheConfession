@@ -21,6 +21,7 @@ public class Constants {
     public static final String COMMENT_ADD = "comment/addComment.php";
     public static final String FOLLOW_UNFOLLOW = "follow/addFollow.php";
     public static final String STORY_LIST = "stories/getAllStroies.php";
+    public static final String STORY_WATCH = "stories/getAllStroiesWatch.php";
 
 
     public static final String GENERATED_PHOTO_URL = "https://ui-avatars.com/api/size=256?name=";
