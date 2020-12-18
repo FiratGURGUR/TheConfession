@@ -19,4 +19,4 @@ Ekran görüntüleri :
  
  <img src="https://github.com/FiratGURGUR/TheConfession/blob/master/screens/img4.png" width="30%"><img src="https://github.com/FiratGURGUR/TheConfession/blob/master/screens/img5.png" width="30%">
  
- <img src="https://github.com/FiratGURGUR/TheConfession/blob/master/screens/img6.png" width="30%"> <img src="https://github.com/FiratGURGUR/TheConfession/blob/master/screens/img7.png" width="30%">
+ <img src="https://github.com/FiratGURGUR/TheConfession/blob/master/screens/img6.png" width="30%"> <img src="https://github.com/FiratGURGUR/TheConfession/blob/master/screens/img7.png" width="30%">  <img src="https://github.com/FiratGURGUR/TheConfession/blob/master/screens/img8.png" width="30%">
