@@ -125,4 +125,6 @@ dependencies {
 
     implementation 'com.github.shts:StoriesProgressView:3.0.0'
 
+    implementation 'com.github.danylovolokh:hashtag-helper:1.1.0'
+
 }

@@ -29,6 +29,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -137,6 +139,11 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         btnImageCancel.setOnClickListener(this);
         imageLayout.setVisibility(View.GONE);
         binding.setUser(preferencesHelper.getUser());
+
+        HashTagHelper mTextHashTagHelper;
+        mTextHashTagHelper = HashTagHelper.Creator.create(getResources().getColor(R.color.blue_active), null);
+        mTextHashTagHelper.handle(etContent);
+
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

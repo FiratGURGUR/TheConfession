@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class StoriessItem{
 
+
 	@SerializedName("user_id")
 	private int userId;
 
@@ -51,5 +52,33 @@ public class StoriessItem{
 
 	public String getUsername(){
 		return username;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	public void setStoryUrl(String storyUrl) {
+		this.storyUrl = storyUrl;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

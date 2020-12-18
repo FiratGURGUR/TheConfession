@@ -2,6 +2,7 @@ package frt.gurgur.theconfession.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -11,19 +12,25 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.stfalcon.imageviewer.loader.ImageLoader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
@@ -33,6 +40,7 @@ import frt.gurgur.theconfession.model.stories.StoriessItem;
 import frt.gurgur.theconfession.ui.adapters.StoryListAdapter;
 import frt.gurgur.theconfession.ui.listeners.CommentClickListener;
 import frt.gurgur.theconfession.ui.listeners.FavClickListener;
+import frt.gurgur.theconfession.ui.listeners.HashtagClickListener;
 import frt.gurgur.theconfession.ui.listeners.OnItemClickListener;
 import frt.gurgur.theconfession.ui.listeners.ProfileClickListener;
 import frt.gurgur.theconfession.ui.listeners.StoryClickListener;
@@ -56,7 +64,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     PostViewModel post_vm;
 
     @BindView(R.id.rcyclePostList)
-   public RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -80,10 +88,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     public boolean isLastPage = false;
 
 
-
     private List<DataItem> postList = new ArrayList<>();
     private List<StoriessItem> storylist = new ArrayList<>();
-
 
 
     public MainFragment() {
@@ -122,7 +128,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel.class);
         post_vm = ViewModelProviders.of(this, vmFactory).get(PostViewModel.class);
         userId = preferencesHelper.getUserId();
-        vm.loadPostList(page,userId);
+        vm.loadPostList(page, userId);
         observePostList();
         observeLoadStatus();
         observerErrorStatus();
@@ -137,12 +143,12 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
-    public void initView(){
+    public void initView() {
         fabPost.setOnClickListener(this);
     }
 
 
-    public void observeStoryList(){
+    public void observeStoryList() {
         vm.getStoryList().observe(this, new Observer<List<StoriessItem>>() {
             @Override
             public void onChanged(List<StoriessItem> storiessItems) {
@@ -172,13 +178,15 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                 isLoading -> showProgressBar(isLoading)
         );
     }
+
     private void showProgressBar(boolean isVisible) {
         if (isVisible)
             progressBar.setVisibility(View.VISIBLE);
         else
             progressBar.setVisibility(View.GONE);
     }
-    public void observePostList(){
+
+    public void observePostList() {
         vm.getPostList().observe(this, new Observer<List<DataItem>>() {
             @Override
             public void onChanged(List<DataItem> dataItems) {
@@ -186,9 +194,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                     postList.addAll(dataItems);
                     recyclerView.getAdapter().notifyDataSetChanged();
 
-                    if (dataItems.size() >= PAGE_SIZE){
+                    if (dataItems.size() >= PAGE_SIZE) {
                         //addfooter
-                    }else {
+                    } else {
                         isLastPage = true;
                     }
 
@@ -196,11 +204,13 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             }
         });
     }
+
     PostListAdapter adapter;
     StoryListAdapter storyListAdapter;
+
     private void setRecyclerView() {
-        gridLayoutManager = new GridLayoutManager(getContext(),1);
-        adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener,profileClickListener);
+        gridLayoutManager = new GridLayoutManager(getContext(), 1);
+        adapter = new PostListAdapter(getContext(),postList, imageClick, favClickListener, commentClickListener, profileClickListener,hashtagClickListener);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -208,10 +218,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
     }
 
-    private void setStoryAdapter(){
+    private void setStoryAdapter() {
         linearLayoutManager
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        storyListAdapter = new StoryListAdapter(storylist,storyClickListener);
+        storyListAdapter = new StoryListAdapter(storylist, storyClickListener);
         rcyclerStoryList.setLayoutManager(linearLayoutManager);
         rcyclerStoryList.setAdapter(storyListAdapter);
         recyclerView.setHasFixedSize(true);
@@ -219,18 +229,26 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
+
+
+
     StoryClickListener storyClickListener = new StoryClickListener() {
         @Override
         public void onStoryClick(int position) {
-
             StoryFragment fragment = new StoryFragment();
             Bundle arguments = new Bundle();
-            arguments.putInt("position",position);
+            arguments.putInt("position", position);
             fragment.setArguments(arguments);
             multipleStackNavigator.start(fragment);
         }
     };
 
+    HashtagClickListener hashtagClickListener = new HashtagClickListener() {
+        @Override
+        public void clickHashtag(String hashtag) {
+            Toast.makeText(mActivity, hashtag + " tıklandı.", Toast.LENGTH_SHORT).show();
+        }
+    };
 
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -250,8 +268,8 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                 if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= PAGE_SIZE) {
-                    page=page+1;
-                   vm.loadPostList(page,userId);
+                    page = page + 1;
+                    vm.loadPostList(page, userId);
                 }
             }
         }
@@ -273,15 +291,15 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
 
     FavClickListener favClickListener = new FavClickListener() {
         @Override
-        public void favClick(DataItem item,int pos) {
-            PostFavRequestModel favModel = new PostFavRequestModel(item.getId(),userId);
+        public void favClick(DataItem item, int pos) {
+            PostFavRequestModel favModel = new PostFavRequestModel(item.getId(), userId);
             post_vm.favPost(favModel);
 
-            if (item.getSelfLikes().equals("false") ){
-                item.setLikeCount(item.getLikeCount()+1);
+            if (item.getSelfLikes().equals("false")) {
+                item.setLikeCount(item.getLikeCount() + 1);
                 item.setSelfLikes("true");
-            }else{
-                item.setLikeCount(item.getLikeCount()-1);
+            } else {
+                item.setLikeCount(item.getLikeCount() - 1);
                 item.setSelfLikes("false");
             }
 
@@ -316,10 +334,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     };
 
 
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.fabPost:
                 multipleStackNavigator.start(new PostFragment());
                 break;
@@ -327,12 +344,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
-    public void loadStories(){
+    public void loadStories() {
         //bundle ile pos gonder ona göre ac
         multipleStackNavigator.start(new StoryFragment());
     }
-
-
 
 
 }

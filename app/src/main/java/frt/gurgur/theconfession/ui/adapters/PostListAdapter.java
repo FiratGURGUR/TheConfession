@@ -1,5 +1,6 @@
 package frt.gurgur.theconfession.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.databinding.PostListItemBinding;
@@ -20,6 +24,7 @@ import frt.gurgur.theconfession.databinding.PostListItemImageBinding;
 import frt.gurgur.theconfession.model.main.DataItem;
 import frt.gurgur.theconfession.ui.listeners.CommentClickListener;
 import frt.gurgur.theconfession.ui.listeners.FavClickListener;
+import frt.gurgur.theconfession.ui.listeners.HashtagClickListener;
 import frt.gurgur.theconfession.ui.listeners.OnItemClickListener;
 import frt.gurgur.theconfession.ui.listeners.ProfileClickListener;
 
@@ -27,23 +32,30 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
     private static final int TYPE_TEXT = 1;
     private static final int TYPE_PHOTO = 2;
 
-    private static final String TAG = "PostListAdapter";
+
     private List<DataItem> postList;
     OnItemClickListener listener;
     FavClickListener favClickListener;
     CommentClickListener commentClickListener;
     ProfileClickListener profileClickListener;
+    HashtagClickListener hashtagClickListener;
+
+    Context context;
+
 
     public PostListAdapter() {
 
     }
 
-    public PostListAdapter(List<DataItem> postList, OnItemClickListener listener, FavClickListener favClickListener,CommentClickListener commentClickListener,ProfileClickListener profileClickListener) {
+    @Inject
+    public PostListAdapter(Context context,List<DataItem> postList, OnItemClickListener listener, FavClickListener favClickListener,CommentClickListener commentClickListener,ProfileClickListener profileClickListener,HashtagClickListener hashtagClickListener) {
         this.postList = postList;
         this.listener = listener;
         this.favClickListener = favClickListener;
         this.commentClickListener = commentClickListener;
         this.profileClickListener = profileClickListener;
+        this.context=context;
+        this.hashtagClickListener=hashtagClickListener;
     }
 
     @NonNull
@@ -91,7 +103,14 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
         public MyViewHolder(PostListItemBinding binding) {
             super(binding.getRoot());
             this.bindingText = binding;
-
+            HashTagHelper mTextHashTagHelper;
+            mTextHashTagHelper = HashTagHelper.Creator.create(context.getResources().getColor(R.color.blue_active), new HashTagHelper.OnHashTagClickListener() {
+                @Override
+                public void onHashTagClicked(String hashTag) {
+                    hashtagClickListener.clickHashtag(hashTag);
+                }
+            });
+            mTextHashTagHelper.handle(bindingText.txtContent);
             bindingText.starButton.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
@@ -122,6 +141,16 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.MyView
         public MyViewHolder(PostListItemImageBinding binding, OnItemClickListener listener) {
             super(binding.getRoot());
             this.bindingImage = binding;
+
+            HashTagHelper mTextHashTagHelper;
+            mTextHashTagHelper = HashTagHelper.Creator.create(context.getResources().getColor(R.color.blue_active), new HashTagHelper.OnHashTagClickListener() {
+                @Override
+                public void onHashTagClicked(String hashTag) {
+                    hashtagClickListener.clickHashtag(hashTag);
+                }
+            });
+            mTextHashTagHelper.handle(bindingImage.txtContent);
+
             bindingImage.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

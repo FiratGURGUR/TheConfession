@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
@@ -41,6 +42,7 @@ import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.listeners.CommentClickListener;
 import frt.gurgur.theconfession.ui.listeners.FavClickListener;
+import frt.gurgur.theconfession.ui.listeners.HashtagClickListener;
 import frt.gurgur.theconfession.ui.listeners.OnItemClickListener;
 import frt.gurgur.theconfession.ui.adapters.PostListAdapter;
 import frt.gurgur.theconfession.ui.listeners.ProfileClickListener;
@@ -247,7 +249,7 @@ public class FavoritiesFragment extends BaseFragment  {
     PostListAdapter adapter;
     private void setRecyclerView() {
         gridLayoutManager = new GridLayoutManager(getContext(),1);
-        adapter = new PostListAdapter(postList,imageClick,favClickListener,commentClickListener,profileClickListener);
+        adapter = new PostListAdapter(getContext(),postList,imageClick,favClickListener,commentClickListener,profileClickListener,hashtagClickListener);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -295,7 +297,12 @@ public class FavoritiesFragment extends BaseFragment  {
     };
 
 
-
+    HashtagClickListener hashtagClickListener = new HashtagClickListener() {
+        @Override
+        public void clickHashtag(String hashtag) {
+            Toast.makeText(mActivity, hashtag + " tıklandı.", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     FavClickListener favClickListener = new FavClickListener() {
         @Override
