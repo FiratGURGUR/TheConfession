@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
@@ -43,6 +44,7 @@ import dagger.android.support.AndroidSupportInjection;
 import frt.gurgur.theconfession.R;
 import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.databinding.FragmentPostBinding;
+import frt.gurgur.theconfession.model.HashtagAddRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.ui.ViewModelFactory;
 import frt.gurgur.theconfession.ui.base.BaseFragment;
@@ -86,7 +88,7 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     ImageView btnImageCancel;
     @BindView(R.id.imageLayout)
     ConstraintLayout imageLayout;
-
+    HashTagHelper mTextHashTagHelper;
     public PostFragment() {
         // Required empty public constructor
     }
@@ -140,9 +142,10 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         imageLayout.setVisibility(View.GONE);
         binding.setUser(preferencesHelper.getUser());
 
-        HashTagHelper mTextHashTagHelper;
+
         mTextHashTagHelper = HashTagHelper.Creator.create(getResources().getColor(R.color.blue_active), null);
         mTextHashTagHelper.handle(etContent);
+
 
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
@@ -187,12 +190,21 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
         vm.getResponse().observe(this, new Observer<APIResponseModel>() {
             @Override
             public void onChanged(APIResponseModel apiResponseModel) {
-                onError(getContext(), apiResponseModel.getMessage());
-                afterSharePost();
+                addAllHashtags();
 
             }
         });
+
+        vm.getAddHashtagResponse().observe(this, new Observer<APIResponseModel>() {
+            @Override
+            public void onChanged(APIResponseModel apiResponseModel) {
+                afterSharePost();
+            }
+        });
     }
+
+
+
 
     public void observeCreatePostWithImage() {
         vm.getResponseWithImage().observe(this, new Observer<APIResponseModel>() {
@@ -270,6 +282,10 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
                     } else {
                         sharePostWithImage();
                     }
+
+
+
+
                 }else {
                     //uyarı göster
                     Common.customAlert(getContext() ,getString(R.string.share_post_validation_error), getString(R.string.action_gotit),false);
@@ -307,6 +323,14 @@ public class PostFragment extends BaseFragment implements View.OnClickListener {
     public void shareNormlaPost() {
         PostRequestModel model = new PostRequestModel(etContent.getText().toString().trim(), preferencesHelper.getUserId());
         vm.createPost(model);
+    }
+
+    public void addAllHashtags(){
+        for (int i=0;i<mTextHashTagHelper.getAllHashTags().size();i++){
+            HashtagAddRequestModel model = new HashtagAddRequestModel("#"+mTextHashTagHelper.getAllHashTags().get(i));
+            vm.addHashtag(model);
+            Log.e("fff", model.getHashtag());
+        }
     }
 
     public void sharePostWithImage(){

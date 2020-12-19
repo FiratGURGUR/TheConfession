@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.repo.PostRepo;
+import frt.gurgur.theconfession.model.HashtagAddRequestModel;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
@@ -26,6 +27,7 @@ public class PostViewModel  extends BaseViewModel {
     private final PostRepo postRepo;
     private CompositeDisposable disposable;
     private MutableLiveData<APIResponseModel> response = new MutableLiveData<>();
+    private MutableLiveData<APIResponseModel> responseAddHashtag = new MutableLiveData<>();
     private MutableLiveData<APIResponseModel> responseWithImage = new MutableLiveData<>();
     private MutableLiveData<APIResponseModel> responseFavPost = new MutableLiveData<>();
 
@@ -37,6 +39,9 @@ public class PostViewModel  extends BaseViewModel {
 
     public LiveData<APIResponseModel> getResponse() {
         return response;
+    }
+    public LiveData<APIResponseModel> getAddHashtagResponse() {
+        return responseAddHashtag;
     }
     public LiveData<APIResponseModel> getResponseWithImage() {
         return responseWithImage;
@@ -64,7 +69,24 @@ public class PostViewModel  extends BaseViewModel {
                     }
                 }));
     }
+    public void addHashtag(HashtagAddRequestModel hashtagAddRequestModel) {
+        disposable.add(postRepo.addHashTag(hashtagAddRequestModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> loadingStatus.setValue(true))
+                .doAfterTerminate(() -> loadingStatus.setValue(false))
+                .subscribeWith(new DisposableSingleObserver<APIResponseModel>() {
+                    @Override
+                    public void onSuccess(APIResponseModel resultsResponse) {
+                        responseAddHashtag.setValue(resultsResponse);
+                    }
 
+                    @Override
+                    public void onError(Throwable t) {
+                        onError.setValue(ErrorUtils.showError(t));
+                    }
+                }));
+    }
 
     public void favPost(PostFavRequestModel postFavRequestModel) {
 

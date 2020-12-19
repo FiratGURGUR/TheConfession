@@ -2,6 +2,7 @@ package frt.gurgur.theconfession.data.remote;
 
 
 import frt.gurgur.theconfession.model.APIResponseModel;
+import frt.gurgur.theconfession.model.HashtagAddRequestModel;
 import frt.gurgur.theconfession.model.comment.CommentResponse;
 import frt.gurgur.theconfession.model.comment.CreateCommentRequestModel;
 import frt.gurgur.theconfession.model.main.PostResponse;
@@ -46,6 +47,10 @@ public interface APIService {
 
     @POST(Constants.POST_CREATE)
     Single<APIResponseModel> createPost(@Body PostRequestModel postRequestModel);
+
+    @POST(Constants.ADD_HASHTAG)
+    Single<APIResponseModel> addHashTag(@Body HashtagAddRequestModel hashtagAddRequestModel);
+
 
     @Multipart
     @POST(Constants.POST_CREATE_WITH_IMAGE)
