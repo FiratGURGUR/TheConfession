@@ -332,6 +332,7 @@ public class FavoritiesFragment extends BaseFragment  {
             multipleStackNavigator.start(commentFragment);
         }
     };
+
     ProfileClickListener profileClickListener = new ProfileClickListener() {
         @Override
         public void showProfile(int user_Id) {

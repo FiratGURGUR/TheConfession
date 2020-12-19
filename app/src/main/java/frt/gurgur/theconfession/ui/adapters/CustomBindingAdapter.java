@@ -2,6 +2,7 @@ package frt.gurgur.theconfession.ui.adapters;
 
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
@@ -50,7 +51,10 @@ public class CustomBindingAdapter {
          }
     }
 
-
+    @BindingAdapter("hashtagCount")
+    public static void sethashtagCount(TextView textView, int count) {
+      textView.setText(count + " gönderi");
+    }
 
 
 }

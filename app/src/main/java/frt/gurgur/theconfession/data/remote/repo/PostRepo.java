@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.APIService;
 import frt.gurgur.theconfession.model.HashtagAddRequestModel;
+import frt.gurgur.theconfession.model.hashtag.HashtagResponseModel;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
 import io.reactivex.Single;
@@ -28,6 +29,10 @@ public class PostRepo {
 
     public Single<APIResponseModel> addHashTag(HashtagAddRequestModel hashtagAddRequestModel){
         return api.addHashTag(hashtagAddRequestModel);
+    }
+
+    public Single<HashtagResponseModel> getAllHashtags(){
+        return api.getAllHashTags();
     }
 
     public Single<APIResponseModel> createPostWithImage(MultipartBody.Part content_image, RequestBody user_id, RequestBody content){

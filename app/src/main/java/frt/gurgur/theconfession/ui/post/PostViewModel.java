@@ -4,14 +4,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
+import java.util.List;
 
 import javax.inject.Inject;
 
 import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.data.remote.repo.PostRepo;
 import frt.gurgur.theconfession.model.HashtagAddRequestModel;
+import frt.gurgur.theconfession.model.hashtag.HashtagResponseModel;
+import frt.gurgur.theconfession.model.hashtag.HashtagsItem;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
+import frt.gurgur.theconfession.model.stories.StoriessItem;
+import frt.gurgur.theconfession.model.stories.StoryListResponse;
 import frt.gurgur.theconfession.ui.base.BaseViewModel;
 import frt.gurgur.theconfession.util.ErrorUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,6 +36,8 @@ public class PostViewModel  extends BaseViewModel {
     private MutableLiveData<APIResponseModel> responseWithImage = new MutableLiveData<>();
     private MutableLiveData<APIResponseModel> responseFavPost = new MutableLiveData<>();
 
+    private MutableLiveData<List<HashtagsItem>> hashtagList = new MutableLiveData<>();
+
     @Inject
     public PostViewModel(PostRepo postRepo) {
         this.postRepo = postRepo;
@@ -49,6 +56,35 @@ public class PostViewModel  extends BaseViewModel {
     public LiveData<APIResponseModel> getResponseFavPost() {
         return responseFavPost;
     }
+
+    public LiveData<List<HashtagsItem>> getHashTagList() {
+        return hashtagList;
+    }
+
+
+    public void loadHashtagList() {
+
+        disposable.add(postRepo.getAllHashtags()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> loadingStatus.setValue(true))
+                .doAfterTerminate(() -> loadingStatus.setValue(false))
+                .subscribeWith(new DisposableSingleObserver<HashtagResponseModel>() {
+                    @Override
+                    public void onSuccess(HashtagResponseModel hashtagResponseModel) {
+                        hashtagList.setValue(hashtagResponseModel.getHashtags());
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        onError.setValue(ErrorUtils.showError(e));
+                    }
+                }));
+
+    }
+
 
     public void createPost(PostRequestModel postRequestModel) {
 

@@ -5,6 +5,7 @@ import frt.gurgur.theconfession.model.APIResponseModel;
 import frt.gurgur.theconfession.model.HashtagAddRequestModel;
 import frt.gurgur.theconfession.model.comment.CommentResponse;
 import frt.gurgur.theconfession.model.comment.CreateCommentRequestModel;
+import frt.gurgur.theconfession.model.hashtag.HashtagResponseModel;
 import frt.gurgur.theconfession.model.main.PostResponse;
 import frt.gurgur.theconfession.model.post.PostFavRequestModel;
 import frt.gurgur.theconfession.model.post.PostRequestModel;
@@ -51,6 +52,8 @@ public interface APIService {
     @POST(Constants.ADD_HASHTAG)
     Single<APIResponseModel> addHashTag(@Body HashtagAddRequestModel hashtagAddRequestModel);
 
+    @GET(Constants.HASHTAG_LIST)
+    Single<HashtagResponseModel> getAllHashTags();
 
     @Multipart
     @POST(Constants.POST_CREATE_WITH_IMAGE)
