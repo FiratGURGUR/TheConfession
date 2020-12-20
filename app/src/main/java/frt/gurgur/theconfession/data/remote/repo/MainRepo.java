@@ -25,6 +25,10 @@ public class MainRepo {
         return api.postList(page,user_id);
     }
 
+    public Single<PostResponse> getExploreList(String hashtag, int user_id){
+        return api.getExploreList(hashtag,user_id);
+    }
+
     public Single<GiphyModel> getGiphyList(int page){
         return api.giphyList(page);
     }

@@ -14,6 +14,7 @@ public class Constants {
     public static final String FAVORITED_POST_LIST = "post/getFavoritedPost.php";
     public static final String POST_CREATE = "post/createPost.php";
     public static final String ADD_HASHTAG = "hashtags/addHashtags.php";
+    public static final String EXPLORE_DETAIL_LIST = "hashtags/getHashtagDetailList.php";
     public static final String HASHTAG_LIST = "hashtags/getAllHashtags.php";
     public static final String POST_CREATE_WITH_IMAGE = "post/upload.php";
     public static final String GET_FOLLOWERS_LIST = "follow/getFollowers.php";

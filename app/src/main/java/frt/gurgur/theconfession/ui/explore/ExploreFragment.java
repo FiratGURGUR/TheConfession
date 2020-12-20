@@ -150,7 +150,12 @@ public class ExploreFragment extends BaseFragment {
     HashtagClickListener listener = new HashtagClickListener() {
         @Override
         public void clickHashtag(String hashtag) {
-            Toast.makeText(mActivity, hashtag, Toast.LENGTH_SHORT).show();
+            ExploreDetailFragment fragment = new ExploreDetailFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString("hashtag", hashtag);
+            fragment.setArguments(arguments);
+            multipleStackNavigator.start(fragment);
+
         }
     };
 

@@ -94,4 +94,8 @@ public interface APIService {
 
     @GET(Constants.STORY_WATCH)
     Single<StoryListResponse> getWatchList();
+
+    @GET(Constants.EXPLORE_DETAIL_LIST)
+    Single<PostResponse> getExploreList(@Query("hashtag") String hashtag , @Query("user_id") int user_id);
+
 }

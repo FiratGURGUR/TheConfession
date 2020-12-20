@@ -31,6 +31,7 @@ public class MainViewModel extends BaseViewModel {
     private final MainRepo mainRepo;
     private CompositeDisposable disposable;
     private MutableLiveData<List<DataItem>> postList = new MutableLiveData<>();
+    private MutableLiveData<List<DataItem>> exploreList = new MutableLiveData<>();
     private MutableLiveData<List<frt.gurgur.theconfession.model.post.giphy.DataItem>> giphyList = new MutableLiveData<>();
     private MutableLiveData<List<StoriessItem>> storyList = new MutableLiveData<>();
     private MutableLiveData<List<StoriessItem>> watchList = new MutableLiveData<>();
@@ -47,6 +48,9 @@ public class MainViewModel extends BaseViewModel {
 
     public LiveData<List<DataItem>> getPostList() {
         return postList;
+    }
+    public LiveData<List<DataItem>> getExploreList() {
+        return exploreList;
     }
     public LiveData<List<frt.gurgur.theconfession.model.post.giphy.DataItem>> getGiphyList() {
         return giphyList;
@@ -85,6 +89,30 @@ public class MainViewModel extends BaseViewModel {
                     public void onSuccess(PostResponse resultsResponse) {
                         postList.setValue(resultsResponse.getData());
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        onError.setValue(ErrorUtils.showError(e));
+                    }
+                }));
+
+    }
+
+
+    public void loadExploreList(String hashtag,int user_id) {
+
+        disposable.add(mainRepo.getExploreList(hashtag,user_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> loadingStatus.setValue(true))
+                .doAfterTerminate(() -> loadingStatus.setValue(false))
+                .subscribeWith(new DisposableSingleObserver<PostResponse>() {
+
+                    @Override
+                    public void onSuccess(PostResponse resultsResponse) {
+                        exploreList.setValue(resultsResponse.getData());
                     }
 
                     @Override
